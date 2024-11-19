@@ -9,19 +9,19 @@
 -- Create the new pdb as follows (obvious security concern since the pwd is in clear text)
 CREATE PLUGGABLE DATABASE wmlmwpdb ADMIN USER admin IDENTIFIED BY admin
        ROLES=(DBA)
-       FILE_NAME_CONVERT = ('C:\app\ADMIN\product\21c\oradata\XE\pdbseed',
-       'C:\app\ADMIN\product\21c\oradata\XE\WMLMSPDB');
+       FILE_NAME_CONVERT = ('C:\app\<user>\product\21c\oradata\XE\pdbseed',
+       'C:\app\<user>\product\21c\oradata\XE\WMLMSPDB');
 
 -- Open database
 ALTER PLUGGABLE DATABASE wmlmwpdb OPEN;
 
 -- Move the newly created database
-ALTER SESSION SET CONTAINER wmlmwpdb;
+ALTER SESSION SET CONTAINER=wmlmwpdb;
 
 -- Setup the network configuration
 
 -- Go to C:/app/<user>/product/21c using an admin privileged terminal
--- Run netca
+-- Run : netca
 
 -- In the utility :
     -- Select : Local Net Service Name configuration
