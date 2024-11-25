@@ -3,9 +3,35 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+// Connexion BDD
+const oracledb = require('oracledb');
+
+oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
+
+const mypw = 'admin' // set mypw to the hr schema password
+
+async function run() {
+
+    const connection = await oracledb.getConnection ({
+        user          : "admin",
+        password      : mypw,
+        connectString : "localhost:1521/wmlmspdb"
+    });
+
+    const result = await connection.execute(
+        `SELECT * FROM TEST`
+    );
+
+    console.log(result.rows);
+    await connection.close();
+}
+
+run();
+
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
+
 
 // Route pour afficher la page de login
 app.get('/', (req, res) => {
