@@ -18,8 +18,9 @@ GRANT CONNECT, DBA TO admin_app;
 -- II. Création des tables pour les utilisateurs (app et admin)
 
 -- Table users
+DROP TABLE IF EXISTS users
 CREATE TABLE users (
-    user_id NUMBER PRIMARY KEY,
+    user_id RAW(16) DEFAULT SYS_GUID() NUMBER PRIMARY KEY,
     username VARCHAR2(50) NOT NULL,
     password VARCHAR2(50) NOT NULL,
     email VARCHAR2(100),
