@@ -1,6 +1,3 @@
--- Pour se connecter au pdb : sqlplus admin/admin@wmlmwpdb ou sqlplus sys/password@wmlmwpdb as sysdba ou sqlplus sys@wmlmwpdb as sysdba
--- Pour utiliser le fichier :  @"D:\Kyl\4 Ecole\S7\SW engineering\WMLMS\WMLMS_tables_creation6.sql"
-
 -- I. Création des utilisateurs de base de données (app et admin)
 
 -- Création de l'utilisateur app
