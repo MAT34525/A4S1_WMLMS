@@ -7,8 +7,6 @@ import {Database} from './database.js';
 
 const app = express();
 
-
-
 // Connexion BDD
 
 
@@ -36,7 +34,6 @@ async function RunSequelize()
 
 RunSequelize();
 */
-
 
 async function run() {
 
