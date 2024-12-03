@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'WMLMS' title`, () => {
+  it(`should have the 'mainpage' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('WMLMS');
+    expect(app.title).toEqual('mainpage');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, WMLMS');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, mainpage');
   });
 });

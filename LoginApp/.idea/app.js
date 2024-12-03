@@ -1,15 +1,42 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
+import express from 'express';
+import bodyParser from 'body-parser';
+import bcrypt from 'bcrypt';
+import oracledb from 'oracledb';
+
+import {Database} from './database.js';
 
 const app = express();
 
+
+
 // Connexion BDD
-const oracledb = require('oracledb');
+
 
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 
 const mypw = 'admin' // set mypw to the hr schema password
+
+/* Replace oracle db by Sequelize for stucture and model managment
+let db = new Database();
+const sequelize = new Sequelize('wmlmspdb', 'admin', mypw, {
+    host: 'localhost',
+    port: 1521,
+    dialect: 'oracle'
+});
+
+async function RunSequelize()
+{
+    try {
+        await sequelize.authenticate();
+        console.log('Connection has been established successfully.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    }
+}
+
+RunSequelize();
+*/
+
 
 async function run() {
 
@@ -27,7 +54,7 @@ async function run() {
     await connection.close();
 }
 
-run();
+// run();
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -152,5 +179,5 @@ app.post('/register', async (req, res) => {
 
 // Démarrer le serveur
 app.listen(3000, () => {
-    console.log('Server running on port 3000');
+    console.log('Server running on : http://localhost:3000');
 });
