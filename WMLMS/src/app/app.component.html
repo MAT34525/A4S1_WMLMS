@@ -1,2 +1,7 @@
-<app-main-page-navbar />
+
+<div *ngIf='!admin'>
+  <app-main-page-navbar />
+</div>
+
+
 <router-outlet />
