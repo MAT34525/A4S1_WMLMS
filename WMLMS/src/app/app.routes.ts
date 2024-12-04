@@ -7,6 +7,7 @@ import {AdminTablesPageComponent} from './admin-tables-page/admin-tables-page.co
 import {AdminQueriesPageComponent} from './admin-queries-page/admin-queries-page.component';
 import {AdminStatisticsPageComponent} from './admin-statistics-page/admin-statistics-page.component';
 import {AdminLogsPageComponent} from './admin-logs-page/admin-logs-page.component';
+import {AdminHomePageComponent} from './admin-home-page/admin-home-page.component';
 
 export const routes: Routes = [
   {
@@ -22,6 +23,15 @@ export const routes: Routes = [
     path: "a",
     component: AdminPageComponent,
     children: [
+      {
+        path:'',
+        redirectTo:'home',
+        pathMatch: 'full',
+      },
+      {
+        path:'home',
+        component:AdminHomePageComponent,
+      },
       {
         path:'users',
         component:AdminUserPageComponent,
