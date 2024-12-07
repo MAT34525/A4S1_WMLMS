@@ -12,14 +12,34 @@ GRANT UNLIMITED TABLESPACE TO admin_app;
 -- DBA permet à l'utilisateur admin_app d'exécuter des tâches d'administration de base de données (création d'utilisateurs, gestion des privilèges, etc.)
 -- et en tant qu'admin, on doit pouvoir ajouter ou supprimer des lignes
 
+-- II.3 Suppression des tables pour les utilisateurs (app et admin)
 
+-- Table users 
 
--- II. Création des tables pour les utilisateurs (app et admin)
+DROP TABLE users CASCADE CONSTRAINTS PURGE;
 
--- Table users
-DROP TABLE IF EXISTS users
+-- Table artists
+
+DROP TABLE artists CASCADE CONSTRAINTS PURGE;
+
+-- Table songs
+
+DROP TABLE songs CASCADE CONSTRAINTS PURGE;
+
+-- Table playlists
+
+DROP TABLE playlists CASCADE CONSTRAINTS PURGE;
+
+-- Table playlist_songs (pour gérer les chansons dans une playlist)
+
+DROP TABLE playlist_songs CASCADE CONSTRAINTS PURGE;
+
+-- II.2 Création des tables pour les utilisateurs (app et admin)
+
+-- Table users 
+
 CREATE TABLE users (
-    user_id RAW(16) DEFAULT SYS_GUID() NUMBER PRIMARY KEY,
+    user_id RAW(16) DEFAULT SYS_GUID() PRIMARY KEY,
     username VARCHAR2(50) NOT NULL,
     password VARCHAR2(50) NOT NULL,
     email VARCHAR2(100),
@@ -28,7 +48,7 @@ CREATE TABLE users (
 
 -- Table artists
 CREATE TABLE artists (
-    artist_id NUMBER PRIMARY KEY,
+    artist_id INTEGER PRIMARY KEY,
     artist_name VARCHAR2(100) NOT NULL,
     bio VARCHAR2(500),
     country VARCHAR2(50)
@@ -36,9 +56,9 @@ CREATE TABLE artists (
 
 -- Table songs
 CREATE TABLE songs (
-    song_id NUMBER PRIMARY KEY,
+    song_id INTEGER PRIMARY KEY,
     title VARCHAR2(100) NOT NULL,
-    artist_id NUMBER,
+    artist_id INTEGER,
     genre VARCHAR2(50),
     release_date DATE,
     album VARCHAR2(100),
@@ -48,18 +68,18 @@ CREATE TABLE songs (
 
 -- Table playlists
 CREATE TABLE playlists (
-    playlist_id NUMBER PRIMARY KEY,
-    user_id NUMBER,
+    playlist_id INTEGER PRIMARY KEY,
+    user_id RAW(16),
     name VARCHAR2(100) NOT NULL,
-    is_public CHAR(1) DEFAULT 'N',
+    is_public BOOLEAN DEFAULT 0,
     creation_date DATE DEFAULT SYSDATE,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 -- Table playlist_songs (pour gérer les chansons dans une playlist)
 CREATE TABLE playlist_songs (
-    playlist_id NUMBER,
-    song_id NUMBER,
+    playlist_id INTEGER,
+    song_id INTEGER,
     PRIMARY KEY (playlist_id, song_id),
     FOREIGN KEY (playlist_id) REFERENCES playlists(playlist_id),
     FOREIGN KEY (song_id) REFERENCES songs(song_id)
@@ -289,31 +309,31 @@ ALTER TABLE playlist_tracks RENAME COLUMN song_id TO track_id;
 ALTER TABLE tracks RENAME COLUMN song_id TO track_id;
 
 -- Modifier la table 'tracks' pour ajouter les nouvelles colonnes
-ALTER TABLE tracks ADD popularity NUMBER;
-ALTER TABLE tracks ADD duration_ms NUMBER;
-ALTER TABLE tracks ADD explicit NUMBER(1);
-ALTER TABLE tracks ADD danceability NUMBER;
-ALTER TABLE tracks ADD energy NUMBER;
-ALTER TABLE tracks ADD "key" NUMBER;
-ALTER TABLE tracks ADD loudness NUMBER;
-ALTER TABLE tracks ADD mode NUMBER;
-ALTER TABLE tracks ADD speechiness NUMBER;
-ALTER TABLE tracks ADD acousticness NUMBER;
-ALTER TABLE tracks ADD instrumentalness NUMBER;
-ALTER TABLE tracks ADD liveness NUMBER;
-ALTER TABLE tracks ADD valence NUMBER;
-ALTER TABLE tracks ADD tempo NUMBER;
-ALTER TABLE tracks ADD time_signature NUMBER;
+ALTER TABLE tracks ADD popularity INTEGER;
+ALTER TABLE tracks ADD duration_ms INTEGER;
+ALTER TABLE tracks ADD explicit INTEGER(1);
+ALTER TABLE tracks ADD danceability INTEGER;
+ALTER TABLE tracks ADD energy INTEGER;
+ALTER TABLE tracks ADD "key" INTEGER;
+ALTER TABLE tracks ADD loudness INTEGER;
+ALTER TABLE tracks ADD mode INTEGER;
+ALTER TABLE tracks ADD speechiness INTEGER;
+ALTER TABLE tracks ADD acousticness INTEGER;
+ALTER TABLE tracks ADD instrumentalness INTEGER;
+ALTER TABLE tracks ADD liveness INTEGER;
+ALTER TABLE tracks ADD valence INTEGER;
+ALTER TABLE tracks ADD tempo INTEGER;
+ALTER TABLE tracks ADD time_signature INTEGER;
 
 -- Créer la table 'albums'
 CREATE TABLE albums (
-    album_id NUMBER PRIMARY KEY,
+    album_id INTEGER PRIMARY KEY,
     name VARCHAR2(255) NOT NULL,
     release_date DATE
 );
 
 -- Ajouter la colonne 'album_id' à la table 'tracks'
-ALTER TABLE tracks ADD album_id NUMBER;
+ALTER TABLE tracks ADD album_id INTEGER;
 
 
 -- Ajouter la contrainte de clé étrangère pour 'album_id' dans 'tracks'
@@ -322,8 +342,8 @@ FOREIGN KEY (album_id) REFERENCES albums(album_id);
 
 -- Créer la table de liaison 'track_artists'
 CREATE TABLE track_artists (
-    track_id NUMBER,
-    artist_id NUMBER,
+    track_id INTEGER,
+    artist_id INTEGER,
     PRIMARY KEY (track_id, artist_id),
     FOREIGN KEY (track_id) REFERENCES tracks(track_id),
     FOREIGN KEY (artist_id) REFERENCES artists(artist_id)
@@ -348,7 +368,7 @@ CREATE OR REPLACE DIRECTORY data_dir AS '/chemin/vers/votre/dossier';
 CREATE TABLE ext_spotify_artists (
   id VARCHAR2(22),
   name VARCHAR2(255),
-  popularity NUMBER,
+  popularity INTEGER,
   genres VARCHAR2(1000)
 )
 ORGANIZATION EXTERNAL (
@@ -368,24 +388,24 @@ REJECT LIMIT UNLIMITED;
 CREATE TABLE ext_spotify_tracks (
     id VARCHAR2(22),
     name VARCHAR2(255),
-    popularity NUMBER,
-    duration_ms NUMBER,
-    explicit NUMBER(1),
+    popularity INTEGER,
+    duration_ms INTEGER,
+    explicit INTEGER(1),
     artists VARCHAR2(4000),
     id_artists VARCHAR2(4000),
     release_date VARCHAR2(10),
-    danceability NUMBER,
-    energy NUMBER,
-    "key" NUMBER,
-    loudness NUMBER,
-    "mode" NUMBER,
-    speechiness NUMBER,
-    acousticness NUMBER,
-    instrumentalness NUMBER,
-    liveness NUMBER,
-    valence NUMBER,
-    tempo NUMBER,
-    time_signature NUMBER
+    danceability INTEGER,
+    energy INTEGER,
+    "key" INTEGER,
+    loudness INTEGER,
+    "mode" INTEGER,
+    speechiness INTEGER,
+    acousticness INTEGER,
+    instrumentalness INTEGER,
+    liveness INTEGER,
+    valence INTEGER,
+    tempo INTEGER,
+    time_signature INTEGER
 ) ORGANIZATION EXTERNAL (
     TYPE ORACLE_LOADER
     DEFAULT DIRECTORY data_dir
