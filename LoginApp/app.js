@@ -57,6 +57,16 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+let databaseConnexions = [];
+
+// Ajoute la connexion initiale pour l'application
+databaseConnexions.push(new Database(app, 'app', 'apppassword'))
+
+databaseConnexions.push(new Database(app, 'admin', 'admin'))
+
+
+// Lier des fonctions de la bdd aux app
+// app.get("/yeet", (req, res) => database.test_function(req, res))
 
 // Route pour afficher la page de login
 app.get('/login', (req, res) => {

@@ -1,39 +1,87 @@
 import Sequelize from 'sequelize';
-import oracledb from 'oracledb';
+import { AdminDatabase } from './admin_database.js';
+import { Schema } from './schema.js'
 
 export class Database {
 
     #connection;
-    #mypw = 'admin'
+    #app;
+    #schema;
+    #isConnected = false;
+    #isAdmin = false;
+    #isApp = false;
+    #username;
+    #adminDatabase;
 
-    constructor()
+    constructor(app, username, password)
     {
+        this.#username=username;
+        this.#app = app
+
         // Create the connection to the database
-        this.connection = new Sequelize('wmlmspdb', 'admin', 'admin', {
+        this.#connection = new Sequelize('wmlmspdb', username, password, {
             host: 'localhost',
             port: 1521,
             dialect: 'oracle'
         });
 
+        this.#schema = new Schema(this.#connection);
+
         // Test the connection to the databse
-        this.TestConnection();
+        this.TestConnection(username);
+    }
+
+    UserInitCRUD()
+    {
+        let path = '/' + this.#username + '/hi';
+
+        console.log(path);
+
+        // Assign paths and commands to the backend for the connected user
+        this.#app.get(path, (req, res) => this.test_function(req, res))
     }
 
     // Test the connection to the local database
-    async TestConnection()
-    {
+    async TestConnection(username) {
         try {
-            await this.connection.authenticate();
+            await this.#connection.authenticate();
+
             console.log('Connection has been established successfully.');
+
+            if(username === 'app')
+            {
+                this.#isApp = true;
+                console.log('Welcome App !');
+            }
+            else if(username === 'admin')
+            {
+                this.#isAdmin = true;
+                console.log('Welcome Administrator !');
+
+                // Initialise the CRUD commands and links for the admin
+                this.#adminDatabase = new AdminDatabase(this.#app, this.#connection);
+                this.UserInitCRUD();
+            }
+            else
+            {
+                this.UserInitCRUD();
+            }
+
         } catch (error) {
             console.error('Unable to connect to the database:', error);
         }
     }
 
+    test_function(req, res)
+    {
+        console.log("Hello world");
+        res.send('Hi ' + this.#username + ' !');
+    }
+
     // Close the connection when the class is destroyed
     destroy()
     {
-        this.connection.close()
+        this.#connection.close()
     }
 
 }
