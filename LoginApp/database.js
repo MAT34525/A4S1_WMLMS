@@ -25,10 +25,10 @@ export class Database {
             dialect: 'oracle'
         });
 
-        this.#schema = new Schema(this.#connection);
-
         // Test the connection to the databse
         this.TestConnection(username);
+
+        // this.#schema = new Schema(this.#connection);
     }
 
     UserInitCRUD()

@@ -60,7 +60,7 @@ app.use(express.static('public'));
 let databaseConnexions = [];
 
 // Ajoute la connexion initiale pour l'application
-databaseConnexions.push(new Database(app, 'app', 'apppassword'))
+// databaseConnexions.push(new Database(app, 'app', 'apppassword'))
 
 databaseConnexions.push(new Database(app, 'admin', 'admin'))
 

@@ -13,6 +13,8 @@ export class Schema {
 
         this.#connection = connection;
 
+        /*
+
         this.users = this.#connection.define('USERS', {
             user_id: DataTypes.INTEGER,
             username: DataTypes.STRING(50),
@@ -21,20 +23,9 @@ export class Schema {
             full_name: DataTypes.STRING(100)
         })
 
-
-        this.getAllUsers();
-    }
-
-    async getAllUsers()
-    {
         await this.#connection.sync();
 
-        const usr = await this.users.findAll();
+        */
 
-        console.log(usr);
     }
-
-
-
-
 }
