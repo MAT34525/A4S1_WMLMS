@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
+import {RouterLink, RouterOutlet} from '@angular/router';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbNavLink} from "@ng-bootstrap/ng-bootstrap";
-import {RouterLink} from "@angular/router";
+
 
 @Component({
   selector: 'app-admin-page-navbar',
@@ -10,7 +11,8 @@ import {RouterLink} from "@angular/router";
     NgbDropdownMenu,
     NgbDropdownToggle,
     RouterLink,
-    NgbNavLink
+    NgbNavLink,
+    RouterOutlet
   ],
   templateUrl: './admin-page-navbar.component.html',
   styleUrl: './admin-page-navbar.component.css'
