@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
+import {Router} from '@angular/router'
+import {AdminServiceService} from '../admin-service.service';
 
 @Component({
   selector: 'app-admin-user-page',
@@ -8,5 +10,17 @@ import { Component } from '@angular/core';
   styleUrl: './admin-user-page.component.css'
 })
 export class AdminUserPageComponent {
+
+  private readonly adminService = inject(AdminServiceService);
+
+  constructor(private route : Router) {
+
+  }
+
+  ngOnInit() {
+
+  }
+
+
 
 }
