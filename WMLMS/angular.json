@@ -28,7 +28,7 @@
               }
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -64,11 +64,9 @@
               "buildTarget": "WMLMS:build:production"
             },
             "development": {
-              "buildTarget": "WMLMS:build:development"
+              "buildTarget": "WMLMS:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
-          },
-          "options": {
-            "proxyConfig": "src/proxy.conf.json"
           },
           "defaultConfiguration": "development"
         },
