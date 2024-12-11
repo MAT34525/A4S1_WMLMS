@@ -41,14 +41,14 @@ export class AdminDatabase {
             bind : [id]
         });
 
-        console.log(users[0]);
+        console.log(users[0][0]);
 
         if (users[0].length == 0)
         {
             res.send('Not found !').status(404);
         }
         else {
-            res.json(users[0]).status(200);
+            res.json(users[0][0]).status(200);
         }
     }
 

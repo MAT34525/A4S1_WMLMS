@@ -1,6 +1,6 @@
 import {Component, inject, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router'
-import {AdminServiceService, user} from '../admin-service.service';
+import {AdminServiceService, User} from '../admin-service.service';
 import {
   MatColumnDef,
   MatHeaderCell,
@@ -29,7 +29,7 @@ export class AdminUserPageComponent implements OnInit{
 
   private readonly adminService = inject(AdminServiceService);
 
-  userList: user[];
+  userList: User[];
   constructor(private route : Router) {
     this.userList = [];
   }
@@ -49,9 +49,9 @@ export class AdminUserPageComponent implements OnInit{
     this.adminService.getUsers().subscribe({
       next: data => {
         this.userList = data;
-        console.log('get Http /admin/user-list', data);
+        console.log('GET /admin/user-list', data);
       }, error:err=> {
-        console.log("Failed to load Lessons, saving to component field");
+        console.log("Failed to load User List");
       }
     });
   }

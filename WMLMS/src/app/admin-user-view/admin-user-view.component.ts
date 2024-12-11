@@ -1,37 +1,51 @@
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {MatButton} from '@angular/material/button';
-import {user} from '../admin-service.service';
+import {User} from '../admin-service.service';
 import {AdminServiceService} from '../admin-service.service';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-admin-user-view',
   standalone: true,
   imports: [
-    MatButton
+    MatButton,
+    NgIf,
+    RouterLink
   ],
   templateUrl: './admin-user-view.component.html',
   styleUrl: './admin-user-view.component.css'
 })
 export class AdminUserViewComponent {
 
-  user_id : number | undefined;
+  user_id : number = 0;
+  userItem : User | undefined;
+  adminService=inject(AdminServiceService);
 
-  userItem : user | undefined;
+  constructor(private activatedRoute: ActivatedRoute) {
 
-  adminService : AdminServiceService = inject(AdminServiceService)
-
-  constructor(private activatedRoute: ActivatedRoute, private route : Router) {
-
-    activatedRoute.params.subscribe(id => this.user_id = id['id']);
-
-    this.getUser();
+    this.user_id = +activatedRoute.snapshot.params['id'];
+    this.userItem = undefined;
   }
 
-  // Get the user data from the backend
-  getUser() {
-    if(this.user_id) {
-      this.adminService.getUser(this.user_id).subscribe(user => this.userItem = user);
+  ngOnInit() {
+    this.getUser(this.user_id);
+  }
+
+  getUser(userID : number)  {
+
+    if(!Number.isNaN(userID)) {
+      this.adminService.getUser(userID).subscribe({
+        next: data => {
+          this.userItem = data;
+          console.log('GET /admin/user/:id', data);
+        }, error:err=> {
+          console.log("Failed to load User");
+        }
+      });
+    }
+    else {
+      console.warn("User ID was not numeric !");
     }
   }
 
