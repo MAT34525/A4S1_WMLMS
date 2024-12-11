@@ -17,8 +17,9 @@ export class AdminDatabase {
 
     initAdminCRUD()
     {
+        this.#app.get('/admin/user/:id', (req, res) => this.getUser(req, res));
         this.#app.get('/admin/user-list', (req, res) => this.getUserList(req, res));
-        this.#app.get('/admin/user-list/:id', (req, res) => this.getUser(req, res));
+
     }
 
     // Admin functions
@@ -35,7 +36,7 @@ export class AdminDatabase {
 
         const { id } = req.params;
 
-        const users = await this.#connection.query('SELECT * FROM USERS WHERE user_id=:id_2',
+        const users = await this.#connection.query('SELECT * FROM USERS WHERE user_id=:id',
         {
             bind : [id]
         });

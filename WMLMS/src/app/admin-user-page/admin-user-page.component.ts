@@ -8,6 +8,7 @@ import {
 } from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonModule} from '@angular/material/button';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-admin-user-page',
@@ -18,7 +19,8 @@ import {MatButtonModule} from '@angular/material/button';
     MatHeaderCell,
     MatTableModule,
     MatButtonModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    NgIf
   ],
   templateUrl: './admin-user-page.component.html',
   styleUrl: './admin-user-page.component.css'
@@ -52,7 +54,27 @@ export class AdminUserPageComponent implements OnInit{
         console.log("Failed to load Lessons, saving to component field");
       }
     });
+  }
 
+  onReloadClick()
+  {
+    this.getUsers();
+  }
+
+  onDeleteClick(user_id : Number)
+  {
+    console.log("Admin user delete triggered for user : ", user_id);
+  }
+
+  onViewClick(user_id : Number)
+  {
+    console.log("Admin user view triggered for user : ", user_id);
+    this.route.navigate(['/a/users/view', user_id]); // , user_id]);
+  }
+
+  onEditClick(user_id: Number)
+  {
+    console.log("Admin user edit triggered for user : ", user_id);
   }
 
 }

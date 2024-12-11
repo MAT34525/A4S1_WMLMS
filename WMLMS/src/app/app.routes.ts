@@ -8,6 +8,7 @@ import {AdminQueriesPageComponent} from './admin-queries-page/admin-queries-page
 import {AdminStatisticsPageComponent} from './admin-statistics-page/admin-statistics-page.component';
 import {AdminLogsPageComponent} from './admin-logs-page/admin-logs-page.component';
 import {AdminHomePageComponent} from './admin-home-page/admin-home-page.component';
+import {AdminUserViewComponent} from './admin-user-view/admin-user-view.component';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,14 @@ export const routes: Routes = [
       {
         path:'users',
         component:AdminUserPageComponent,
+      },
+      {
+        path:'users/view',
+        redirectTo: 'users'
+      },
+      {
+        path:'users/view/:id',
+        component:AdminUserViewComponent,
       },
       {
         path:'tables',

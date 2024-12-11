@@ -20,15 +20,18 @@ export class AdminServiceService {
 
   constructor() {}
 
+  // Get request for the user list
   getUsers() : Observable<user[]>
   {
+    console.log("Admin Service Get : User List");
     return this.httpClient.get<user[]>('/admin/user-list');
   }
 
-  getUser() : Number
+  // Get request for a specific user
+  getUser(user_id : number) : Observable<user>
   {
-    this.httpClient.get('/admin/user-list/:id', {params : { id: 1 }});
-    return 0;
+    console.log("Admin Service Get : User By ID");
+    return this.httpClient.get<user>(`/admin/user/${user_id}`);
   }
 }
 
