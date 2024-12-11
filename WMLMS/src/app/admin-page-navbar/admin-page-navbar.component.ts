@@ -4,18 +4,17 @@ import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbNavLink} from "@ng-b
 
 
 @Component({
-  selector: 'app-admin-page-navbar',
-  standalone: true,
-  imports: [
-    NgbDropdown,
-    NgbDropdownMenu,
-    NgbDropdownToggle,
-    RouterLink,
-    NgbNavLink,
-    RouterOutlet
-  ],
-  templateUrl: './admin-page-navbar.component.html',
-  styleUrl: './admin-page-navbar.component.css'
+    selector: 'app-admin-page-navbar',
+    imports: [
+        NgbDropdown,
+        NgbDropdownMenu,
+        NgbDropdownToggle,
+        RouterLink,
+        NgbNavLink,
+        RouterOutlet
+    ],
+    templateUrl: './admin-page-navbar.component.html',
+    styleUrl: './admin-page-navbar.component.css'
 })
 export class AdminPageNavbarComponent {
 

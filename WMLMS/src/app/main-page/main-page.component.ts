@@ -4,16 +4,15 @@ import {RouterLink, RouterOutlet} from "@angular/router";
 import {MainPageNavbarComponent} from "../main-page-navbar/main-page-navbar.component";
 
 @Component({
-  selector: 'app-main-page',
-  standalone: true,
+    selector: 'app-main-page',
     imports: [
         LoginPageComponent,
         RouterOutlet,
         RouterLink,
         MainPageNavbarComponent
     ],
-  templateUrl: './main-page.component.html',
-  styleUrl: './main-page.component.css'
+    templateUrl: './main-page.component.html',
+    styleUrl: './main-page.component.css'
 })
 export class MainPageComponent {
 

@@ -11,19 +11,18 @@ import {MatButtonModule} from '@angular/material/button';
 import {NgIf} from '@angular/common';
 
 @Component({
-  selector: 'app-admin-user-page',
-  standalone: true,
-  imports: [
-    MatTable,
-    MatColumnDef,
-    MatHeaderCell,
-    MatTableModule,
-    MatButtonModule,
-    MatPaginatorModule,
-    NgIf
-  ],
-  templateUrl: './admin-user-page.component.html',
-  styleUrl: './admin-user-page.component.css'
+    selector: 'app-admin-user-page',
+    imports: [
+        MatTable,
+        MatColumnDef,
+        MatHeaderCell,
+        MatTableModule,
+        MatButtonModule,
+        MatPaginatorModule,
+        NgIf
+    ],
+    templateUrl: './admin-user-page.component.html',
+    styleUrl: './admin-user-page.component.css'
 })
 export class AdminUserPageComponent implements OnInit{
 

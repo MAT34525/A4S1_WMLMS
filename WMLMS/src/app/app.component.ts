@@ -6,11 +6,10 @@ import {MainPageNavbarComponent} from './main-page-navbar/main-page-navbar.compo
 import {NgIf} from '@angular/common';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, LoginPageComponent, MainPageComponent, MainPageNavbarComponent, NgIf],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'app-root',
+    imports: [RouterOutlet, LoginPageComponent, MainPageComponent, MainPageNavbarComponent, NgIf],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 
 export class AppComponent{

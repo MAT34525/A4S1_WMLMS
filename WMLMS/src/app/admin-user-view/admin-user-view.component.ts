@@ -6,15 +6,14 @@ import {AdminServiceService} from '../admin-service.service';
 import {NgIf} from '@angular/common';
 
 @Component({
-  selector: 'app-admin-user-view',
-  standalone: true,
-  imports: [
-    MatButton,
-    NgIf,
-    RouterLink
-  ],
-  templateUrl: './admin-user-view.component.html',
-  styleUrl: './admin-user-view.component.css'
+    selector: 'app-admin-user-view',
+    imports: [
+        MatButton,
+        NgIf,
+        RouterLink
+    ],
+    templateUrl: './admin-user-view.component.html',
+    styleUrl: './admin-user-view.component.css'
 })
 export class AdminUserViewComponent {
 
