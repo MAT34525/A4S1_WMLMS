@@ -4,12 +4,12 @@
 
 -- Insérer un nouvel utilisateur
 INSERT INTO users (user_id, username, password, email, full_name)
-VALUES (generate_uuid(), 'new_user', 'userpassword', 'new_user@exemple.com', 'New User');
+VALUES (generate_uuid(), 'new_user', 'userpassword', 'new_user@exemple.com', 'New user');
 
 -- Sélectionner un utilisateur par son username
 SELECT * FROM users WHERE username = 'new_user';
 
--- Mettre à jour les informations de l'utilisateur (par exemple, changer le mot de passe)
+-- Mettre à jour les informations de l'utilisateur (par ex. changer le mot de passe)
 UPDATE users
 SET password = 'newpassword', email = 'new_email@exemple.com', updated_at = SYSDATE
 WHERE user_id = 1;
@@ -22,7 +22,7 @@ DELETE FROM users WHERE user_id = 'USER_ID_UUID';
 
 -- Insérer une nouvelle playlist
 INSERT INTO playlists (user_id, name, is_public, description)
-VALUES ('USER_ID_UUID', 'My Playlist n°...', 'Y', 'Ma playlist n°...');
+VALUES ('USER_ID_UUID', 'Ma playlist n°...', 'Y', 'Playlist sur le thème de...');
 
 -- Sélectionner toutes les playlists d'un utilisateur spécifique
 SELECT * FROM playlists WHERE user_id = 'USER_ID_UUID';
@@ -32,7 +32,7 @@ SELECT * FROM playlists WHERE playlist_id = 'PLAYLIST_ID_UUID';
 
 -- Mettre à jour une playlist
 UPDATE playlists
-SET name = 'My Updated Playlist', description = 'Nouvelle description', updated_at = SYSDATE
+SET name = 'My updated playlist', description = 'Nouvelle description', updated_at = SYSDATE
 WHERE playlist_id = 'PLAYLIST_ID_UUID';
 
 -- Supprimer une playlist
@@ -45,13 +45,13 @@ DELETE FROM playlists WHERE playlist_id = 'PLAYLIST_ID_UUID';
 INSERT INTO playlist_tracks (playlist_id, track_id)
 SELECT p.playlist_id, t.track_id
 FROM playlists p
-JOIN tracks t ON t.name = 'Track Name'
+JOIN tracks t ON t.name = 'Track name'
 WHERE p.user_id = (SELECT user_id FROM users WHERE username = 'user2');
 
 -- Supprimer une chanson d'une playlist
 DELETE FROM playlist_tracks 
 WHERE playlist_id = (SELECT playlist_id FROM playlists WHERE name = 'Playlist 1' AND user_id = (SELECT user_id FROM users WHERE username = 'user2'))
-AND track_id = (SELECT track_id FROM tracks WHERE name = 'Track Name');
+AND track_id = (SELECT track_id FROM tracks WHERE name = 'Track name');
 
 -- Sélectionner toutes les chansons d'une playlist
 SELECT t.track_id, t.name, t.artists 
@@ -69,10 +69,10 @@ WHERE username = 'user2';
 
 -- Insérer une chanson
 INSERT INTO tracks (name, artists, id_artists, duration_ms, explicit, release_date, time_signature)
-VALUES ('New Song', 'Artist Name', 'ARTIST_ID_UUID', 240000, 0, TO_DATE('2024-09-01', 'YYYY-MM-DD'), 4);
+VALUES ('New song', 'Nom artiste', 'ARTIST_ID_UUID', 240000, 0, TO_DATE('2024-09-01', 'YYYY-MM-DD'), 4);
 
 -- pour le voir
-SELECT * FROM tracks WHERE name = 'New Song';
+SELECT * FROM tracks WHERE name = 'New song';
 
 -- Sélectionner toutes les chansons d'un artiste spécifique
 SELECT t.track_id, t.name, t.release_date, a.name AS album_name
@@ -130,7 +130,7 @@ VALUES ('Titre 1', 'Nom artiste', 'ARTIST_ID_UUID', 180000, 0, TO_DATE('2024-09-
 SELECT t.track_id, t.name AS track_name, t.artists, a.name AS album_name
 FROM tracks t
 JOIN albums a ON t.album_id = a.album_id
-WHERE a.name = '%Nom Album%' AND t.artists = '%Nom Artiste%';
+WHERE a.name = '%Nom album%' AND t.artists = '%Nom artiste%';
 
 
 -- Gestion des abonnements ou des utilisateurs favoris
