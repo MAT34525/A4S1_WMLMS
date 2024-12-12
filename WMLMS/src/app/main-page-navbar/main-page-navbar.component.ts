@@ -38,6 +38,7 @@ import {RouterLink} from '@angular/router';
         NgbAccordionDirective
     ],
     templateUrl: './main-page-navbar.component.html',
+    standalone: true,
     styleUrl: './main-page-navbar.component.css'
 })
 export class MainPageNavbarComponent {

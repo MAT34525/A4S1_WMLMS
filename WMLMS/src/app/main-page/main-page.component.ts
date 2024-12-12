@@ -12,6 +12,7 @@ import {MainPageNavbarComponent} from "../main-page-navbar/main-page-navbar.comp
         MainPageNavbarComponent
     ],
     templateUrl: './main-page.component.html',
+    standalone: true,
     styleUrl: './main-page.component.css'
 })
 export class MainPageComponent {
