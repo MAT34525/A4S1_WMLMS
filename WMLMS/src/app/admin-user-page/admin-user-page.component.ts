@@ -7,6 +7,7 @@ import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
 import type { ColDef } from 'ag-grid-community'; // Column Definition Type Interface
 
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+import {AdminUserPageButtonsComponent} from '../admin-user-page-buttons/admin-user-page-buttons.component';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -29,6 +30,12 @@ export class AdminUserPageComponent implements OnInit{
 
   private readonly adminService = inject(AdminServiceService);
 
+  public components: {
+    [p: string]: any;
+  } = {
+    AdminUserPageButtonsComponent: AdminUserPageButtonsComponent,
+  };
+
   rowData : User[] ;
 
   // Column Definitions: Defines the columns to be displayed.
@@ -38,9 +45,10 @@ export class AdminUserPageComponent implements OnInit{
     { field: "FULL_NAME" },
     { field: "EMAIL" },
     {
-      field: "field_name",
-      cellRenderer: "launchBtn"
-    }
+      headerName: "ACTIONS",
+      field: "USER_ID",
+      cellRenderer: AdminUserPageButtonsComponent,
+    },
   ];
 
   constructor(private route : Router) {
@@ -67,21 +75,5 @@ export class AdminUserPageComponent implements OnInit{
   onReloadClick()
   {
     this.getUsers();
-  }
-
-  onDeleteClick(user_id : Number)
-  {
-    console.log("Admin user delete triggered for user : ", user_id);
-  }
-
-  onViewClick(user_id : Number)
-  {
-    console.log("Admin user view triggered for user : ", user_id);
-    this.route.navigate(['/a/users/view', user_id]); // , user_id]);
-  }
-
-  onEditClick(user_id: Number)
-  {
-    console.log("Admin user edit triggered for user : ", user_id);
   }
 }
