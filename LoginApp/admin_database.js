@@ -24,7 +24,8 @@ export class AdminDatabase {
         // Table visualisation
         this.#app.get('/s/admin/albums', (req, res) => this.getAlbumList(req, res));
         this.#app.get('/s/admin/playlists', (req, res) => this.getPlaylistList(req, res));
-
+        this.#app.get('/s/admin/forums-replies', (req, res) => this.getForumRepliesList(req, res));
+        this.#app.get('/s/admin/forums-posts', (req, res) => this.getForumPostsList(req, res));
 
     }
 
@@ -34,9 +35,10 @@ export class AdminDatabase {
         // Convert table name in uppercase to standardize the input
         tableName = String(tableName).toUpperCase();
 
-        if(!/^[A-Za-z]*$/.test(tableName)) {
+        if(!/^[A-Za-z\_]*$/.test(tableName)) {
             console.log("SQL Injection detected, query aborded !");
             res.send("Bad request !").status(400);
+            return;
         }
 
         // Display the command name
@@ -76,6 +78,18 @@ export class AdminDatabase {
     async getPlaylistList(req, res) {
 
         this.getList('Playlists', req, res);
+    }
+
+    // Admin Get Forums Replies List function
+    async getForumRepliesList(req, res) {
+
+        this.getList('Forum_Replies', req, res);
+    }
+
+    // Admin Get Forum Posts List function
+    async getForumPostsList(req, res) {
+
+        this.getList('Forum_Posts', req, res);
     }
 
     // GET BY ID ==================================================================================

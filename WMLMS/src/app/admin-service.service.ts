@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Albums, Playlists, Users} from './schema';
+import {Albums, ForumPosts, ForumReplies, Playlists, Users} from './schema';
 
 
 @Injectable({
@@ -31,7 +31,7 @@ export class AdminServiceService {
 
   getAlbums() : Observable<Albums[]>
   {
-    console.log("Admin Service Get : Songs List");
+    console.log("Admin Service Get : Albums List");
     return this.httpClient.get<Albums[]>(`/s/admin/albums`);
   }
 
@@ -39,6 +39,18 @@ export class AdminServiceService {
   {
     console.log("Admin Service Get : Playlists List");
     return this.httpClient.get<Playlists[]>(`/s/admin/playlists`);
+  }
+
+  getForumsReplies() : Observable<ForumReplies[]>
+  {
+    console.log("Admin Service Get : Forums Replies List");
+    return this.httpClient.get<ForumReplies[]>(`/s/admin/forums-replies`);
+  }
+
+  getForumsPosts() : Observable<ForumPosts[]>
+  {
+    console.log("Admin Service Get : Forums Posts  List");
+    return this.httpClient.get<ForumPosts[]>(`/s/admin/forums-posts`);
   }
 }
 
