@@ -4,11 +4,10 @@ import {LoginPageComponent} from './login-page/login-page.component';
 import {MainPageComponent} from './main-page/main-page.component';
 import {MainPageNavbarComponent} from './main-page-navbar/main-page-navbar.component';
 import {NgIf} from '@angular/common';
-import {TestAgGridComponent} from './test-ag-grid/test-ag-grid.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LoginPageComponent, MainPageComponent, MainPageNavbarComponent, NgIf, TestAgGridComponent],
+  imports: [RouterOutlet, LoginPageComponent, MainPageComponent, MainPageNavbarComponent, NgIf],
   templateUrl: './app.component.html',
   standalone: true,
   styleUrl: './app.component.css'

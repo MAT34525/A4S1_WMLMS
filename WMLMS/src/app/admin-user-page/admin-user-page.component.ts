@@ -1,43 +1,51 @@
 import {Component, inject, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router'
 import {AdminServiceService, User} from '../admin-service.service';
-import {
-  MatColumnDef,
-  MatHeaderCell,
-  MatTable, MatTableModule
-} from '@angular/material/table';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatButtonModule} from '@angular/material/button';
+import {MatButton, MatButtonModule} from '@angular/material/button';
 import {NgIf} from '@angular/common';
+import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
+import type { ColDef } from 'ag-grid-community'; // Column Definition Type Interface
+
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-admin-user-page',
   imports: [
-    MatTable,
-    MatColumnDef,
-    MatHeaderCell,
-    MatTableModule,
-    MatButtonModule,
-    MatPaginatorModule,
+    AgGridAngular,
+    MatButton,
     NgIf
   ],
   templateUrl: './admin-user-page.component.html',
   standalone: true,
   styleUrl: './admin-user-page.component.css'
 })
+
+// Tutorial to add CRUD controls
+// https://blog.ag-grid.com/building-crud-in-ag-grid-with-angular-ngrx/
+
 export class AdminUserPageComponent implements OnInit{
 
   private readonly adminService = inject(AdminServiceService);
 
-  userList: User[];
+  rowData : User[] ;
+
+  // Column Definitions: Defines the columns to be displayed.
+  colDefs: ColDef[] = [
+    { field: "USER_ID" },
+    { field: "USERNAME" },
+    { field: "FULL_NAME" },
+    { field: "EMAIL" },
+    {
+      field: "field_name",
+      cellRenderer: "launchBtn"
+    }
+  ];
+
   constructor(private route : Router) {
-    this.userList = [];
+    this.rowData = [];
   }
-
-  // Table
-  displayedColumns: string[] = ['USER_ID', 'USERNAME', 'EMAIL', 'FULL_NAME', 'COMMANDS'];
-
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
     this.getUsers();
@@ -48,7 +56,7 @@ export class AdminUserPageComponent implements OnInit{
   {
     this.adminService.getUsers().subscribe({
       next: data => {
-        this.userList = data;
+        this.rowData = data;
         console.log('GET /admin/user-list', data);
       }, error:err=> {
         console.log("Failed to load User List");
@@ -76,5 +84,4 @@ export class AdminUserPageComponent implements OnInit{
   {
     console.log("Admin user edit triggered for user : ", user_id);
   }
-
 }
