@@ -4,211 +4,178 @@
 
 -- Insérer un nouvel utilisateur
 INSERT INTO users (user_id, username, password, email, full_name)
-VALUES (seq_users.NEXTVAL, 'new_user', 'userpassword', 'new_user@example.com', 'New User');
+VALUES (generate_uuid(), 'new_user', 'userpassword', 'new_user@exemple.com', 'New User');
 
 -- Sélectionner un utilisateur par son username
 SELECT * FROM users WHERE username = 'new_user';
 
 -- Mettre à jour les informations de l'utilisateur (par exemple, changer le mot de passe)
 UPDATE users
-SET password = 'newpassword', email = 'new_email@example.com', updated_at = SYSDATE
+SET password = 'newpassword', email = 'new_email@exemple.com', updated_at = SYSDATE
 WHERE user_id = 1;
 
--- Supprimer un utilisateur (attention à l'intégrité des données)
-DELETE FROM users WHERE user_id = 1;
-
+-- Supprimer un utilisateur
+DELETE FROM users WHERE user_id = 'USER_ID_UUID';
 
 
 -- Gestion des playlists
 
 -- Insérer une nouvelle playlist
-INSERT INTO playlists (playlist_id, user_id, name, is_public, description)
-VALUES (seq_playlists.NEXTVAL, 1, 'My Playlist n°...', 'Y', 'Ma playlist n°...');
+INSERT INTO playlists (user_id, name, is_public, description)
+VALUES ('USER_ID_UUID', 'My Playlist n°...', 'Y', 'Ma playlist n°...');
 
 -- Sélectionner toutes les playlists d'un utilisateur spécifique
-SELECT * FROM playlists WHERE user_id = 1;
+SELECT * FROM playlists WHERE user_id = 'USER_ID_UUID';
 
 -- Sélectionner une playlist spécifique par son ID
-SELECT * FROM playlists WHERE playlist_id = 1;
+SELECT * FROM playlists WHERE playlist_id = 'PLAYLIST_ID_UUID';
 
--- Mettre à jour une playlist (par exemple, modifier le nom ou la description)
+-- Mettre à jour une playlist
 UPDATE playlists
 SET name = 'My Updated Playlist', description = 'Nouvelle description', updated_at = SYSDATE
-WHERE playlist_id = 1;
+WHERE playlist_id = 'PLAYLIST_ID_UUID';
 
 -- Supprimer une playlist
-DELETE FROM playlists WHERE playlist_id = 1;
-
+DELETE FROM playlists WHERE playlist_id = 'PLAYLIST_ID_UUID';
 
 
 -- Ajout, suppression et gestion des chansons dans les playlists
 
 -- Ajouter une chanson à une playlist
-INSERT INTO playlist_songs (playlist_id, song_id)
-VALUES (1, 1);  -- Ajouter la chanson avec ID 1 à la playlist avec ID 1
--- à voir avec le bon song_id...
+INSERT INTO playlist_tracks (playlist_id, track_id)
+SELECT p.playlist_id, t.track_id
+FROM playlists p
+JOIN tracks t ON t.name = 'Track Name'
+WHERE p.user_id = (SELECT user_id FROM users WHERE username = 'user2');
 
 -- Supprimer une chanson d'une playlist
-DELETE FROM playlist_songs WHERE playlist_id = 1 AND song_id = 1;
+DELETE FROM playlist_tracks 
+WHERE playlist_id = (SELECT playlist_id FROM playlists WHERE name = 'Playlist 1' AND user_id = (SELECT user_id FROM users WHERE username = 'user2'))
+AND track_id = (SELECT track_id FROM tracks WHERE name = 'Track Name');
 
 -- Sélectionner toutes les chansons d'une playlist
-SELECT s.song_id, s.title, s.artist_name
-FROM playlist_songs ps
-JOIN songs s ON ps.song_id = s.song_id
-JOIN artists a ON s.artist_id = a.artist_id
-WHERE ps.playlist_id = 1;
-
+SELECT t.track_id, t.name, t.artists 
+FROM playlist_tracks pt
+JOIN tracks t ON pt.track_id = t.track_id 
+WHERE pt.playlist_id = (SELECT playlist_id FROM playlists WHERE name = 'Playlist 1' AND user_id = (SELECT user_id FROM users WHERE username = 'user2'));
 
 
 -- Gestion des musiques et des artistes
 
+-- Changer un user en artiste
+UPDATE users
+SET is_artist = 'Y', updated_at = SYSDATE
+WHERE username = 'user2';
+
 -- Insérer une chanson
-INSERT INTO songs (song_id, title, artist_id, genre, release_date, album, song_url)
-VALUES (seq_songs.NEXTVAL, 'New Song', 1, 'Pop', TO_DATE('2024-09-01', 'YYYY-MM-DD'), 'New Album', 'http://example.com/new_song.mp3');
+INSERT INTO tracks (name, artists, id_artists, duration_ms, explicit, release_date, time_signature)
+VALUES ('New Song', 'Artist Name', 'ARTIST_ID_UUID', 240000, 0, TO_DATE('2024-09-01', 'YYYY-MM-DD'), 4);
+
+-- pour le voir
+SELECT * FROM tracks WHERE name = 'New Song';
 
 -- Sélectionner toutes les chansons d'un artiste spécifique
-SELECT s.song_id, s.title, s.genre, s.release_date, s.album
-FROM songs s
-JOIN artists a ON s.artist_id = a.artist_id
-WHERE a.artist_name = 'Artist One';
-
--- Mettre à jour une chanson (par exemple, modifier l'album ou la durée)
-UPDATE songs
-SET album = 'Updated Album', genre = 'Rock', updated_at = SYSDATE
-WHERE song_id = 1;
+SELECT t.track_id, t.name, t.release_date, a.name AS album_name
+FROM tracks t
+JOIN albums a ON t.album_id = a.album_id
+WHERE INSTR(t.id_artists, 'ARTIST_ID_UUID') > 0;
 
 -- Supprimer une chanson
-DELETE FROM songs WHERE song_id = 1;
+DELETE FROM tracks WHERE track_id = 'TRACK_ID_UUID';
 
+-- Gestion des favoris
+-- Ajouter une chanson à ses favoris...
+INSERT INTO user_favorite_tracks (user_id, track_id)
+SELECT 'USER_ID_UUID', 'TRACK_ID_UUID' 
+FROM dual
+WHERE NOT EXISTS (
+    SELECT 1 
+    FROM user_favorite_tracks 
+    WHERE user_id = 'USER_ID_UUID' AND track_id = 'TRACK_ID_UUID');
 
+-- Supprimer une chanson favorite
+DELETE FROM user_favorite_tracks 
+WHERE user_id = 'USER_ID_UUID' AND track_id = 'TRACK_ID_UUID';
 
--- Vues
-
--- Vue pour les chansons avec les artistes
-CREATE VIEW app_view_songs AS
-SELECT s.song_id, s.title, a.artist_name, s.genre, s.release_date, s.album
-FROM songs s
-JOIN artists a ON s.artist_id = a.artist_id;
-
--- Vue pour les playlists d'un utilisateur avec les chansons associées
-SELECT p.playlist_id, p.name, p.is_public, p.creation_date, u.username AS user_name, s.title AS song_title
-FROM playlists p
-JOIN users u ON p.user_id = u.user_id
-JOIN playlist_songs ps ON p.playlist_id = ps.playlist_id
-JOIN songs s ON ps.song_id = s.song_id;
-
-
+-- Sélectionner toutes les chansons favorites d'un user
+SELECT t.track_id, t.name, t.artists
+FROM user_favorite_tracks uft
+JOIN tracks t ON uft.track_id = t.track_id
+WHERE uft.user_id = 'USER_ID_UUID';
 
 -- Recherche de chansons
-
 -- Rechercher des chansons par leur titre
-SELECT * FROM songs
-WHERE title LIKE '%song_title%';
+SELECT * FROM tracks WHERE name LIKE '%title%';
 
 -- Rechercher des chansons par artiste
-SELECT s.song_id, s.title, a.artist_name, s.genre, s.release_date
-FROM songs s
-JOIN artists a ON s.artist_id = a.artist_id
-WHERE a.artist_name LIKE '%artist_name%';
-
--- Rechercher des chansons par genre
-SELECT * FROM songs
-WHERE genre = 'Pop';
+SELECT t.track_id, t.name AS title, t.artists, t.release_date
+FROM tracks t
+WHERE t.artists LIKE '%artist_name%';
 
 -- Rechercher des chansons d'un album spécifique
-SELECT * FROM songs
-WHERE album LIKE '%album_name%';
+SELECT t.track_id, t.name, t.artists, a.name AS album_name
+FROM tracks t
+JOIN albums a ON t.album_id = a.album_id
+WHERE a.name LIKE '%album_name%';
+
+-- Créer un nouvel album
+INSERT INTO albums (name, release_date, artist_id)
+VALUES ('Nom album', TO_DATE('2024-09-01', 'YYYY-MM-DD'), 'ARTIST_ID_UUID');
+
+-- Ajouter des titres à l'album
+INSERT INTO tracks (name, artists, id_artists, duration_ms, explicit, release_date, time_signature, album_id)
+VALUES ('Titre 1', 'Nom artiste', 'ARTIST_ID_UUID', 180000, 0, TO_DATE('2024-09-01', 'YYYY-MM-DD'), 4, (SELECT album_id FROM albums WHERE name = 'Nom album' AND artist_id = 'ARTIST_ID_UUID'));
+
+-- Pour rchercher les titres d'un album spécifique
+SELECT t.track_id, t.name AS track_name, t.artists, a.name AS album_name
+FROM tracks t
+JOIN albums a ON t.album_id = a.album_id
+WHERE a.name = '%Nom Album%' AND t.artists = '%Nom Artiste%';
 
 
-
--- Gestion des abonnements ou des utilisateurs favoris (il faudra créer des tables etc.!! à ajouter)
-
--- Insérer un abonnement entre deux utilisateurs (par exemple, un utilisateur A suit un utilisateur B)
+-- Gestion des abonnements ou des utilisateurs favoris
+-- Insérer un abonnement entre deux utilisateurs
 INSERT INTO user_followers (user_id, follower_id)
-VALUES (2, 1); -- L'utilisateur avec ID 1 suit l'utilisateur avec ID 2
-
+VALUES ('USER_ID_TO_FOLLOW', 'FOLLOWER_USER_ID');
 
 -- Supprimer un abonnement entre deux utilisateurs
-DELETE FROM user_followers WHERE user_id = 2 AND follower_id = 1;
+DELETE FROM user_followers WHERE user_id = 'USER_ID_TO_FOLLOW' AND follower_id = 'FOLLOWER_USER_ID';
 
--- Afficher tous les abonnements d'un utilisateur
+-- Afficher tous les abonnements d'un utilisateur :
 SELECT u.username AS following_user, f.username AS follower_user
 FROM user_followers uf
 JOIN users u ON uf.user_id = u.user_id
 JOIN users f ON uf.follower_id = f.user_id
-WHERE uf.user_id = 2; -- L'utilisateur avec ID 2
+WHERE uf.follower_id = 'FOLLOWER_USER_ID';
 
--- Insérer une chanson dans les favoris d'un utilisateur
-INSERT INTO user_favorites (user_id, song_id)
-VALUES (1, 2); -- L'utilisateur avec ID 1 ajoute la chanson avec ID 2 à ses favoris
-
--- Supprimer une chanson des favoris d'un utilisateur
-DELETE FROM user_favorites WHERE user_id = 1 AND song_id = 2;
-
-
-
--- Gestion des commentaires ou des avis sur les chansons (à ajouter)
-
+-- Gestion des commentaires ou des avis sur les chansons
 -- Ajouter un commentaire sur une chanson
-INSERT INTO song_comments (user_id, song_id, comment_text, comment_date)
-VALUES (1, 2, 'J\'adore cette chanson !', SYSDATE);
+INSERT INTO comments (user_id, track_id, comment_text)
+VALUES ('USER_ID_UUID', 'TRACK_ID_UUID', 'Commentaire');
 
 -- Afficher tous les commentaires pour une chanson donnée
-SELECT c.comment_text, u.username, c.comment_date
-FROM song_comments c
+SELECT c.comment_text, u.username, c.created_at
+FROM comments c
 JOIN users u ON c.user_id = u.user_id
-WHERE c.song_id = 2; -- Chanson avec ID 2
+WHERE c.track_id = 'TRACK_ID_UUID';
 
--- Supprimer un commentaire spécifique (quels privilèges, pour qui ?)
-DELETE FROM song_comments WHERE comment_id = 1;
-
-
-
--- Suivi de l'activité de l'utilisateur (historique d'écoute) (à ajouter ?)
-
--- Ajouter une chanson à l'historique d'écoute d'un utilisateur
-INSERT INTO user_listening_history (user_id, song_id, listen_date)
-VALUES (1, 2, SYSDATE); -- L'utilisateur 1 a écouté la chanson 2 par ex.
-
--- Afficher l'historique d'écoute pour un utilisateur
-SELECT s.song_id, s.title, a.artist_name, ulh.listen_date
-FROM user_listening_history ulh
-JOIN songs s ON ulh.song_id = s.song_id
-JOIN artists a ON s.artist_id = a.artist_id
-WHERE ulh.user_id = 1
-ORDER BY ulh.listen_date DESC;
-
--- Supprimer une chanson de l'historique d'écoute
-DELETE FROM user_listening_history WHERE user_id = 1 AND song_id = 2;
+-- Supprimer un commentaire spécifique
+DELETE FROM comments WHERE comment_id = 'COMMENT_ID_UUID';
 
 
+-- Requêtes pour gérer le forum
+-- Ajouter un nouveau post :
+INSERT INTO forum_posts (user_id, title, content)
+VALUES ('USER_ID', 'Recommandations musicales', 'Quels sont vos morceaux préférés en ce moment ?');
 
--- Statistiques et analyse des chansons et playlists (à ajouter)
+-- Ajouter une réponse à un post existant :
+INSERT INTO forum_replies (post_id, user_id, content)
+VALUES ('POST_ID', 'USER_ID', 'J adore écouter cet artiste récemment !');
 
--- Sélectionner les chansons les plus écoutées
-SELECT s.song_id, s.title, a.artist_name, COUNT(ulh.song_id) AS listens_count
-FROM user_listening_history ulh
-JOIN songs s ON ulh.song_id = s.song_id
-JOIN artists a ON s.artist_id = a.artist_id
-GROUP BY s.song_id, s.title, a.artist_name
-ORDER BY listens_count DESC
-FETCH FIRST 10 ROWS ONLY;
+-- Afficher tous les posts avec leurs réponses :
+SELECT p.title, p.content AS post_content, r.content AS reply_content, u.username AS reply_user, r.created_at AS reply_date
+FROM forum_posts p
+LEFT JOIN forum_replies r ON p.post_id = r.post_id
+LEFT JOIN users u ON r.user_id = u.user_id;
 
--- Sélectionner les playlists les plus populaires (celles avec le plus de chansons/favoris...)
-SELECT p.playlist_id, p.name, COUNT(ps.song_id) AS song_count
-FROM playlists p
-JOIN playlist_songs ps ON p.playlist_id = ps.playlist_id
-GROUP BY p.playlist_id, p.name
-ORDER BY song_count DESC
-FETCH FIRST 10 ROWS ONLY;
-
-
-
--- Requêtes de gestion des utilisateurs avec des rôles ou permissions avancées
-
--- Attribution d'un rôle à un utilisateur (par exemple, un administrateur)
-GRANT admin_role TO user1;
-
--- Vérifier les rôles d'un utilisateur
-SELECT * FROM user_roles WHERE user_id = 1;
 
