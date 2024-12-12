@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {User} from './schema';
+import {Users} from './schema';
 
 
 @Injectable({
@@ -15,30 +15,30 @@ export class AdminServiceService {
 
   constructor() {}
 
-  // Get request for the user list
-  getUsers() : Observable<User[]>
+  // Get request for the Users list
+  getUsers() : Observable<Users[]>
   {
-    console.log("Admin Service Get : User List");
-    return this.httpClient.get<User[]>('/s/admin/user-list');
+    console.log("Admin Service Get : Users List");
+    return this.httpClient.get<Users[]>('/s/admin/user-list');
   }
 
-  // Get request for a specific user using IDs
-  getUser(user_id : number) : Observable<User>
+  // Get request for a specific Users using IDs
+  getUser(users_id : number) : Observable<Users>
   {
-    console.log("Admin Service Get : User By ID");
-    return this.httpClient.get<User>(`/s/admin/user/${user_id}`);
+    console.log("Admin Service Get : Users By ID");
+    return this.httpClient.get<Users>(`/s/admin/user/${users_id}`);
   }
 
-  getSongs() : Observable<User>
+  getSongs() : Observable<Users>
   {
     console.log("Admin Service Get : Songs List");
-    return this.httpClient.get<User>(`/s/admin/songs`);
+    return this.httpClient.get<Users>(`/s/admin/songs`);
   }
 
-  getPlaylists() : Observable<User>
+  getPlaylists() : Observable<Users>
   {
     console.log("Admin Service Get : Playlists List");
-    return this.httpClient.get<User>(`/s/admin/playlists`);
+    return this.httpClient.get<Users>(`/s/admin/playlists`);
   }
 }
 

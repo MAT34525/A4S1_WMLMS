@@ -3,7 +3,7 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {MatButton} from '@angular/material/button';
 import {AdminServiceService} from '../admin-service.service';
 import {NgIf} from '@angular/common';
-import {User} from '../schema';
+import {Users} from '../schema';
 
 @Component({
   selector: 'app-admin-user-view',
@@ -19,7 +19,7 @@ import {User} from '../schema';
 export class AdminUserViewComponent {
 
   user_id : number = 0;
-  userItem : User | undefined;
+  userItem : Users | undefined;
   adminService=inject(AdminServiceService);
 
   constructor(private activatedRoute: ActivatedRoute) {

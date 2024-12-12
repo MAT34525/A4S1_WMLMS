@@ -8,7 +8,7 @@ import type { ColDef } from 'ag-grid-community'; // Column Definition Type Inter
 
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import {AdminUserPageButtonsComponent} from '../admin-user-page-buttons/admin-user-page-buttons.component';
-import {User} from '../schema';
+import {Users} from '../schema';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -37,7 +37,7 @@ export class AdminUserPageComponent implements OnInit{
     AdminUserPageButtonsComponent: AdminUserPageButtonsComponent,
   };
 
-  rowData : User[] ;
+  rowData : Users[] ;
 
   // Column Definitions: Defines the columns to be displayed.
   colDefs: ColDef[] = [
