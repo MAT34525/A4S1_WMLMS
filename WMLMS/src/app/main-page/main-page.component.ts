@@ -7,7 +7,6 @@ import {MainPageNavbarComponent} from "../main-page-navbar/main-page-navbar.comp
     selector: 'app-main-page',
     imports: [
         LoginPageComponent,
-        RouterOutlet,
         RouterLink,
         MainPageNavbarComponent
     ],

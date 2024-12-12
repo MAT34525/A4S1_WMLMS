@@ -17,22 +17,72 @@ export class AdminDatabase {
 
     initAdminCRUD()
     {
-        this.#app.get('/s/admin/user/:id', (req, res) => this.getUser(req, res));
-        this.#app.get('/s/admin/user-list', (req, res) => this.getUserList(req, res));
+        // User CRUD
+        this.#app.get('/s/admin/users/:id', (req, res) => this.getUser(req, res));
+        this.#app.get('/s/admin/users', (req, res) => this.getUserList(req, res));
+
+        // Table visualisation
+        this.#app.get('/s/admin/albums', (req, res) => this.getAlbumList(req, res));
+        this.#app.get('/s/admin/playlists', (req, res) => this.getPlaylistList(req, res));
+
 
     }
 
-    // Admin functions
+    // Standard function to get the list of any tables
+    async getList(tableName, req, res) {
+
+        // Convert table name in uppercase to standardize the input
+        tableName = String(tableName).toUpperCase();
+
+        if(!/^[A-Za-z]*$/.test(tableName)) {
+            console.log("SQL Injection detected, query aborded !");
+            res.send("Bad request !").status(400);
+        }
+
+        // Display the command name
+        console.log("Admin " + tableName + " List");
+
+        // Try to execute the query and handle the Table Not Found error.
+        try {
+
+            // Execute the query and send result
+            const result = await this.#connection.query(`SELECT * FROM ${tableName}`);
+            res.json(result[0]).status(200);
+
+        } catch (error) {
+
+            // Send message and 404 result
+            console.log('Table doesn"t exists !');
+            res.send("Table not found !").status(404);
+
+        }
+    }
+
+    // GET ========================================================================================
+
+    // Admin Get User List  function
     async getUserList(req, res) {
-        console.log("Admin User List");
 
-        const users = await this.#connection.query('SELECT * FROM USERS');
-        res.json(users[0]).status(200);
+        this.getList('Users', req, res);
     }
 
-    // Admin functions
+    // Admin Get Album List function
+    async getAlbumList(req, res) {
+
+        this.getList('Albums', req, res);
+    }
+
+    // Admin Get Playlist List function
+    async getPlaylistList(req, res) {
+
+        this.getList('Playlists', req, res);
+    }
+
+    // GET BY ID ==================================================================================
+
+    // Admin Get USER ID function
     async getUser(req, res) {
-        console.log("Admin User");
+        console.log("Admin User ID");
 
         const { id } = req.params;
 
@@ -51,5 +101,9 @@ export class AdminDatabase {
             res.json(users[0][0]).status(200);
         }
     }
+
+    // Admin Get Tracks List function
+    // !! SELECT * FROM TRACKS not working ??
+
 
 }

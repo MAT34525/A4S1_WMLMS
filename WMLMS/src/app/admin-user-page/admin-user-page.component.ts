@@ -66,7 +66,6 @@ export class AdminUserPageComponent implements OnInit{
     this.adminService.getUsers().subscribe({
       next: data => {
         this.rowData = data;
-        console.log('GET /admin/user-list', data);
       }, error:err=> {
         console.log("Failed to load User List");
       }

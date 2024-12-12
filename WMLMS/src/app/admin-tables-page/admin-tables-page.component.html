@@ -1,7 +1,7 @@
 
 <span class="row" style="padding: 4px; padding-left: 20px; padding-right: 20px">
 
-  <button mat-raised-button color="primary" class="col-sm-1" (click)="onLoadSongsClick()">Songs</button>
+  <button mat-raised-button color="primary" class="col-sm-1" (click)="onLoadAlbumsClick()">Albums</button>
 
   <span style="display:inline-block; width: 2px;"></span>
 
@@ -16,3 +16,12 @@
   <button mat-raised-button color="primary" class="col-sm-1" (click)="onLoadCommentsClick()">Comments</button>
 
 </span>
+
+
+<ag-grid-angular
+  style="width: 100%; height: 500px; padding: 50px"
+  class="ag-theme-balham"
+  [rowData]="rowData"
+  [columnDefs]="colDefs"
+>
+</ag-grid-angular>
