@@ -23,6 +23,7 @@ DROP FUNCTION generate_uuid;
 */
 -- peut-être qu'il restera des choses, à supprimer avec un DROP TABLE ou DROP SEQUENCE ou DROP USER
 
+
 -- CHAPTER 1 : Preparing your relational schema
 
 -- Fonction pour générer des UUID (au lieu de auto increment)
@@ -31,10 +32,11 @@ BEGIN
     RETURN LOWER(REGEXP_REPLACE(RAWTOHEX(SYS_GUID()), '([A-F0-9]{8})([A-F0-9]{4})([A-F0-9]{4})([A-F0-9]{4})([A-F0-9]{12})', '\1-\2-\3-\4-\5'));
 END;
 /
--- La fonction generate_uuid() ne peut pas être utilisée directement dans la définition de la table
--- Il faut donc utiliser un trigger pour générer l'UUID lors de l'insertion
+-- Comme fonction generate_uuid() ne peut pas être utilisée directement dans la définition d'une table,
+-- il faut utiliser un trigger pour générer l'UUID lors de l'insertion
 
 -- 1.3 Populating the tables
+
 -- Table artists
 CREATE TABLE artists (
     artist_id VARCHAR2(36) PRIMARY KEY,
@@ -165,8 +167,8 @@ CREATE TABLE user_favorite_tracks (
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (track_id) REFERENCES tracks(track_id));
 
--- Pour importer les données des fichiers csv artists.csv, tracks.csv et tracks_audio_features :
--- Créer un répertoire pour les fichiers CSV : 
+-- Pour importer les données des fichiers csv artists.csv, tracks.csv et tracks_audio_features,
+-- on créé un répertoire pour les fichiers CSV : 
 CREATE OR REPLACE DIRECTORY data_dir AS 'D:\Kyl\4 Ecole\S7\SW engineering\WMLMS'; -- perso, à adapter comme suit
 -- CREATE OR REPLACE DIRECTORY data_dir AS '/chemin/vers/votre/dossier';
 
@@ -323,19 +325,20 @@ VALUES ('Album Five', TO_DATE('2023-05-10', 'YYYY-MM-DD'),
         (SELECT artist_id FROM artists WHERE name = 'Artist Five' FETCH FIRST 1 ROW ONLY));
 
 
--- CHAPTER 2 : Security and User Management
+
+-- CHAPTER 2 : Security and user management
 
 -- Création des utilisateurs de base de données, et attribution de privilèges
 
 -- Pour l'utilisateur app
 CREATE USER app IDENTIFIED BY apppassword;
 GRANT CONNECT, RESOURCE TO app;
--- RESOURCE permet à l'utilisateur de créer des objets dans sa propre schéma (tables, vues, procédures, etc.)
+-- RESOURCE permet à l'utilisateur de créer des objets dans sa propre schéma (tables, vues, procédures, etc)
 GRANT ALL PRIVILEGES TO app;
 
 GRANT CONNECT, DBA TO admin;
 GRANT UNLIMITED TABLESPACE TO admin;
--- DBA permet à l'utilisateur admin_app d'exécuter des tâches d'administration de base de données (création d'utilisateurs, gestion des privilèges, etc.)
+-- DBA permet à l'utilisateur admin d'exécuter des tâches d'administration de base de données (création d'utilisateurs, gestion des privilèges, etc)
 -- et en tant qu'admin, on doit pouvoir ajouter ou supprimer des lignes
 -- Privilèges sur les tables pour admin (accès complet)
 GRANT SELECT, INSERT, UPDATE, DELETE ON artists TO admin;
@@ -348,44 +351,44 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON user_favorite_tracks TO admin;
 
 -- Création d'un utilisateur régulier
 CREATE USER regular_user IDENTIFIED BY userpassword;
-GRANT CONNECT TO regular_user; -- Accès en lecture seulement
+GRANT CONNECT TO regular_user; -- accès en lecture seulement
 
 -- pour voir les users créés : 
-SELECT username, account_status, created FROM DBA_USERS
-ORDER BY created DESC;
+-- SELECT username, account_status, created FROM DBA_USERS
+-- ORDER BY created DESC;
 
 -- Vue pour les tracks
 -- permet aux utilisateurs de l'application d'accéder aux informations essentielles des pistes musicales
--- Elle inclut le nom de l'album via une jointure avec la table albums
+-- elle inclut le nom de l'album via une jointure avec la table albums
 CREATE OR REPLACE VIEW app_view_tracks AS
 SELECT t.track_id, t.name, t.artists, t.duration_ms, t.release_date
 FROM tracks t;
 
 -- Vue pour les playlists
--- Offre une vue des playlists avec des informations sur leur visibilité et leur créateur
--- Utilise une jointure avec la table users pour obtenir le nom d'utilisateur du créateur
+-- offre une vue des playlists avec des informations sur leur visibilité et leur créateur
+-- utilise une jointure avec la table users pour obtenir le nom d'utilisateur du créateur
 CREATE OR REPLACE VIEW app_view_playlists AS
 SELECT p.playlist_id, p.name, p.is_public, p.created_at AS creation_date, u.username AS user_name
 FROM playlists p
 JOIN users u ON p.user_id = u.user_id;
 
 -- Vue pour les utilisateurs (admin)
--- Fournit aux administrateurs une vue complète des informations utilisateur
--- Inclut des champs comme is_artist et les horodatages de création/mise à jour
+-- fournit aux admin une vue complète des informations utilisateur
+-- inclut des champs comme is_artist et les horodatages de création/màj
 CREATE OR REPLACE VIEW admin_view_users AS
 SELECT user_id, username, full_name, email, is_artist, created_at, updated_at
 FROM users;
 
 -- Vue pour les artistes (admin)
--- Donne aux administrateurs un aperçu complet des informations sur les artistes
--- Comprend des données comme le nombre de followers et la popularité
+-- donne aux admin un aperçu complet des informations sur les artistes
+-- comprend des données comme le nombre de followers et la popularité
 CREATE OR REPLACE VIEW admin_view_artists AS
 SELECT artist_id, name, followers, genres, popularity
 FROM artists;
 
 -- Vue pour les tracks (admin)
--- Offre aux administrateurs une vue détaillée des pistes musicales
--- Inclut des informations supplémentaires comme la durée et le caractère explicite
+-- offre aux administrateurs une vue détaillée des pistes musicales
+-- inclut des infos supplémentaires comme la durée et le caractère explicite
 CREATE OR REPLACE VIEW admin_view_tracks AS
 SELECT t.track_id, t.name, t.artists, t.duration_ms, t.explicit, t.release_date, t.id_artists
 FROM tracks t;
@@ -399,7 +402,7 @@ JOIN users u ON p.user_id = u.user_id
 JOIN user_favorite_tracks uft ON p.user_id = uft.user_id
 JOIN tracks t ON uft.track_id = t.track_id;
 
--- attribution des privilèges
+-- Attribution des privilèges
 -- Privilèges d'accès aux vues pour l'utilisateur app
 GRANT SELECT ON app_view_tracks TO app;
 GRANT SELECT ON app_view_playlists TO app;
@@ -413,16 +416,16 @@ GRANT SELECT ON admin_view_tracks TO admin;
 -- Lister toutes les vues disponibles :
 SELECT view_name FROM user_views;
 
--- Sécurisation Supplémentaire
--- Gestion des mots de passe : Utiliser un hachage pour les mots de passe.
-ALTER TABLE users MODIFY password VARCHAR2(256); -- Préparez pour un hash SHA-256
+-- Hachage pour les mots de passe
+ALTER TABLE users MODIFY password VARCHAR2(256); -- hash SHA-256
+
 
 
 -- CHAPTER 3 : Queries and optimization
 
 -- 3.1. Requêtes SQL : 
 
--- join entre plusieurs tables pour afficher les noms des pistes, artistes, albums et playlists associés pour les pistes de plus de 5 min
+-- jJOIN entre plusieurs tables pour afficher les noms des pistes, artistes, albums et playlists associés pour les pistes de plus de 5 min
 EXPLAIN PLAN FOR
 SELECT t.name AS track_name, a.name AS artist_name, al.name AS album_name, p.name AS playlist_name
 FROM tracks t
@@ -529,7 +532,7 @@ SELECT * FROM mv_avg_energy_per_year ORDER BY release_year DESC;
 
 -- 4.1 Triggers
 
--- pour mettre à jour la colonne updated_at chaque fois qu'une ligne est mise à jour dans les tables artists, tracks, users, et playlists
+-- pour mettre à jour la colonne updated_at chaque fois qu'une ligne est mise à jour dans les tables artists, tracks, users et playlists
 CREATE OR REPLACE TRIGGER trg_update_artists_updated_at
 BEFORE UPDATE ON artists
 FOR EACH ROW
@@ -563,13 +566,13 @@ END;
 /
 
 -- trigger pour envoyer une alerte lors de l'ajout d'un nouvel utilisateur
--- Ce déclencheur envoie un message d'alerte (par exemple, en utilisant une procédure stockée) chaque fois qu'un nouvel utilisateur est ajouté.
+-- ce déclencheur envoie un message d'alerte chaque fois qu'un nouvel utilisateur est ajouté.
 CREATE TABLE alert_log (id NUMBER GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
     message VARCHAR2(4000), created_at DATE);
 
 CREATE OR REPLACE PROCEDURE send_alert(p_message VARCHAR2) IS
 BEGIN
-    INSERT INTO alert_log (message, created_at) VALUES (p_message, SYSDATE); -- insérer l'alerte dans la table de logs
+    INSERT INTO alert_log (message, created_at) VALUES (p_message, SYSDATE);
 END;
 /
 
@@ -597,17 +600,15 @@ END;
 
 -- permettent d'automatiser des processus récurrents
 
--- Fonction pour calculer la durée totale d'une playlist
-
--- table de liaison pour relier les pistes aux playlists
+-- Table de liaison pour relier les pistes aux playlists
 CREATE TABLE playlist_tracks (
     playlist_id VARCHAR2(36),
     track_id VARCHAR2(36),
     PRIMARY KEY (playlist_id, track_id),
     FOREIGN KEY (playlist_id) REFERENCES playlists(playlist_id),
-    FOREIGN KEY (track_id) REFERENCES tracks(track_id)
-);
+    FOREIGN KEY (track_id) REFERENCES tracks(track_id) );
 
+-- Fonction pour calculer la durée totale d'une playlist
 CREATE OR REPLACE FUNCTION get_playlist_duration(p_playlist_id VARCHAR2)
 RETURN NUMBER
 IS
@@ -619,7 +620,7 @@ BEGIN
   JOIN playlist_tracks pt ON t.track_id = pt.track_id
   WHERE pt.playlist_id = p_playlist_id;
 
-  RETURN NVL(v_total_duration, 0); -- Renvoie 0 si aucune piste n'est trouvée
+  RETURN NVL(v_total_duration, 0); -- renvoie 0 si aucune piste n'est trouvée
 END;
 /
 
@@ -627,7 +628,7 @@ END;
 CREATE OR REPLACE FUNCTION generate_monthly_report RETURN VARCHAR2 IS
     v_report VARCHAR2(4000);
 BEGIN
-    SELECT "Nombre d utilisateurs ajoutés ce mois-ci: " || COUNT(*)
+    SELECT "Nombre d utilisateurs ajoutés ce mois-ci : " || COUNT(*)
     INTO v_report
     FROM users
     WHERE EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM SYSDATE)
@@ -638,7 +639,7 @@ END;
 /
 
 -- Exécution automatique des tâches (procédure PL/SQL)
--- configuration de job avec le package DBMS_SCHEDULER pour exécuter le rapport mensuel
+-- configuration de job avec le package DBMS_SCHEDULER pour avoir le rapport mensuel
 BEGIN
     DBMS_SCHEDULER.create_job (
         job_name        => 'monthly_report_job',
@@ -646,12 +647,11 @@ BEGIN
         job_action      => 'BEGIN generate_monthly_report; END;',
         start_date      => SYSTIMESTAMP,
         repeat_interval  => 'FREQ=MONTHLY; BYMONTHDAY=1; BYHOUR=0; BYMINUTE=0; BYSECOND=0',
-        enabled         => TRUE
-    );
+        enabled         => TRUE );
 END;
 /
 
--- Création de la table pour les commentaires (pour stocker les commentaires des utilisateurs sur les pistes)
+-- Création de la table pour les commentaires (pour stocker les commentaires des utilisateurs sur les tracks)
 CREATE TABLE comments (
     comment_id VARCHAR2(36) PRIMARY KEY,
     user_id VARCHAR2(36),
@@ -660,8 +660,7 @@ CREATE TABLE comments (
     created_at DATE DEFAULT SYSDATE,
     updated_at DATE DEFAULT SYSDATE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (track_id) REFERENCES tracks(track_id) ON DELETE CASCADE
-);
+    FOREIGN KEY (track_id) REFERENCES tracks(track_id) ON DELETE CASCADE);
 
 CREATE OR REPLACE TRIGGER trg_comments_id
 BEFORE INSERT ON comments
@@ -713,7 +712,7 @@ BEGIN
 END;
 /
 
--- table pour les abonnements
+-- Table pour les abonnements
 CREATE TABLE user_followers (
     user_id VARCHAR2(36),
     follower_id VARCHAR2(36),
@@ -729,9 +728,9 @@ INSERT INTO user_followers (user_id, follower_id)
 -- VALUES ('USER_ID_TO_FOLLOW', 'FOLLOWER_USER_ID');
 VALUES ('0ff74e26-86a0-48ed-a19f-202679007bf3', '9f78f04c-a0b3-4d22-86b9-4e5ec5eb666c');
 -- user to follow : 0ff74e26-86a0-48ed-a19f-202679007bf3 (user1)
--- user follower : 9f78f04c-a0b3-4d22-86b9-4e5ec5eb666c (user2)
+-- user follower : 9f78f04c-a0b3-4d22-86b9-4e5ec5eb666c (user2) par exemple
 
--- + d'insertions et maj
+-- + d'insertions et màj
 GRANT SELECT, INSERT, UPDATE, DELETE ON comments TO app;
 GRANT SELECT, INSERT, UPDATE, DELETE ON forum_posts TO app;
 GRANT SELECT, INSERT, UPDATE, DELETE ON forum_replies TO app;
@@ -766,6 +765,7 @@ VALUES ('06175e5f-0e1a-4d3c-a052-a0bb382b2b5b', 'Ma playlist ost', 'Y', 'Playlis
 INSERT INTO playlists (user_id, name, is_public, description)
 VALUES ('06175e5f-0e1a-4d3c-a052-a0bb382b2b5b', 'Rap', 'Y', 'Playlist rap fr');
 
+-- pour les voir : 
 -- SELECT * FROM playlists WHERE user_id = '06175e5f-0e1a-4d3c-a052-a0bb382b2b5b';
 
 UPDATE playlists
@@ -829,10 +829,12 @@ VALUES ('82fc61a1-8bb3-43f2-b046-482284f19068', '0ff74e26-86a0-48ed-a19f-2026790
 
 
 
--- Quelques commandes à exécuter pour afficher des données : 
+-- Quelques commandes à exécuter pour afficher des données :
+/*
 SELECT * FROM Albums;
 SELECT * FROM Artists;
 SELECT * FROM Playlists;
 SELECT * FROM Tracks;
 SELECT * FROM Tracks_audio_features;
 SELECT * FROM Users;
+*/
