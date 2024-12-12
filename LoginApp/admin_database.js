@@ -17,8 +17,8 @@ export class AdminDatabase {
 
     initAdminCRUD()
     {
-        this.#app.get('/admin/user/:id', (req, res) => this.getUser(req, res));
-        this.#app.get('/admin/user-list', (req, res) => this.getUserList(req, res));
+        this.#app.get('/s/admin/user/:id', (req, res) => this.getUser(req, res));
+        this.#app.get('/s/admin/user-list', (req, res) => this.getUserList(req, res));
 
     }
 

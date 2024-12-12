@@ -1,6 +1,6 @@
 import {Component, inject, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router'
-import {AdminServiceService, User} from '../admin-service.service';
+import {AdminServiceService} from '../admin-service.service';
 import {MatButton, MatButtonModule} from '@angular/material/button';
 import {NgIf} from '@angular/common';
 import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
@@ -8,6 +8,7 @@ import type { ColDef } from 'ag-grid-community'; // Column Definition Type Inter
 
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import {AdminUserPageButtonsComponent} from '../admin-user-page-buttons/admin-user-page-buttons.component';
+import {User} from '../schema';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 

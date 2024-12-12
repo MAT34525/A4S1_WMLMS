@@ -1,19 +1,20 @@
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {MatButton} from '@angular/material/button';
-import {User} from '../admin-service.service';
 import {AdminServiceService} from '../admin-service.service';
 import {NgIf} from '@angular/common';
+import {User} from '../schema';
 
 @Component({
-    selector: 'app-admin-user-view',
-    imports: [
-        MatButton,
-        NgIf,
-        RouterLink
-    ],
-    templateUrl: './admin-user-view.component.html',
-    styleUrl: './admin-user-view.component.css'
+  selector: 'app-admin-user-view',
+  imports: [
+    MatButton,
+    NgIf,
+    RouterLink
+  ],
+  templateUrl: './admin-user-view.component.html',
+  standalone: true,
+  styleUrl: './admin-user-view.component.css'
 })
 export class AdminUserViewComponent {
 
