@@ -3,14 +3,18 @@ import {MatButton} from '@angular/material/button';
 import {AgGridAngular} from 'ag-grid-angular';
 import type {ColDef} from 'ag-grid-community';
 import {AdminUserPageButtonsComponent} from '../admin-user-page-buttons/admin-user-page-buttons.component';
-import {Albums, PlaylistTracks, Tracks, Users} from '../schema';
+import {Albums, DUMMY_ALBUM, DUMMY_PLAYLIST, Playlists, PlaylistTracks, Tracks, Users} from '../schema';
 import {AdminServiceService} from '../admin-service.service';
+import {GridOptionsService} from '@ag-grid-community/core';
+import {NONE_TYPE} from '@angular/compiler';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-admin-tables-page',
   imports: [
     MatButton,
-    AgGridAngular
+    AgGridAngular,
+    NgIf
   ],
   templateUrl: './admin-tables-page.component.html',
   standalone: true,
@@ -19,10 +23,11 @@ import {AdminServiceService} from '../admin-service.service';
 export class AdminTablesPageComponent {
 
   loaded :boolean = false;
+  active : "NONE"|"ALBUMS"|"PLAYLISTS" = "PLAYLISTS";
 
   colDefs: ColDef[] = [];
 
-  rowData : Albums[] | PlaylistTracks[] = [];
+  rowData : Albums[] | Playlists[] = [];
 
   private readonly adminService= inject(AdminServiceService);
 
@@ -36,6 +41,10 @@ export class AdminTablesPageComponent {
 
   onLoadAlbumsClick() {
 
+    this.loaded = false;
+
+    this.active = "ALBUMS";
+
     this.adminService.getAlbums().subscribe({
       next: data => {
         this.rowData = data;
@@ -45,26 +54,38 @@ export class AdminTablesPageComponent {
       }
     });
 
-    let temp : Albums = {
-      ALBUM_ID : '',
-      NAME: '',
-      ARTIST_ID : '',
-      RELEASE_DATE: new Date()
-    };
+    this.colDefs = []
 
-    for (const key in temp) {
-      this.colDefs.push({field : String(key) });
-      console.log(this.colDefs);
+    for (const key in DUMMY_ALBUM) {
+      this.colDefs.push({ field : key });
     }
 
-    gridOptions.api.setGridOption('columnDefs', colDefs);
+    this.loaded = true;
 
-    // add the data to the grid
-    gridOptions.api.setRowData('rowData', data);
   }
 
   onLoadPlaylistsClick() {
 
+    this.loaded = false;
+
+    this.active = "PLAYLISTS";
+
+    this.adminService.getPlaylists().subscribe({
+      next: data => {
+        this.rowData = data;
+        console.log('GET /admin/albums', data);
+      }, error:err=> {
+        console.log("Failed to load User List");
+      }
+    });
+
+    this.colDefs = []
+
+    for (const key in DUMMY_PLAYLIST) {
+      this.colDefs.push({ field : key });
+    }
+
+    this.loaded = true;
   }
 
   onLoadForumsClick() {
