@@ -9,6 +9,7 @@ import type { ColDef } from 'ag-grid-community'; // Column Definition Type Inter
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import {AdminUserPageButtonsComponent} from '../admin-user-page-buttons/admin-user-page-buttons.component';
 import {Users} from '../schema';
+import {ITextFilterParams} from '@ag-grid-community/core';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -42,7 +43,11 @@ export class AdminUserPageComponent implements OnInit{
   // Column Definitions: Defines the columns to be displayed.
   colDefs: ColDef[] = [
     { field: "USER_ID" },
-    { field: "USERNAME" },
+    {
+      field: "USERNAME",
+      filter: "agTextColumnFilter",
+      filterParams: countryFilterParams
+    },
     { field: "FULL_NAME" },
     { field: "EMAIL" },
     {
@@ -76,4 +81,18 @@ export class AdminUserPageComponent implements OnInit{
   {
     this.getUsers();
   }
+}
+
+// Filters and searches tutorial : https://www.ag-grid.com/angular-data-grid/filter-text/#text-filter-options
+
+const containsFilterParams: ITextFilterParams = {
+  filterOptions: ["contains"],
+  textMatcher: ({ value, filterText }) => {
+    const literalMatch = contains(value, filterText || "");
+    return !!literalMatch;
+  }
+};
+
+function contains(target: string, lookingFor: string) {
+  return target && target.indexOf(lookingFor) >= 0;
 }

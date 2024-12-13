@@ -5,11 +5,11 @@
   <button mat-raised-button class="col-2" disabled="false" (click)="onReloadClick()">Reload</button>
 
   <div *ngIf="!rowData" class="col">
-    <a class="alert alert-danger">Error while loading the list</a>
+    <label class="alert alert-danger">Error while loading the list</label>
   </div>
 
   <div *ngIf="rowData" class="col">
-    <a class="alert alert-success">User list loaded successfully !</a>
+    <label class="alert alert-success">User list loaded successfully !</label>
   </div>
 </div>
 

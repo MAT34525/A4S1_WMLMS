@@ -20,12 +20,17 @@ import {AdminServiceService} from '../admin-service.service';
 export class AdminUserPageButtonsComponent implements ICellRendererAngularComp {
   public user_id: number = -1;
 
+  params : ICellRendererParams | undefined;
+
   private readonly adminService = inject(AdminServiceService);
 
   constructor(private route : Router) {}
+
   // gets called once before the renderer is used
   agInit(params: ICellRendererParams): void {
+    this.params = params;
     this.user_id = params.data.USER_ID;
+    params.setTooltip
   }
 
   refresh(params: ICellRendererParams) {

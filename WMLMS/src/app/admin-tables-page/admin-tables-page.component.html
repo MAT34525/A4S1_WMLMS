@@ -1,25 +1,33 @@
+<br/>
 
-<span class="row" style="padding: 4px; padding-left: 20px; padding-right: 20px">
+<span class="row" style="width: 98%; margin-left: 1%; margin-right: 1%">
 
-  <button mat-raised-button color="primary" class="col-sm-1" (click)="onLoadAlbumsClick()">Albums</button>
-
-  <span style="display:inline-block; width: 2px;"></span>
-
-  <button mat-raised-button color="primary" class="col-sm-1" (click)="onLoadPlaylistsClick()">Playlist</button>
+  <button mat-raised-button color="primary" style="flex: 1" (click)="onLoadAlbumsClick()">Albums</button>
 
   <span style="display:inline-block; width: 2px;"></span>
 
-  <button mat-raised-button color="primary" class="col-sm-2" (click)="onLoadForumsRepliesClick()">Forums Replies</button>
+  <button mat-raised-button color="primary"  style="flex: 1" (click)="onLoadPlaylistsClick()">Playlist</button>
 
   <span style="display:inline-block; width: 2px;"></span>
 
-  <button mat-raised-button color="primary" class="col-sm-1" (click)="onLoadForumsPostsClick()">Forums Posts</button>
+  <button mat-raised-button color="primary"  style="flex: 1" (click)="onLoadForumsRepliesClick()">Forums Replies</button>
+
+  <span style="display:inline-block; width: 2px;"></span>
+
+  <button mat-raised-button color="primary"  style="flex: 1" (click)="onLoadForumsPostsClick()">Forums Posts</button>
 
 </span>
 
+<br/>
 
+<div *ngIf="!loaded" class="col" >
+  <label  class="alert alert-danger" style="width: 98%; margin-left: 1%; margin-right: 1%">No table loaded, please select one above !</label>
+</div>
+
+
+<br/>
 <ag-grid-angular *ngIf="loaded"
-  style="width: 100%; height: 500px; padding: 50px"
+  style="width: 98%; height: 500px; margin-left: 1%; margin-right: 1%"
   class="ag-theme-balham"
   [rowData]="rowData"
   [columnDefs]="colDefs"
