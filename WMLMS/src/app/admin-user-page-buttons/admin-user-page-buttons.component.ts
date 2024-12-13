@@ -30,7 +30,6 @@ export class AdminUserPageButtonsComponent implements ICellRendererAngularComp {
   agInit(params: ICellRendererParams): void {
     this.params = params;
     this.user_id = params.data.USER_ID;
-    params.setTooltip
   }
 
   refresh(params: ICellRendererParams) {

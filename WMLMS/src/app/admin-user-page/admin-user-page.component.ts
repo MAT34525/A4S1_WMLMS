@@ -46,13 +46,14 @@ export class AdminUserPageComponent implements OnInit{
     {
       field: "USERNAME",
       filter: "agTextColumnFilter",
-      filterParams: countryFilterParams
+      filterParams: containsFilterParams
     },
     { field: "FULL_NAME" },
     { field: "EMAIL" },
     {
       headerName: "ACTIONS",
       field: "USER_ID",
+      width: 250,
       cellRenderer: AdminUserPageButtonsComponent,
     },
   ];

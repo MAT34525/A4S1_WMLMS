@@ -5,53 +5,66 @@ import oracledb from 'oracledb';
 
 import {Database} from './database.js';
 
+// Swagger
+
+import swaggerJsdoc from 'swagger-jsdoc'; // * as swaggerJsdoc from 'swagger-jsdoc'
+import swaggerUi from 'swagger-ui-express';
+
+const jsDocOptions = {
+    definition: {
+        openapi: '3.0.0', // Specify the OpenAPI version
+        info: {
+            title: 'Express API with Swagger',
+            version: '1.0.0',
+            description: 'Documentation for Express API with Swagger',
+        },
+        components: {
+            schemas: {
+                Todo: {
+                    type: 'object',
+                    properties: {
+                        id: {
+                            type: 'integer',
+                        },
+                        title: {
+                            type: 'string',
+                        },
+                        description: {
+                            type: 'string',
+                        },
+                    },
+                },
+                TodoNoId: {
+                    type: 'object',
+                    properties: {
+                        title: {
+                            type: 'string',
+                        },
+                        description: {
+                            type: 'string',
+                        },
+                    },
+                },
+                // Define other schemas as needed
+            },
+        },
+    },
+    apis: ['app.js', 'admin_database.js', database.js],
+};
+
+const apiDoc = swaggerJsdoc(jsDocOptions);
+console.log('api-doc json:', JSON.stringify(apiDoc, null,2));
+
 const app = express();
+app.use(express.json());
+
+app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(apiDoc));
 
 // Connexion BDD
-
 
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 
 const mypw = 'admin' // set mypw to the hr schema password
-
-/* Replace oracle db by Sequelize for stucture and model managment
-let db = new Database();
-const sequelize = new Sequelize('wmlmspdb', 'admin', mypw, {
-    host: 'localhost',
-    port: 1521,
-    dialect: 'oracle'
-});
-
-async function RunSequelize()
-{
-    try {
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
-}
-
-RunSequelize();
-*/
-
-async function run() {
-
-    const connection = await oracledb.getConnection ({
-        user          : "admin",
-        password      : mypw,
-        connectString : "localhost:1521/wmlmspdb"
-    });
-
-    const result = await connection.execute(
-        `SELECT * FROM users`
-    );
-
-    console.log(result.rows);
-    await connection.close();
-}
-
-// run();
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -63,7 +76,6 @@ let databaseConnexions = [];
 // databaseConnexions.push(new Database(app, 'app', 'apppassword'))
 
 databaseConnexions.push(new Database(app, 'admin', 'admin'))
-
 
 // Lier des fonctions de la bdd aux app
 // app.get("/yeet", (req, res) => database.test_function(req, res))

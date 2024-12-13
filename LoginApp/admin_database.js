@@ -20,6 +20,7 @@ export class AdminDatabase {
         // User CRUD
         this.#app.get('/s/admin/users/:id', (req, res) => this.getUser(req, res));
         this.#app.get('/s/admin/users', (req, res) => this.getUserList(req, res));
+        this.#app.put('/s/admin/users/:id', (req, res) => this.putUser(req, res));
 
         // Table visualisation
         this.#app.get('/s/admin/albums', (req, res) => this.getAlbumList(req, res));
@@ -27,9 +28,30 @@ export class AdminDatabase {
         this.#app.get('/s/admin/forums-replies', (req, res) => this.getForumRepliesList(req, res));
         this.#app.get('/s/admin/forums-posts', (req, res) => this.getForumPostsList(req, res));
 
+
     }
 
     // Standard function to get the list of any tables
+    /**
+     * @openapi
+     * /api/lessons/{id}:
+     *   get:
+     *     description: get a todo by its id
+     *     parameters:
+     *         - name: id
+     *           in: path
+     *           required: true
+     *           description: The ID of the Todo to get
+     *           schema:
+     *             type: number
+     *     responses:
+     *       200:
+     *         description: the todo
+     *         schema:
+     *           $ref: '#/components/schemas/Todo'
+     *       404:
+     *         description: Todo not found
+     */
     async getList(tableName, req, res) {
 
         // Convert table name in uppercase to standardize the input
@@ -92,6 +114,9 @@ export class AdminDatabase {
         this.getList('Forum_Posts', req, res);
     }
 
+    // Admin Get Tracks List function
+    // !! SELECT * FROM TRACKS not working ??
+
     // GET BY ID ==================================================================================
 
     // Admin Get USER ID function
@@ -116,8 +141,49 @@ export class AdminDatabase {
         }
     }
 
-    // Admin Get Tracks List function
-    // !! SELECT * FROM TRACKS not working ??
+    // PUT BY ID ==================================================================================
 
+    async putUser(req, res) {
+
+        let item = req.body;
+
+        const id = item.id;
+        const idx = lessonPackages.findIndex((x) => x.id === id);
+
+        if (idx !== -1) {
+
+            const found = lessonPackages[idx];
+
+            if (item.title) {
+                found.title = item.title;
+            }
+            if (item.description) {
+                found.description = item.description;
+            }
+            if (item.category) {
+                found.category = item.category;
+            }
+            if (item.category) {
+                found.category= item.category;
+            }
+            if (item.level) {
+                found.level = item.level;
+            }
+            if (item.author) {
+                found.author = item.author;
+            }
+            if (item.lastModified) {
+                found.lastModified = item.lastModified;
+            }
+            if (item.tags) {
+                found.tags= item.tags;
+            }
+
+            res.send(found).status(200);
+
+        } else {
+            res.status(404).send('User item not found by id:' + id);
+        }
+    }
 
 }
