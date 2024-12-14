@@ -330,7 +330,7 @@ VALUES ('Album Five', TO_DATE('2023-05-10', 'YYYY-MM-DD'),
 
 -- Création des utilisateurs de base de données, et attribution de privilèges
 
--- Pour l'utilisateur app
+-- Pour l'utilisateur app, celui qui gère les opérations de l'application
 CREATE USER app IDENTIFIED BY apppassword;
 GRANT CONNECT, RESOURCE TO app;
 -- RESOURCE permet à l'utilisateur de créer des objets dans sa propre schéma (tables, vues, procédures, etc)
@@ -406,26 +406,38 @@ JOIN tracks t ON uft.track_id = t.track_id;
 -- Privilèges d'accès aux vues pour l'utilisateur app
 GRANT SELECT ON app_view_tracks TO app;
 GRANT SELECT ON app_view_playlists TO app;
+GRANT SELECT ON app_view_user_playlists to app;
 
--- Privilèges d'accès aux vues pour l'administrateur admin
+-- Privilèges d'accès aux vues pour l'admin
 GRANT SELECT ON admin_view_users TO admin;
 GRANT SELECT ON admin_view_artists TO admin;
 GRANT SELECT ON admin_view_tracks TO admin;
+GRANT SELECT ON app_view_user_playlists to admin;
 
--- Vérification des vues et des privilèges
--- Lister toutes les vues disponibles :
-SELECT view_name FROM user_views;
+--Privilèges d'accès aux vues pour le regular user
+GRANT SELECT ON app_view_tracks TO regular_user;
+GRANT SELECT ON app_view_playlists TO regular_user;
+GRANT SELECT ON app_view_user_playlists TO regular_user;
+
+-- Pour lister toutes les vues disponibles :
+-- SELECT view_name FROM user_views;
 
 -- Hachage pour les mots de passe
+-- pour stocker le hash du mot de passe qui sera généré par la fonction custom_hash
 ALTER TABLE users MODIFY password VARCHAR2(256); -- hash SHA-256
 
+-- puis modification de la table users pour inclure un champ de sel 
+-- (salage = méthode pour sécuriser + les infos hachées avec une donnée supplémentaire, pour rendre + complexe)
+ALTER TABLE users ADD (salt VARCHAR2(64));
+
+-- et voir Chapter 2 bis à la fin
 
 
 -- CHAPTER 3 : Queries and optimization
 
 -- 3.1. Requêtes SQL : 
 
--- jJOIN entre plusieurs tables pour afficher les noms des pistes, artistes, albums et playlists associés pour les pistes de plus de 5 min
+-- JOIN entre plusieurs tables pour afficher les noms des pistes, artistes, albums et playlists associés pour les pistes de plus de 5 min
 EXPLAIN PLAN FOR
 SELECT t.name AS track_name, a.name AS artist_name, al.name AS album_name, p.name AS playlist_name
 FROM tracks t
@@ -824,6 +836,56 @@ VALUES ('82fc61a1-8bb3-43f2-b046-482284f19068', '06175e5f-0e1a-4d3c-a052-a0bb382
 INSERT INTO forum_replies (post_id, user_id, content)
 VALUES ('82fc61a1-8bb3-43f2-b046-482284f19068', '0ff74e26-86a0-48ed-a19f-202679007bf3', 'Aporia');
 
+
+
+-- Chapter 2 bis (complétion du point 2.3): 
+-- Fonction custom_hash en combinaison avec le sel pour stocker les mots de passe
+CREATE OR REPLACE FUNCTION custom_hash(p_input VARCHAR2)
+RETURN VARCHAR2
+IS
+    v_hash NUMBER := 0;
+BEGIN
+    FOR i IN 1..LENGTH(p_input) LOOP
+        v_hash := MOD(v_hash * 31 + ASCII(SUBSTR(p_input, i, 1)), 1000000007);
+    END LOOP;
+    RETURN TO_CHAR(v_hash, 'FM0000000000');
+END;
+/
+
+-- Fonction de hachage 
+CREATE OR REPLACE FUNCTION hash_password(p_password VARCHAR2, p_salt VARCHAR2)
+RETURN VARCHAR2
+IS
+BEGIN
+    RETURN custom_hash(p_password || p_salt);
+END;
+/
+
+-- Modification du trigger d'insertion pour les users pour utiliser cette fonction de hachage
+CREATE OR REPLACE TRIGGER trg_users_before_insert
+BEFORE INSERT ON users
+FOR EACH ROW
+BEGIN
+    IF :NEW.user_id IS NULL THEN
+        :NEW.user_id := generate_uuid();
+    END IF;
+    :NEW.salt := DBMS_RANDOM.STRING('X', 64);
+    :NEW.password := hash_password(:NEW.password, :NEW.salt);
+END;
+/
+
+-- Création d'un trigger similaire pour les mises à jour de mot de passe
+CREATE OR REPLACE TRIGGER trg_users_before_update
+BEFORE UPDATE OF password ON users
+FOR EACH ROW
+BEGIN
+    :NEW.salt := DBMS_RANDOM.STRING('X', 64);
+    :NEW.password := hash_password(:NEW.password, :NEW.salt);
+END;
+/
+
+-- Mise à jour des mots de passe existants
+UPDATE users SET password = hash_password(password, DBMS_RANDOM.STRING('X', 64));
 
 
 
