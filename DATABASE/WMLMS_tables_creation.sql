@@ -663,6 +663,11 @@ BEGIN
 END;
 /
 
+
+
+
+-- Plus de fonctionnalités/ajouts
+
 -- Création de la table pour les commentaires (pour stocker les commentaires des utilisateurs sur les tracks)
 CREATE TABLE comments (
     comment_id VARCHAR2(36) PRIMARY KEY,
@@ -888,6 +893,146 @@ END;
 UPDATE users SET password = hash_password(password, DBMS_RANDOM.STRING('X', 64));
 
 
+-- Pour s'assurer que la playlist des tracks favoris de chaque utilisateur ne soit pas supprimable : 
+-- Modification de la table playlists pour inclure un indicateur de playlist favorite
+ALTER TABLE playlists ADD (is_favorite CHAR(1) DEFAULT 'N');
+
+-- trigger pour empêcher la suppression des playlists favorites
+CREATE OR REPLACE TRIGGER trg_prevent_favorite_playlist_delete
+BEFORE DELETE ON playlists
+FOR EACH ROW
+BEGIN
+    IF :OLD.is_favorite = 'Y' THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Cannot delete favorite playlist');
+    END IF;
+END;
+/
+
+-- Modification du trigger trg_users_id pour créer automatiquement la playlist favorite lors de la création d'un user
+CREATE OR REPLACE TRIGGER trg_users_id
+BEFORE INSERT ON users
+FOR EACH ROW
+BEGIN
+    IF :NEW.user_id IS NULL THEN
+        :NEW.user_id := generate_uuid();
+    END IF;
+    :NEW.salt := DBMS_RANDOM.STRING('X', 64);
+    :NEW.password := hash_password(:NEW.password, :NEW.salt);
+END;
+/
+
+CREATE OR REPLACE TRIGGER trg_users_after_insert
+AFTER INSERT ON users
+FOR EACH ROW
+BEGIN
+    INSERT INTO playlists (user_id, name, description, is_public, is_favorite)
+    VALUES (:NEW.user_id, 'Favorites', 'Your favorite tracks', 'N', 'Y');
+END;
+/
+
+
+-- Ajout d'une colonne dans la table users pour vérifier si le compte est vérifié (ou en cours/en demande) avant de devenir un compte artist 
+ALTER TABLE users ADD (account_status VARCHAR2(20) DEFAULT 'UNVERIFIED');
+
+/*
+Les valeurs possibles pour account_status pourraient être :
+'UNVERIFIED' : compte non vérifié
+'PENDING' : vérification en cours
+'VERIFIED' : compte vérifié
+'ARTIST' : compte artiste vérifié
+
+-- Exemples des commandes : 
+-- Pour marquer un compte comme non vérifié :
+UPDATE users
+SET account_status = 'UNVERIFIED'
+WHERE user_id = '[ID_DE_L_UTILISATEUR]';
+
+-- Pour marquer un compte comme en cours de vérification :
+UPDATE users
+SET account_status = 'PENDING'
+WHERE user_id = '[ID_DE_L_UTILISATEUR]';
+
+-- Pour marquer un compte comme vérifié :
+UPDATE users
+SET account_status = 'VERIFIED'
+WHERE user_id = '[ID_DE_L_UTILISATEUR]';
+
+-- Pour marquer un compte comme artiste vérifié :
+UPDATE users
+SET account_status = 'ARTIST'
+WHERE user_id = '[ID_DE_L_UTILISATEUR]';
+*/
+
+
+-- Système de logs pour les activités des utilisateurs et les événements système
+CREATE TABLE logs (
+    log_id VARCHAR2(36) PRIMARY KEY,
+    user_id VARCHAR2(36),
+    event_type VARCHAR2(50) NOT NULL,
+    event_description VARCHAR2(500),
+    timestamp TIMESTAMP DEFAULT SYSTIMESTAMP,
+    ip_address VARCHAR2(45),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+CREATE OR REPLACE TRIGGER trg_logs_id
+BEFORE INSERT ON logs
+FOR EACH ROW
+BEGIN
+    IF :NEW.log_id IS NULL THEN
+        :NEW.log_id := generate_uuid();
+    END IF;
+END;
+/
+
+-- Procédure pour insérer les logs
+CREATE OR REPLACE PROCEDURE add_log(
+    p_user_id VARCHAR2,
+    p_event_type VARCHAR2,
+    p_event_description VARCHAR2,
+    p_ip_address VARCHAR2
+)
+IS
+BEGIN
+    INSERT INTO logs (user_id, event_type, event_description, ip_address)
+    VALUES (p_user_id, p_event_type, p_event_description, p_ip_address);
+END;
+/
+
+-- Modification des triggers existants pour inclure des logs
+CREATE OR REPLACE TRIGGER trg_users_id
+BEFORE INSERT ON users
+FOR EACH ROW
+BEGIN
+    IF :NEW.user_id IS NULL THEN
+        :NEW.user_id := generate_uuid();
+    END IF;
+    :NEW.salt := DBMS_RANDOM.STRING('X', 64);
+    :NEW.password := hash_password(:NEW.password, :NEW.salt);
+END;
+/
+
+CREATE OR REPLACE TRIGGER trg_users_after_insert
+AFTER INSERT ON users
+FOR EACH ROW
+BEGIN
+    add_log(:NEW.user_id, 'USER_CREATED', 'New user created: ' || :NEW.username, NULL);
+END;
+/
+
+CREATE OR REPLACE TRIGGER trg_update_users_updated_at
+BEFORE UPDATE ON users
+FOR EACH ROW
+BEGIN
+    :NEW.updated_at := SYSDATE;
+    add_log(:NEW.user_id, 'USER_UPDATED', 'User updated: ' || :NEW.username, NULL);
+END;
+/
+
+-- Ajout d'un user
+INSERT INTO users (user_id, username, password, email, full_name)
+VALUES (generate_uuid(), 'Thrind', 'userpassword99', 'mailuser@exemple.com', 'Thrindrun');
+-- et après avoir fait SELECT * FROM logs, on a bien le log de la création du compte
 
 
 
