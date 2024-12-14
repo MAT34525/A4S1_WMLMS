@@ -5,12 +5,14 @@ export class AdminDatabase {
 
     #app;
     #connection;
+    #schema;
 
-    constructor(app, connection) {
+    constructor(app, connection, schema) {
 
         // Initiate admin CRUD commands
         this.#app = app;
         this.#connection = connection;
+        this.#schema = schema;
 
         this.initAdminCRUD();
     }
@@ -57,8 +59,23 @@ export class AdminDatabase {
          */
         this.#app.get('/s/admin/users', (req, res) => this.getUserList(req, res));
 
-
-
+        /**
+         * @openapi
+         * /s/admin/users/{id}:
+         *   put:
+         *     description: Update an existing user
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             $ref: '#/components/schemas/Users'
+         *     responses:
+         *       200:
+         *         description: An array of Users
+         *         schema:
+         *           $ref: '#/components/schemas/Users'
+         */
         this.#app.put('/s/admin/users/:id', (req, res) => this.putUser(req, res));
 
         // Table visualisation
@@ -137,6 +154,9 @@ export class AdminDatabase {
     // Standard function to get the list of any tables
     async getList(tableName, req, res) {
 
+        // Display the command name
+        console.log("Admin GET " + tableName + " List");
+
         // Convert table name in uppercase to standardize the input
         tableName = String(tableName).toUpperCase();
 
@@ -145,9 +165,6 @@ export class AdminDatabase {
             res.send("Bad request !").status(400);
             return;
         }
-
-        // Display the command name
-        console.log("Admin " + tableName + " List");
 
         // Try to execute the query and handle the Table Not Found error.
         try {
@@ -204,7 +221,8 @@ export class AdminDatabase {
 
     // Admin Get USER ID function
     async getUser(req, res) {
-        console.log("Admin User ID");
+        // Display the command name
+        console.log("Admin GET User By ID");
 
         const { id } = req.params;
 
@@ -228,45 +246,67 @@ export class AdminDatabase {
 
     async putUser(req, res) {
 
+        // Display the command name
+        console.log("Admin PUT User By ID");
+
         let item = req.body;
 
-        const id = item.id;
-        const idx = lessonPackages.findIndex((x) => x.id === id);
+        console.log(item);
 
-        if (idx !== -1) {
+        // We check that the user exists
+        const { id } = req.params;
 
-            const found = lessonPackages[idx];
+        // We get look for the user id in the table
+        const userLookup = await this.#connection.query('SELECT USER_ID FROM USERS WHERE user_id=:id',
+        {
+            bind : [id]
+        });
 
-            if (item.title) {
-                found.title = item.title;
-            }
-            if (item.description) {
-                found.description = item.description;
-            }
-            if (item.category) {
-                found.category = item.category;
-            }
-            if (item.category) {
-                found.category= item.category;
-            }
-            if (item.level) {
-                found.level = item.level;
-            }
-            if (item.author) {
-                found.author = item.author;
-            }
-            if (item.lastModified) {
-                found.lastModified = item.lastModified;
-            }
-            if (item.tags) {
-                found.tags= item.tags;
-            }
-
-            res.send(found).status(200);
-
-        } else {
-            res.status(404).send('User item not found by id:' + id);
+        if(userLookup[0].length === 0)
+        {
+            console.log("[-] Not found !")
+            res.send("User not found !").status(404);
+            return;
         }
+
+        // We modify the user depending on the existance of the given parameters
+        if(item["USERNAME"] !== undefined)
+        {
+            console.log("[+] USERNAME Modified !")
+
+            let username = item["USERNAME"]
+            await this.#connection.query('UPDATE USERS SET USERNAME=:username WHERE USER_ID=:id',
+            {
+                bind : [username, id]
+            });
+        }
+
+        if(item["EMAIL"] !== undefined && item["EMAIL"] !== '')
+        {
+            console.log("[+] EMAIL Modified !")
+
+            let email = item["EMAIL"]
+            await this.#connection.query('UPDATE USERS SET EMAIL=:email WHERE USER_ID=:id',
+            {
+                bind : [email, id]
+            });
+        }
+
+        if(item["FULL_NAME"] !== undefined && item["FULL_NAME"] !== '')
+        {
+            console.log("[+] FULL_NAME Modified !")
+
+            let fullName = item["FULL_NAME"]
+            await this.#connection.query('UPDATE USERS SET FULL_NAME=:fullName WHERE USER_ID=:id',
+            {
+                bind : [fullName, id]
+            });
+        }
+
+        res.json({}).status(200);
+        
     }
+
+    // Tools ======================================================================================
 
 }

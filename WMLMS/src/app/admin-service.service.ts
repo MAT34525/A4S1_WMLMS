@@ -52,5 +52,14 @@ export class AdminServiceService {
     console.log("Admin Service Get : Forums Posts  List");
     return this.httpClient.get<ForumPosts[]>(`/s/admin/forums-posts`);
   }
+
+  // PUT ==========================================================================================
+
+  // Put request for a specific Users using ID and body
+  putUser(users_id : string, user: Users) : Observable<Users>
+  {
+    console.log("Admin Service Put : User By ID");
+    return this.httpClient.put<Users>(`/s/admin/users/${users_id}`, user);
+  }
 }
 

@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 import { AdminDatabase } from './admin_database.js';
-import { Schema } from './schema.js'
+import { Schema } from './database_models.js'
 
 export class Database {
 
@@ -60,7 +60,7 @@ export class Database {
                 console.log('Welcome Administrator !');
 
                 // Initialise the CRUD commands and links for the admin
-                this.#adminDatabase = new AdminDatabase(this.#app, this.#connection);
+                this.#adminDatabase = new AdminDatabase(this.#app, this.#connection, this.#schema);
                 this.UserInitCRUD();
             }
             else

@@ -4,45 +4,58 @@
   <a class="alert alert-danger">User {{user_id}} does not exist !</a>
 </div>
 
-<div *ngIf="userItem" class="container">
+<div *ngIf="userItem" class="container" [formGroup]="userForm">
   <h1>User view for user : {{user_id}}</h1>
 
+  <br/>
 
   <div class="row">
-    <div class="col-3" style="font-weight: bold">
+    <div class="col-md-2" style="font-weight: bold">
       USER_ID
     </div>
-    <input id="USER_ID" type="text" class="col-md-8" [(ngModel)]="userItem.USER_ID">
+    <input id="USER_ID" type="text" class="col-md-10" [(ngModel)]="userItem.USER_ID" disabled="true" [value]="user_id">
   </div>
 
-  <div class="row">
-    <div class="col-3" style="font-weight: bold">
-      USERNAME
-    </div>
-    <input *ngIf="userItem.USERNAME" id="USERNAME" type="text" class="col-md-8" [(ngModel)]="userItem.USERNAME">
-
+  <div class="row mt-2">
+    <label class="col-md-2" for="USERNAME" ngbTooltip="Enter USERNAME" placement="top" [class]="userForm.get('USERNAME')?.invalid ? 'text-danger' : ''" >USERNAME*</label>
+    <input id="USERNAME" type="text" class="col-md-10" placeholder="Enter username" formControlName='USERNAME' forms>
   </div>
 
-  <div class="row">
-
-    <div class="col-3" style="font-weight: bold">
-      EMAIL
-    </div>
-    <input *ngIf="userItem.EMAIL" id="EMAIL" type="text" class="col-md-8" [(ngModel)]="userItem.EMAIL">
+  <div class="row mt-2">
+    <label class="col-md-2" for="EMAIL" ngbTooltip="Enter EMAIL" placement="top" [class]="userForm.get('EMAIL')?.invalid ? 'text-danger' : ''">EMAIL</label>
+    <input id="EMAIL" type="text" class="col-md-10" placeholder="Enter email" formControlName='EMAIL'>
   </div>
 
-  <div class="row">
-
-    <div class="col-3" style="font-weight: bold">
-      FULL_NAME
-    </div>
-    <input *ngIf="userItem.FULL_NAME" id="FULL_NAME" type="text" class="col-md-8" [(ngModel)]="userItem.FULL_NAME">
-
+  <div class="row mt-2">
+    <label class="col-md-2" for="FULL_NAME" ngbTooltip="Enter FULL_NAME" placement="top" [class]="userForm.get('FULL_NAME')?.invalid ? 'text-danger' : ''">FULL_NAME</label>
+    <input id="FULL_NAME" type="text" class="col-md-10" placeholder="Enter full name" formControlName='FULL_NAME'>
   </div>
+
 
 </div>
 
+<br/>
 
+
+<button (click)="onAdd()"
+        [disabled]="!userForm.valid"
+        mat-raised-button color="primary"
+        routerLink="/a/users"
+        style="width: 90%; margin-right: 5%; margin-left: 5%">
+  Edit
+</button>
+
+<span *ngIf="userForm.invalid"
+      class="text-danger"
+      style="display: flex;
+       justify-content: center">
+  Please fill out all required fields.
+
+</span>
+
+
+<br/>
 <br/>
 
 <button mat-raised-button color="primary" routerLink="/a/users">< Back</button>
+
