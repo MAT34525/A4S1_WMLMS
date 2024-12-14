@@ -179,3 +179,24 @@ LEFT JOIN forum_replies r ON p.post_id = r.post_id
 LEFT JOIN users u ON r.user_id = u.user_id;
 
 
+-- Pour marquer un compte comme non vérifié :
+UPDATE users
+SET account_status = 'UNVERIFIED'
+WHERE user_id = '[ID_DE_L_UTILISATEUR]';
+
+-- Pour marquer un compte comme en cours de vérification :
+UPDATE users
+SET account_status = 'PENDING'
+WHERE user_id = '[ID_DE_L_UTILISATEUR]';
+
+-- Pour marquer un compte comme vérifié :
+UPDATE users
+SET account_status = 'VERIFIED'
+WHERE user_id = '[ID_DE_L_UTILISATEUR]';
+
+-- Pour marquer un compte comme artiste vérifié :
+UPDATE users
+SET account_status = 'ARTIST'
+WHERE user_id = '[ID_DE_L_UTILISATEUR]';
+
+
