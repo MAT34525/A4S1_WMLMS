@@ -18,40 +18,123 @@ export class AdminDatabase {
     initAdminCRUD()
     {
         // User CRUD
+        /**
+         * @openapi
+         * /s/admin/users/{id}:
+         *   get:
+         *     description: Get an user by it's UUID
+         *     parameters:
+         *      - name: id
+         *        in: path
+         *        required: true
+         *        description: The UUID of the user
+         *        schema:
+         *            type: string
+         *     responses:
+         *       200:
+         *         description: The user matching the UUID
+         *         schema:
+         *           $ref: '#/components/schemas/Users'
+         *       404:
+         *         description: User not found
+         */
         this.#app.get('/s/admin/users/:id', (req, res) => this.getUser(req, res));
+
+        /**
+         * @openapi
+         * /s/admin/users:
+         *   get:
+         *     description: Get all users
+         *     responses:
+         *       200:
+         *         description: All users in the DB
+         *         schema:
+         *           $ref: '#/components/schemas/Users'
+         *       404:
+         *         description: Table not found !
+         *       400 :
+         *         description : Bad request !
+         */
         this.#app.get('/s/admin/users', (req, res) => this.getUserList(req, res));
+
+
+
         this.#app.put('/s/admin/users/:id', (req, res) => this.putUser(req, res));
 
         // Table visualisation
+        /**
+         * @openapi
+         * /s/admin/albums:
+         *   get:
+         *     description: Get all albums
+         *     responses:
+         *       200:
+         *         description: All albums in the DB
+         *         schema:
+         *           $ref: '#/components/schemas/Albums'
+         *       404:
+         *         description: Table not found !
+         *       400 :
+         *         description : Bad request !
+         */
         this.#app.get('/s/admin/albums', (req, res) => this.getAlbumList(req, res));
+
+        /**
+         * @openapi
+         * /s/admin/playlists:
+         *   get:
+         *     description: Get all playlists
+         *     responses:
+         *       200:
+         *         description: All playlists in the DB
+         *         schema:
+         *           $ref: '#/components/schemas/Playlists'
+         *       404:
+         *         description: Table not found !
+         *       400 :
+         *         description : Bad request !
+         */
         this.#app.get('/s/admin/playlists', (req, res) => this.getPlaylistList(req, res));
+
+        /**
+         * @openapi
+         * /s/admin/forums-replies:
+         *   get:
+         *     description: Get all forum replies
+         *     responses:
+         *       200:
+         *         description: All forums replies in the DB
+         *         schema:
+         *           $ref: '#/components/schemas/ForumReplies'
+         *       404:
+         *         description: Table not found !
+         *       400 :
+         *         description : Bad request !
+         */
         this.#app.get('/s/admin/forums-replies', (req, res) => this.getForumRepliesList(req, res));
+
+        /**
+         * @openapi
+         * /s/admin/forums-posts:
+         *   get:
+         *     description: Get all forum posts
+         *     responses:
+         *       200:
+         *         description: All forums posts in the DB
+         *         content:
+         *             schema:
+         *             $ref: '#/components/schemas/ForumPosts'
+         *       404:
+         *         description: Table not found !
+         *       400 :
+         *         description : Bad request !
+         */
         this.#app.get('/s/admin/forums-posts', (req, res) => this.getForumPostsList(req, res));
 
 
     }
 
     // Standard function to get the list of any tables
-    /**
-     * @openapi
-     * /api/lessons/{id}:
-     *   get:
-     *     description: get a todo by its id
-     *     parameters:
-     *         - name: id
-     *           in: path
-     *           required: true
-     *           description: The ID of the Todo to get
-     *           schema:
-     *             type: number
-     *     responses:
-     *       200:
-     *         description: the todo
-     *         schema:
-     *           $ref: '#/components/schemas/Todo'
-     *       404:
-     *         description: Todo not found
-     */
     async getList(tableName, req, res) {
 
         // Convert table name in uppercase to standardize the input

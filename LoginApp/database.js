@@ -28,7 +28,8 @@ export class Database {
         // Test the connection to the databse
         this.TestConnection(username);
 
-        // this.#schema = new Schema(this.#connection);
+        // Define link schema for the current connection
+        this.#schema = new Schema(this.#connection);
     }
 
     UserInitCRUD()

@@ -20,36 +20,166 @@ const jsDocOptions = {
         },
         components: {
             schemas: {
-                Todo: {
-                    type: 'object',
+                Artists: {
+                    type: "object",
                     properties: {
-                        id: {
-                            type: 'integer',
-                        },
-                        title: {
-                            type: 'string',
-                        },
-                        description: {
-                            type: 'string',
-                        },
+                        ARTIST_ID: { type: "string" },
+                        NAME: { type: "string" },
+                        FOLLOWERS: { type: "integer", nullable: true },
+                        GENRES: { type: "string", nullable: true },
+                        POPULARITY: { type: "integer", nullable: true },
+                        CREATED_AT: { type: "string", format: "date-time", nullable: true },
+                        UPDATED_AT: { type: "string", format: "date-time", nullable: true }
                     },
+                    required: ["ARTIST_ID", "NAME"]
                 },
-                TodoNoId: {
-                    type: 'object',
+                Albums: {
+                    type: "object",
                     properties: {
-                        title: {
-                            type: 'string',
-                        },
-                        description: {
-                            type: 'string',
-                        },
+                        ALBUM_ID: { type: "string" },
+                        NAME: { type: "string" },
+                        RELEASE_DATE: { type: "string", format: "date-time", nullable: true },
+                        ARTIST_ID: { type: "string", nullable: true }
                     },
+                    required: ["ALBUM_ID", "NAME"]
                 },
+                Tracks: {
+                    type: "object",
+                    properties: {
+                        TRACK_ID: { type: "string" },
+                        NAME: { type: "string" },
+                        ARTISTS: { type: "string", nullable: true },
+                        ID_ARTISTS: { type: "string", nullable: true },
+                        DURATION_MS: { type: "integer", nullable: true },
+                        EXPLICIT: { type: "integer", nullable: true },
+                        RELEASE_DATE: { type: "string", format: "date-time", nullable: true },
+                        TIME_SIGNATURE: { type: "integer", nullable: true },
+                        ALBUM_ID: { type: "string", nullable: true },
+                        CREATED_AT: { type: "string", format: "date-time", nullable: true },
+                        UPDATED_AT: { type: "string", format: "date-time", nullable: true }
+                    },
+                    required: ["TRACK_ID", "NAME"]
+                },
+                TracksAudioFeatures: {
+                    type: "object",
+                    properties: {
+                        TRACK_ID: { type: "string" },
+                        DANCEABILITY: { type: "number", nullable: true },
+                        ENERGY: { type: "number", nullable: true },
+                        KEY: { type: "integer", nullable: true },
+                        LOUDNESS: { type: "number", nullable: true },
+                        MODE: { type: "integer", nullable: true },
+                        SPEECHINESS: { type: "number", nullable: true },
+                        ACOUSTICNESS: { type: "number", nullable: true },
+                        INSTRUMENTALNESS: { type: "number", nullable: true },
+                        LIVENESS: { type: "number", nullable: true },
+                        VALENCE: { type: "number", nullable: true },
+                        TEMPO: { type: "number", nullable: true }
+                    },
+                    required: ["TRACK_ID"]
+                },
+                Users: {
+                    type: "object",
+                    properties: {
+                        USER_ID: { type: "string" },
+                        USERNAME: { type: "string" },
+                        PASSWORD: { type: "string" },
+                        EMAIL: { type: "string", format: "email", nullable: true },
+                        FULL_NAME: { type: "string", nullable: true },
+                        IS_ARTIST: { type: "string", enum: ["Y", "N"], nullable: true },
+                        CREATED_AT: { type: "string", format: "date-time", nullable: true },
+                        UPDATED_AT: { type: "string", format: "date-time", nullable: true }
+                    },
+                    required: ["USER_ID", "USERNAME", "PASSWORD"]
+                },
+                Playlists: {
+                    type: "object",
+                    properties: {
+                        PLAYLIST_ID: { type: "string" },
+                        USER_ID: { type: "string", nullable: true },
+                        NAME: { type: "string" },
+                        DESCRIPTION: { type: "string", nullable: true },
+                        IS_PUBLIC: { type: "string", enum: ["Y", "N"], nullable: true },
+                        CREATED_AT: { type: "string", format: "date-time", nullable: true },
+                        UPDATED_AT: { type: "string", format: "date-time", nullable: true }
+                    },
+                    required: ["PLAYLIST_ID", "NAME"]
+                },
+                UserFavoriteTracks: {
+                    type: "object",
+                    properties: {
+                        USER_ID: { type: "string" },
+                        TRACK_ID: { type: "string" },
+                        ADDED_AT: { type: "string", format: "date-time", nullable: true }
+                    },
+                    required: ["USER_ID", "TRACK_ID"]
+                },
+                PlaylistTracks: {
+                    type: "object",
+                    properties: {
+                        PLAYLIST_ID: { type: "string" },
+                        TRACK_ID: { type: "string" }
+                    },
+                    required: ["PLAYLIST_ID", "TRACK_ID"]
+                },
+                Comments: {
+                    type: "object",
+                    properties: {
+                        COMMENT_ID: { type: "string" },
+                        USER_ID: { type: "string" },
+                        TRACK_ID: { type: "string" },
+                        COMMENT_TEXT: { type: "string" },
+                        CREATED_AT: { type: "string", format: "date-time", nullable: true },
+                        UPDATED_AT: { type: "string", format: "date-time", nullable: true }
+                    },
+                    required: ["COMMENT_ID", "USER_ID", "TRACK_ID", "COMMENT_TEXT"]
+                },
+                ForumPosts: {
+                    type: "object",
+                    properties: {
+                        POST_ID: { type: "string" },
+                        USER_ID: { type: "string" },
+                        TITLE: { type: "string", nullable: true },
+                        CONTENT: { type: "string", nullable: true },
+                        CREATED_AT: { type: "string", format: "date-time", nullable: true },
+                        UPDATED_AT: { type: "string", format: "date-time", nullable: true }
+                    },
+                    required: ["POST_ID", "USER_ID"]
+                },
+                ForumReplies: {
+                    type: "object",
+                    properties: {
+                        REPLY_ID: { type: "string" },
+                        POST_ID: { type: "string" },
+                        USER_ID: { type: "string" },
+                        CONTENT: { type: "string", nullable: true },
+                        CREATED_AT: { type: "string", format: "date-time", nullable: true },
+                        UPDATED_AT: { type: "string", format: "date-time", nullable: true }
+                    },
+                    required: ["REPLY_ID", "POST_ID", "USER_ID"]
+                },
+                UserFollowers: {
+                    type: "object",
+                    properties: {
+                        USER_ID: {
+                            type: "string"
+                        },
+                        FOLLOWER_ID: {
+                            type: "string"
+                        },
+                        CREATED_AT: {
+                            type: "string",
+                            format: "date-time",
+                            nullable: true
+                        }
+                    },
+                    required: ["USER_ID", "FOLLOWER_ID"]
+                }
                 // Define other schemas as needed
             },
         },
     },
-    apis: ['app.js', 'admin_database.js', database.js],
+    apis: ['app.js', 'admin_database.js', 'database.js'],
 };
 
 const apiDoc = swaggerJsdoc(jsDocOptions);
