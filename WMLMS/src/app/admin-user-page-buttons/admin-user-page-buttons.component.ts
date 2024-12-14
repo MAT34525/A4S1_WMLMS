@@ -18,7 +18,7 @@ import {AdminServiceService} from '../admin-service.service';
 })
 
 export class AdminUserPageButtonsComponent implements ICellRendererAngularComp {
-  public user_id: number = -1;
+  public user_id: string = '';
 
   params : ICellRendererParams | undefined;
 
@@ -44,12 +44,13 @@ export class AdminUserPageButtonsComponent implements ICellRendererAngularComp {
   onViewClick()
   {
     console.log("Admin user view triggered for user : ", this.user_id);
-    this.route.navigate(['/a/users/view', this.user_id]); // , user_id]);
+    this.route.navigate(['/a/users/view', this.user_id]);
   }
 
   onEditClick()
   {
     console.log("Admin user edit triggered for user : ", this.user_id);
+    this.route.navigate(['/a/users/edit', this.user_id]);
   }
 
   buttonClicked() {

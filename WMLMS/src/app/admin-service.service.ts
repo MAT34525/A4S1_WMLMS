@@ -23,7 +23,7 @@ export class AdminServiceService {
   }
 
   // Get request for a specific Users using IDs
-  getUser(users_id : number) : Observable<Users>
+  getUser(users_id : string) : Observable<Users>
   {
     console.log("Admin Service Get : Users By ID");
     return this.httpClient.get<Users>(`/s/admin/users/${users_id}`);

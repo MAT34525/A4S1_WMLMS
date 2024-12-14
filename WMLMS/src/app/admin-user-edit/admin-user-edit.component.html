@@ -1,1 +1,48 @@
-<p>admin-user-edit works!</p>
+<br>
+
+<div *ngIf="!userItem" class="col">
+  <a class="alert alert-danger">User {{user_id}} does not exist !</a>
+</div>
+
+<div *ngIf="userItem" class="container">
+  <h1>User view for user : {{user_id}}</h1>
+
+
+  <div class="row">
+    <div class="col-3" style="font-weight: bold">
+      USER_ID
+    </div>
+    <input id="USER_ID" type="text" class="col-md-8" [(ngModel)]="userItem.USER_ID">
+  </div>
+
+  <div class="row">
+    <div class="col-3" style="font-weight: bold">
+      USERNAME
+    </div>
+    <input *ngIf="userItem.USERNAME" id="USERNAME" type="text" class="col-md-8" [(ngModel)]="userItem.USERNAME">
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-3" style="font-weight: bold">
+      EMAIL
+    </div>
+    <input *ngIf="userItem.EMAIL" id="EMAIL" type="text" class="col-md-8" [(ngModel)]="userItem.EMAIL">
+  </div>
+
+  <div class="row">
+
+    <div class="col-3" style="font-weight: bold">
+      FULL_NAME
+    </div>
+    <input *ngIf="userItem.FULL_NAME" id="FULL_NAME" type="text" class="col-md-8" [(ngModel)]="userItem.FULL_NAME">
+
+  </div>
+
+</div>
+
+
+<br/>
+
+<button mat-raised-button color="primary" routerLink="/a/users">< Back</button>

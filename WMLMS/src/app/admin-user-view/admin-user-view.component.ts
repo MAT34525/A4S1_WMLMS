@@ -18,13 +18,13 @@ import {Users} from '../schema';
 })
 export class AdminUserViewComponent {
 
-  user_id : number = 0;
+  user_id : string ='';
   userItem : Users | undefined;
   adminService=inject(AdminServiceService);
 
   constructor(private activatedRoute: ActivatedRoute) {
 
-    this.user_id = +activatedRoute.snapshot.params['id'];
+    this.user_id = activatedRoute.snapshot.params['id'];
     this.userItem = undefined;
   }
 
@@ -32,7 +32,7 @@ export class AdminUserViewComponent {
     this.getUser(this.user_id);
   }
 
-  getUser(userID : number)  {
+  getUser(userID : string)  {
 
     if(!Number.isNaN(userID)) {
       this.adminService.getUser(userID).subscribe({

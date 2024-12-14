@@ -9,6 +9,7 @@ import {AdminStatisticsPageComponent} from './admin-statistics-page/admin-statis
 import {AdminLogsPageComponent} from './admin-logs-page/admin-logs-page.component';
 import {AdminHomePageComponent} from './admin-home-page/admin-home-page.component';
 import {AdminUserViewComponent} from './admin-user-view/admin-user-view.component';
+import {AdminUserEditComponent} from './admin-user-edit/admin-user-edit.component';
 
 export const routes: Routes = [
   {
@@ -44,6 +45,10 @@ export const routes: Routes = [
       {
         path:'users/view/:id',
         component:AdminUserViewComponent,
+      },
+      {
+        path:'users/edit/:id',
+        component:AdminUserEditComponent,
       },
       {
         path:'tables',
