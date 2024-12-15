@@ -1,1 +1,41 @@
-<p>admin-statistics-page works!</p>
+<!-- Great tool to generate css grids !-->
+
+<div class="container">
+  <div class="Graphics">
+    <div class="Pie">
+      <highcharts-chart class="align-content-center" [Highcharts]="genreRepartitionChart" [options]="genreRepartitionOptions" [update]="updateFlag">
+      </highcharts-chart>
+    </div>
+    <div class="Bar">
+      <highcharts-chart  [Highcharts]="topTenArtistsBarChart" [options]="topTenArtistsBarOptions" [update]="updateFlag">
+      </highcharts-chart>
+
+    </div>
+  </div>
+  <div class="KPI1">
+
+    <h3>Users</h3>
+
+    <div class="kpi-card purple">
+      <span class="card-value">$ 1,342 </span>
+      <span class="card-text">Total Sales</span>
+      <i class="fas fa-shopping-cart icon"></i>
+    </div>
+  </div>
+  <div class="KPI2">
+    <h3>Artists</h3>
+
+  </div>
+  <div class="KPI3">
+    <h3>Songs</h3>
+  </div>
+  <div class="KPI4">
+    <h3>Playlists</h3>
+  </div>
+  <div class="KPI5">
+    <h3>Comments</h3>
+  </div>
+  <div class="KPI6">
+    <h3>Forums</h3>
+  </div>
+</div>

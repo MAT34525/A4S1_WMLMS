@@ -7,6 +7,7 @@ import type {ColDef} from 'ag-grid-community';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AdminServiceService} from '../admin-service.service';
 import {FormsModule} from '@angular/forms';
+import {PointOptionsObject} from 'highcharts';
 
 @Component({
   selector: 'app-admin-queries-page',
@@ -69,6 +70,7 @@ export class AdminQueriesPageComponent {
 
   // Update the ag-grid when the result has been received
   updateTable(data: any) {
+
     let { message } = data;
 
     // Check if the response is valid

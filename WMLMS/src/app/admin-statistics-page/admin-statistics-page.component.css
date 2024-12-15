@@ -1,0 +1,84 @@
+.container {  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 0.7fr 0.9fr 1.3fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "KPI1 KPI2 KPI3"
+    "KPI4 KPI5 KPI6"
+    "Graphics Graphics Graphics";
+}
+
+.Graphics {  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  justify-content: center;
+
+  grid-template-areas:
+    "Pie Bar";
+  grid-area: Graphics;
+}
+
+.Pie {
+  border: 2px solid grey;
+  justify-self: center;
+  grid-area: Pie;
+}
+
+.Bar {
+  border: 2px solid grey;
+  justify-self: center;
+  justify-content: center;
+  grid-area: Bar;
+}
+
+.KPI1 {
+  border: 2px solid grey;
+  justify-self: center;
+  justify-content: center;
+  grid-area: KPI1;
+  justify-items: center;
+  align-content: center;
+}
+
+.KPI2 { grid-area: KPI2;
+  border: 2px solid grey;
+  justify-content: center;
+  justify-self: center;
+  justify-items: center;
+  align-content: center;
+}
+
+.KPI3 { grid-area: KPI3;
+  border: 2px solid grey;
+  justify-self: center;
+  justify-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.KPI4 { grid-area: KPI4;
+  border: 2px solid grey;
+  justify-items: center;
+  justify-content: center;
+  justify-self: center;
+  align-content: center;
+}
+
+.KPI5 { grid-area: KPI5;
+  border: 2px solid grey;
+  justify-self: center;
+  justify-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.KPI6 { grid-area: KPI6;
+  border: 2px solid grey;
+  justify-self: center;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+}
