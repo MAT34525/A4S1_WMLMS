@@ -5,6 +5,7 @@ import {MatButton, MatButtonModule} from '@angular/material/button';
 import {NgIf} from '@angular/common';
 import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
 import type { ColDef } from 'ag-grid-community'; // Column Definition Type Interface
+import { MatIconModule } from '@angular/material/icon';
 
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import {AdminUserPageButtonsComponent} from '../admin-user-page-buttons/admin-user-page-buttons.component';
@@ -18,6 +19,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   imports: [
     AgGridAngular,
     MatButton,
+    MatIconModule,
     NgIf
   ],
   templateUrl: './admin-user-page.component.html',

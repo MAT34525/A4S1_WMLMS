@@ -1,19 +1,16 @@
 <br/>
 
-<div class="row">
+<span class="row" style="width:100%">
 
-  <button mat-raised-button class="col-2" disabled="false" (click)="onReloadClick()">Reload</button>
+  <button mat-raised-button style="width:56px; height: 56px; margin-left: 60px; margin-right: 10px " class="col-2" disabled="false" (click)="onReloadClick()">
+    Reload
+  </button>
 
-  <div *ngIf="!rowData" class="col">
-    <label class="alert alert-danger">Error while loading the list</label>
-  </div>
+  <label *ngIf="!rowData" style="flex: 1; margin-right: 35px" class="col alert alert-danger">Error while loading the list</label>
 
-  <div *ngIf="rowData" class="col">
-    <label class="alert alert-success">User list loaded successfully !</label>
-  </div>
-</div>
+  <label *ngIf="rowData" style="flex: 1; margin-right: 35px"  class="col alert alert-success">User list loaded successfully !</label>
 
-<br />
+</span>
 
 <ag-grid-angular
   style="width: 100%; height: 500px; padding: 50px"
