@@ -5,6 +5,8 @@ import type { ICellRendererParams } from 'ag-grid-community';
 import {MatButton} from '@angular/material/button';
 import {Router} from '@angular/router';
 import {AdminServiceService} from '../admin-service.service';
+import {AdminUserDeleteDialogComponent} from '../admin-user-delete-dialog/admin-user-delete-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 // Based on the following tutorial : https://www.ag-grid.com/angular-data-grid/components/
 
@@ -24,7 +26,7 @@ export class AdminUserPageButtonsComponent implements ICellRendererAngularComp {
 
   private readonly adminService = inject(AdminServiceService);
 
-  constructor(private route : Router) {}
+  constructor(public dialog: MatDialog, private route : Router) {}
 
   // gets called once before the renderer is used
   agInit(params: ICellRendererParams): void {
@@ -36,9 +38,16 @@ export class AdminUserPageButtonsComponent implements ICellRendererAngularComp {
     return false;
   }
 
-  onDeleteClick()
+  async onDeleteClick()
   {
     console.log("Admin user delete triggered for user : ", this.user_id);
+
+    this.dialog.open(AdminUserDeleteDialogComponent,
+      {
+        data: {
+          user_id: this.user_id
+        }
+      });
   }
 
   onViewClick()
@@ -53,7 +62,4 @@ export class AdminUserPageButtonsComponent implements ICellRendererAngularComp {
     this.route.navigate(['/a/users/edit', this.user_id]);
   }
 
-  buttonClicked() {
-    console.log(this.user_id);
-  }
 }

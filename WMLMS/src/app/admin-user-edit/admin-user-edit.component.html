@@ -4,17 +4,20 @@
   <a class="alert alert-danger">User {{user_id}} does not exist !</a>
 </div>
 
-<div *ngIf="userItem" class="container" [formGroup]="userForm">
+<div *ngIf="userItem" class="container">
   <h1>User view for user : {{user_id}}</h1>
 
   <br/>
-
   <div class="row">
     <div class="col-md-2" style="font-weight: bold">
       USER_ID
     </div>
     <input id="USER_ID" type="text" class="col-md-10" [(ngModel)]="userItem.USER_ID" disabled="true" [value]="user_id">
   </div>
+
+</div>
+
+<div *ngIf="userItem" class="container" [formGroup]="userForm">
 
   <div class="row mt-2">
     <label class="col-md-2" for="USERNAME" ngbTooltip="Enter USERNAME" placement="top" [class]="userForm.get('USERNAME')?.invalid ? 'text-danger' : ''" >USERNAME*</label>
