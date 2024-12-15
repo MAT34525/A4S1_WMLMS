@@ -1,30 +1,73 @@
 <div class="back">
   <div class="div-center">
-
-    <div class="content">
-      <h3>Sign up</h3>
-      <hr />
-      <form>
-        <div class="form-group">
-          <label for="inputUsername">Username</label>
-          <input class="form-control" id="inputUsername"  placeholder="Enter username">
+    <form (submit)="onSubmit()" #signupForm="ngForm">
+      <div class="form-group">
+        <label for="inputUsername">Username</label>
+        <input
+          class="form-control"
+          id="inputUsername"
+          placeholder="Enter username"
+          [(ngModel)]="username"
+          name="username"
+          #usernameCtrl="ngModel"
+          required
+          [class.is-invalid]="usernameCtrl.invalid && usernameCtrl.touched"
+        />
+        <div *ngIf="usernameCtrl.invalid && usernameCtrl.touched" class="text-danger">
+          Username is required.
         </div>
-        <div class="form-group">
-          <label for="inputEmail">Mail</label>
-          <input class="form-control" id="inputEmail" placeholder="Enter email">
+      </div>
+
+      <div class="form-group">
+        <label for="inputEmail">Mail</label>
+        <input
+          class="form-control"
+          id="inputEmail"
+          type="email"
+          placeholder="Enter email"
+          [(ngModel)]="email"
+          name="email"
+          #emailCtrl="ngModel"
+          required
+          email
+          [class.is-invalid]="emailCtrl.invalid && emailCtrl.touched"
+        />
+        <div *ngIf="emailCtrl.invalid && emailCtrl.touched" class="text-danger">
+          Please enter a valid email address.
         </div>
+      </div>
 
-        <div class="form-group">
-          <label for="inputPassword">Password</label>
-          <input type="password" class="form-control" id="inputPassword" placeholder="Enter password">
+      <div class="form-group">
+        <label for="inputPassword">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="inputPassword"
+          placeholder="Enter password"
+          [(ngModel)]="password"
+          name="password"
+          #passwordCtrl="ngModel"
+          required
+          minlength="6"
+          [class.is-invalid]="passwordCtrl.invalid && passwordCtrl.touched"
+        />
+        <div *ngIf="passwordCtrl.invalid && passwordCtrl.touched" class="text-danger">
+          Password is required and must be at least 6 characters.
         </div>
+      </div>
 
-        <button type="submit" class="btn btn-primary me-1">Submit</button>
+      <button
+        type="submit"
+        class="btn btn-primary me-1"
+        [disabled]="signupForm.invalid"
+      >
+        Submit
+      </button>
+      <button type="button" routerLink="/" class="btn btn-outline-secondary">Go back</button>
 
-        <button type="button" routerLink="/" class="btn btn-outline-secondary">Go back</button>
-      </form>
-    </div>
-
+      <!-- Success and Error Messages -->
+      <p *ngIf="successMessage" class="text-success mt-2">{{ successMessage }}</p>
+      <p *ngIf="errorMessage" class="text-danger mt-2">{{ errorMessage }}</p>
+    </form>
   </div>
-
 </div>

@@ -1,41 +1,42 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient,  } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../auth.service';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-signup-page',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, CommonModule],
+  imports: [RouterLink, FormsModule, NgIf],
   templateUrl: './signup-page.component.html',
   styleUrls: ['./signup-page.component.css']
 })
 export class SignupPageComponent {
-  signupForm: FormGroup;
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
-    this.signupForm = this.fb.group({
-      username: [''],
-      email: [''],
-      password: ['']
+  // Form fields
+  username: string = '';
+  email: string = '';
+  password: string = '';
+  successMessage: string = '';
+  errorMessage: string = '';
+
+  // Handle form submission
+  onSubmit(): void {
+    const payload = { username: this.username, email: this.email, password: this.password };
+
+    this.authService.signup(payload).subscribe({
+      next: (response) => {
+        console.log('Signup successful:', response.message);
+        this.successMessage = 'Signup successful. You can now log in!';
+        // Redirect to login page after success
+        setTimeout(() => this.router.navigate(['/login']), 2000);
+      },
+      error: (err) => {
+        console.error('Signup failed:', err);
+        this.errorMessage = 'Signup failed. Please try again.';
+      }
     });
-  }
-
-  onSubmit() {
-    if (this.signupForm.valid) {
-      const formData = this.signupForm.value;
-
-      this.http.post('https://example.com/api/signup', formData).subscribe(
-        response => {
-          console.log('Signup successful', response);
-        },
-        error => {
-          console.error('Signup failed', error);
-        }
-      );
-    } else {
-      console.error('Form is invalid');
-    }
   }
 }

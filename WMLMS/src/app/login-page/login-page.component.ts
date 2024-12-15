@@ -1,15 +1,39 @@
-import { Component } from '@angular/core';
-import {RouterLink} from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../auth.service';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-login-page',
-  imports: [
-    RouterLink
-  ],
-  templateUrl: './login-page.component.html',
   standalone: true,
-  styleUrl: './login-page.component.css'
+  imports: [RouterLink, FormsModule, NgIf],
+  templateUrl: './login-page.component.html',
+  styleUrls: ['./login-page.component.css']
 })
 export class LoginPageComponent {
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
+  // Form Fields
+  username = '';
+  password = '';
+  errorMessage = '';
+
+  // Handle Form Submission
+  onSubmit(): void {
+    const payload = { username: this.username, password: this.password };
+
+    this.authService.login(payload).subscribe({
+      next: (response) => {
+        console.log('Login successful:', response.message);
+        localStorage.setItem('token', response.token || '');
+        this.router.navigate(['/']); // Redirect to homepage or dashboard
+      },
+      error: (err) => {
+        console.error('Login failed:', err);
+        this.errorMessage = 'Invalid username or password';
+      }
+    });
+  }
 }
