@@ -10,6 +10,7 @@ import {AdminLogsPageComponent} from './admin-logs-page/admin-logs-page.componen
 import {AdminHomePageComponent} from './admin-home-page/admin-home-page.component';
 import {AdminUserViewComponent} from './admin-user-view/admin-user-view.component';
 import {AdminUserEditComponent} from './admin-user-edit/admin-user-edit.component';
+import {AdminArtistPageComponent} from './admin-artist-page/admin-artist-page.component';
 
 export const routes: Routes = [
   {
@@ -49,6 +50,10 @@ export const routes: Routes = [
       {
         path:'users/edit/:id',
         component:AdminUserEditComponent,
+      },
+      {
+        path:'artists',
+        component: AdminArtistPageComponent,
       },
       {
         path:'tables',
