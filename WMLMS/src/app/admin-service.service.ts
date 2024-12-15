@@ -75,5 +75,16 @@ export class AdminServiceService {
     console.log("Admin Service DELETE : User By ID");
     return this.httpClient.delete<Users>(`/s/admin/users/${users_id}`)
   }
+
+  // POST =========================================================================================
+
+  customQuery(query : string) : Observable<[]>
+  {
+    console.log("Admin Service POST : Custom Query");
+    return this.httpClient.post<[]>(`/s/admin/query`, {
+      query : query
+    });
+  }
+
 }
 

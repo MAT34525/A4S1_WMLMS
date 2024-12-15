@@ -20,6 +20,13 @@ const jsDocOptions = {
         },
         components: {
             schemas: {
+                Query: {
+                    type: "object",
+                    properties: {
+                        query: {type: "string"},
+                    },
+                    required: ["Query"]
+                },
                 Artists: {
                     type: "object",
                     properties: {

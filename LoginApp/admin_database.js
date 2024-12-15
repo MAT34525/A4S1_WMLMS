@@ -196,7 +196,28 @@ export class AdminDatabase {
          *         description : Bad request !
          */
         this.#app.get('/s/admin/tracks', (req, res) => this.getTracksList(req, res));
-        
+
+        // Query
+        /**
+         * @openapi
+         * /s/admin/query:
+         *   post:
+         *     description: Run a custom query on DB and retrieve the response
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             $ref: '#/components/schemas/Query'
+         *     responses:
+         *       200:
+         *         description: Result of the operation or status of the reuqest
+         *       404:
+         *         description: Table not found !
+         *       400 :
+         *         description : Bad request !
+         */
+        this.#app.post('/s/admin/query', (req, res) => this.customQuery(req, res))
     }
 
     // Standard function to get the list of any tables
@@ -244,7 +265,6 @@ export class AdminDatabase {
         this.getList('Tracks', req, res);
     }
 
-
     // Admin Get Album List function
     async getAlbumList(req, res) {
 
@@ -268,9 +288,6 @@ export class AdminDatabase {
 
         this.getList('Forum_Posts', req, res);
     }
-
-    // Admin Get Tracks List function
-    // !! SELECT * FROM TRACKS not working ??
 
     // GET BY ID ==================================================================================
 
@@ -398,6 +415,35 @@ export class AdminDatabase {
         res.send("User successfully updated !").status(200);
     }
 
-    // Tools ======================================================================================
+    // OTHER ======================================================================================
 
+    // Admin POST Custom query
+    async customQuery(req, res) {
+
+        // Display the command name
+        console.log("Admin POST Custom query");
+
+        // Get and check the query
+        let { query } = req.body;
+
+        if(query === undefined){
+            res.json({message: "Bad request !"}).status(400);
+            return
+        }
+
+        // Standardize the query
+        query = String(query).toUpperCase();
+
+        // We execute the query
+        const queryResult = await this.#connection.query(query);
+
+        // We will trim the second part of the response to only keep the output column name
+        queryResult[1] = queryResult[1].map(item => ({
+                field: item.name
+            })
+        )
+
+        res.json(queryResult).status(200);
+
+    }
 }
