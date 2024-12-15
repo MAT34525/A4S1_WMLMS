@@ -24,7 +24,7 @@ export class AdminDatabase {
          * @openapi
          * /s/admin/users/{id}:
          *   get:
-         *     description: Get an user by it's UUID
+         *     description: Get an user by UUID
          *     parameters:
          *      - name: id
          *        in: path
@@ -36,7 +36,7 @@ export class AdminDatabase {
          *       200:
          *         description: The user matching the UUID
          *         schema:
-         *           $ref: '#/components/schemas/Users'
+         *             $ref: '#/components/schemas/Users'
          *       404:
          *         description: User not found
          */
@@ -63,7 +63,14 @@ export class AdminDatabase {
          * @openapi
          * /s/admin/users/{id}:
          *   put:
-         *     description: Update an existing user
+         *     description:  Update an existing user by UUID
+         *     parameters:
+         *      - name: id
+         *        in: path
+         *        required: true
+         *        description: The UUID of the user
+         *        schema:
+         *          type: string
          *     requestBody:
          *       required: true
          *       content:
@@ -72,11 +79,37 @@ export class AdminDatabase {
          *             $ref: '#/components/schemas/Users'
          *     responses:
          *       200:
-         *         description: An array of Users
-         *         schema:
-         *           $ref: '#/components/schemas/Users'
+         *         description: Success reponse
+         *       404:
+         *         description: Not found reponse
          */
         this.#app.put('/s/admin/users/:id', (req, res) => this.putUser(req, res));
+
+        /**
+         * @openapi
+         * /s/admin/users/{id}:
+         *   delete:
+         *     description:  Delete an existing user by UUID
+         *     parameters:
+         *      - name: id
+         *        in: path
+         *        required: true
+         *        description: The UUID of the user
+         *        schema:
+         *            type: string
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             $ref: '#/components/schemas/Users'
+         *     responses:
+         *       200:
+         *         description: Success reponse
+         *       404:
+         *         description: Not found reponse
+         */
+        this.#app.delete('/s/admin/users/:id', (req, res) => this.deleteUser(req, res));
 
         // Table visualisation
         /**
@@ -242,8 +275,45 @@ export class AdminDatabase {
         }
     }
 
+    // DELETE BY ID ===============================================================================
+
+    // Admin DELETE USER ID function
+    async deleteUser(req, res) {
+
+        // Display the command name
+        console.log("Admin DELETE User By ID");
+
+        let item = req.body;
+
+        console.log(item);
+
+        // We check that the user exists
+        const { id } = req.params;
+
+        // We get look for the user id in the table
+        const userLookup = await this.#connection.query('SELECT USER_ID FROM USERS WHERE user_id=:id',
+        {
+            bind : [id]
+        });
+
+        if(userLookup[0].length === 0)
+        {
+            console.log("[-] Not found !")
+            res.send("User not found !").status(404);
+            return;
+        }
+
+        await this.#connection.query('DELETE FROM USERS WHERE USER_ID=:id',
+        {
+            bind : [id]
+        });
+
+        res.send("User successfully deleted !").status(200);
+    }
+
     // PUT BY ID ==================================================================================
 
+    // Admin PUT USER ID function
     async putUser(req, res) {
 
         // Display the command name
@@ -303,8 +373,7 @@ export class AdminDatabase {
             });
         }
 
-        res.json({}).status(200);
-        
+        res.send("User successfully updated !").status(200);
     }
 
     // Tools ======================================================================================

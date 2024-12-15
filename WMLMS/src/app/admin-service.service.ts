@@ -61,5 +61,13 @@ export class AdminServiceService {
     console.log("Admin Service Put : User By ID");
     return this.httpClient.put<Users>(`/s/admin/users/${users_id}`, user);
   }
+
+  // DELETE =======================================================================================
+
+  deleteUser(users_id : string) : Observable<Users>
+  {
+    console.log("Admin Service DELETE : User By ID");
+    return this.httpClient.delete<Users>(`/s/admin/users/${users_id}`)
+  }
 }
 
