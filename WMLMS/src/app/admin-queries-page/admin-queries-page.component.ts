@@ -2,7 +2,7 @@ import {Component, inject} from '@angular/core';
 import { AngularSplitModule } from 'angular-split';
 import {MatButton} from '@angular/material/button';
 import {AgGridAngular} from 'ag-grid-angular';
-import {NgIf} from '@angular/common';
+import {NgIf, NgStyle} from '@angular/common';
 import type {ColDef} from 'ag-grid-community';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AdminServiceService} from '../admin-service.service';
@@ -13,7 +13,8 @@ import {AdminServiceService} from '../admin-service.service';
     AngularSplitModule,
     MatButton,
     AgGridAngular,
-    NgIf
+    NgIf,
+    NgStyle
   ],
   templateUrl: './admin-queries-page.component.html',
   standalone: true,

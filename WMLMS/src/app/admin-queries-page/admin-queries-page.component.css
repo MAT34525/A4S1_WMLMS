@@ -1,0 +1,7 @@
+.command_button_style {
+  display: block;
+  width:calc(100% - 40px);
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 2px
+}
