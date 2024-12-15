@@ -171,9 +171,8 @@ export class AdminDatabase {
          *     responses:
          *       200:
          *         description: All forums posts in the DB
-         *         content:
-         *             schema:
-         *             $ref: '#/components/schemas/ForumPosts'
+         *         schema:
+         *           $ref: '#/components/schemas/ForumPosts'
          *       404:
          *         description: Table not found !
          *       400 :
@@ -181,7 +180,23 @@ export class AdminDatabase {
          */
         this.#app.get('/s/admin/forums-posts', (req, res) => this.getForumPostsList(req, res));
 
-
+        /**
+         * @openapi
+         * /s/admin/tracks:
+         *   get:
+         *     description: Get all tracks
+         *     responses:
+         *       200:
+         *         description: All tracks in the DB
+         *         schema:
+         *           $ref: '#/components/schemas/tracks'
+         *       404:
+         *         description: Table not found !
+         *       400 :
+         *         description : Bad request !
+         */
+        this.#app.get('/s/admin/tracks', (req, res) => this.getTracksList(req, res));
+        
     }
 
     // Standard function to get the list of any tables
@@ -222,6 +237,13 @@ export class AdminDatabase {
 
         this.getList('Users', req, res);
     }
+
+    // Admin Get Tracks List  function
+    async getTracksList(req, res) {
+
+        this.getList('Tracks', req, res);
+    }
+
 
     // Admin Get Album List function
     async getAlbumList(req, res) {

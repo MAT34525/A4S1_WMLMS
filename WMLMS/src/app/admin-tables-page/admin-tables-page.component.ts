@@ -7,7 +7,7 @@ import {
   Albums,
   DUMMY_ALBUM, DUMMY_FORUM_POST,
   DUMMY_FORUM_REPLY,
-  DUMMY_PLAYLIST, ForumPosts, ForumReplies,
+  DUMMY_PLAYLIST, DUMMY_TRACK, ForumPosts, ForumReplies,
   Playlists,
   PlaylistTracks,
   Tracks,
@@ -34,7 +34,7 @@ export class AdminTablesPageComponent {
   loaded :boolean = false;
   colDefs: ColDef[] = [];
 
-  rowData : Albums[] | Playlists[] | ForumReplies[] | ForumPosts[] = [];
+  rowData : Albums[] | Playlists[] | ForumReplies[] | ForumPosts[] | Tracks[] = [];
 
   private readonly adminService= inject(AdminServiceService);
 
@@ -104,6 +104,10 @@ export class AdminTablesPageComponent {
     // Hide the ag-grid while preparing the content
     this.loaded = false;
 
+    // Reset columns headers and rows
+    this.colDefs = []
+    this.rowData = []
+
     // Load the rows content
     this.adminService.getForumsReplies().subscribe({
       next: data => {
@@ -142,6 +146,33 @@ export class AdminTablesPageComponent {
 
     // Fill the column headers table with the selected interface keys (using dummy)
     for (const key in DUMMY_FORUM_POST) {
+      this.colDefs.push({ field : key });
+    }
+
+    // Show and refresh the ag-grid
+    this.loaded = true;
+  }
+
+  // Function to load the forums replies into the data grid
+  onLoadTracksClick() {
+    // Hide the ag-grid while preparing the content
+    this.loaded = false;
+
+    // Reset columns headers and rows
+    this.colDefs = []
+    this.rowData = []
+
+    // Load the rows content
+    this.adminService.getTracks().subscribe({
+      next: data => {
+        this.rowData = data;
+      }, error:err=> {
+        console.log("Failed to load Forums Replies List");
+      }
+    });
+
+    // Fill the column headers table with the selected interface keys (using dummy)
+    for (const key in DUMMY_TRACK) {
       this.colDefs.push({ field : key });
     }
 

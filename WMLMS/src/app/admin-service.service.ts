@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Albums, ForumPosts, ForumReplies, Playlists, Users} from './schema';
+import {Albums, ForumPosts, ForumReplies, Playlists, Tracks, Users} from './schema';
 
 
 @Injectable({
@@ -51,6 +51,12 @@ export class AdminServiceService {
   {
     console.log("Admin Service Get : Forums Posts  List");
     return this.httpClient.get<ForumPosts[]>(`/s/admin/forums-posts`);
+  }
+
+  getTracks() : Observable<Tracks[]>
+  {
+    console.log("Admin Service Get : Tracks List");
+    return this.httpClient.get<Tracks[]>(`/s/admin/tracks`);
   }
 
   // PUT ==========================================================================================
