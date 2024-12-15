@@ -434,16 +434,25 @@ export class AdminDatabase {
         // Standardize the query
         query = String(query).toUpperCase();
 
-        // We execute the query
-        const queryResult = await this.#connection.query(query);
+        try {
+            // We execute the query
+            const queryResult = await this.#connection.query(query);
 
-        // We will trim the second part of the response to only keep the output column name
-        queryResult[1] = queryResult[1].map(item => ({
-                field: item.name
-            })
-        )
+            // We will trim the second part of the response to only keep the output column name
+            queryResult[1] = queryResult[1].map(item => ({
+                    field: item.name
+                })
+            )
 
-        res.json(queryResult).status(200);
+            console.log("[+] Custom query Ok");
+            res.json(queryResult).status(200);
+        }
+        catch (e) {
+            console.log("[-] Invalid custom query !");
+            res.json({message: e}).status(400);
+        }
+
+
 
     }
 }

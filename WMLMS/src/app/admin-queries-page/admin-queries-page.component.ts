@@ -2,10 +2,11 @@ import {Component, inject} from '@angular/core';
 import { AngularSplitModule } from 'angular-split';
 import {MatButton} from '@angular/material/button';
 import {AgGridAngular} from 'ag-grid-angular';
-import {NgIf, NgStyle} from '@angular/common';
+import {NgForOf, NgIf, NgStyle} from '@angular/common';
 import type {ColDef} from 'ag-grid-community';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AdminServiceService} from '../admin-service.service';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-admin-queries-page',
@@ -14,7 +15,9 @@ import {AdminServiceService} from '../admin-service.service';
     MatButton,
     AgGridAngular,
     NgIf,
-    NgStyle
+    NgStyle,
+    NgForOf,
+    FormsModule
   ],
   templateUrl: './admin-queries-page.component.html',
   standalone: true,
@@ -23,34 +26,68 @@ import {AdminServiceService} from '../admin-service.service';
 export class AdminQueriesPageComponent {
 
   loaded : boolean = true;
+  query: string = '';
   rowData : [] = [];
-  colDefs  : ColDef[] = []
+  colDefs  : ColDef[] = [];
 
-  response:any
+  isError : boolean = false;
+  errorMessage : string = '';
+
+  customQueries : { name: string, query: string }[] = [
+    {
+      name: "Command 1",
+      query: "SELECT * FROM USERS",
+    },
+    {
+      name: "Command 2",
+      query: "SELECT * FROM ARTISTS",
+    }
+  ]
 
   adminService=inject(AdminServiceService);
 
   constructor(private activeRoute : ActivatedRoute, private route : Router) {
   }
 
-  onRunCutomQuery() {
-    this.adminService.customQuery("SELECT * FROM USERS WHERE IS_ARTIST='N'").subscribe(ret => this.updateTable(ret));
+  onUpdateQuery(query: string){
+    this.query = query;
   }
 
-  updateTable(data: any) {
-    let { message } = data;
+  // Run and get the results of custom queries
+  onRunCustomQuery() {
 
-    if(message !== undefined)
+    let query = this.query
+
+    // Check if the query is non null and not too short
+    if(query === null || query.length < 5)
     {
-      console.log("Invalid query !")
       return;
     }
 
-    this.colDefs = data[1];
-    this.rowData = data[0];
-
-    console.log("RESPONSE :", data)
+    this.adminService.customQuery(query).subscribe(ret => this.updateTable(ret));
   }
 
+  // Update the ag-grid when the result has been received
+  updateTable(data: any) {
+    let { message } = data;
+
+    // Check if the response is valid
+    this.isError = (message !== undefined);
+
+    if(this.isError)
+    {
+      // Clear table
+      this.colDefs = [];
+      this.rowData = [];
+
+      this.errorMessage = message.original.code;
+
+      return;
+    }
+
+    // Update ag-grid content
+    this.colDefs = data[1];
+    this.rowData = data[0];
+  }
 
 }
