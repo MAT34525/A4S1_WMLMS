@@ -11,11 +11,16 @@ import {AdminHomePageComponent} from './admin-home-page/admin-home-page.componen
 import {AdminUserViewComponent} from './admin-user-view/admin-user-view.component';
 import {AdminUserEditComponent} from './admin-user-edit/admin-user-edit.component';
 import {AdminArtistPageComponent} from './admin-artist-page/admin-artist-page.component';
+import {SignupPageComponent} from './signup-page/signup-page.component';
 
 export const routes: Routes = [
   {
     path:"login",
     component:LoginPageComponent
+  },
+  {
+    path:"signup",
+    component:SignupPageComponent
   },
   {
     path:"",

@@ -1,41 +1,23 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient,  } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-@Component({
-  selector: 'app-signup-page',
-  standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, CommonModule],
-  templateUrl: './signup-page.component.html',
-  styleUrls: ['./signup-page.component.css']
-})
-export class SignupPageComponent {
-  signupForm: FormGroup;
+import { SignupPageComponent } from './signup-page.component';
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
-    this.signupForm = this.fb.group({
-      username: [''],
-      email: [''],
-      password: ['']
-    });
-  }
+describe('SignupPageComponent', () => {
+  let component: SignupPageComponent;
+  let fixture: ComponentFixture<SignupPageComponent>;
 
-  onSubmit() {
-    if (this.signupForm.valid) {
-      const formData = this.signupForm.value;
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [SignupPageComponent]
+    })
+      .compileComponents();
 
-      this.http.post('https://example.com/api/signup', formData).subscribe(
-        response => {
-          console.log('Signup successful', response);
-        },
-        error => {
-          console.error('Signup failed', error);
-        }
-      );
-    } else {
-      console.error('Form is invalid');
-    }
-  }
-}
+    fixture = TestBed.createComponent(SignupPageComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
