@@ -30,6 +30,13 @@ export class AdminStatisticsPageComponent {
 
   updateFlag = false;
 
+  userCount : number = 0;
+  artistCount : number = 0;
+  playlistCount : number = 0;
+  songCount : number = 0;
+  forumCount : number = 0;
+  commentCount : number = 0;
+
   topTenArtistsBarChart: typeof Highcharts = Highcharts;
   topTenArtistsBarData : (number | [string, number | null] | PointOptionsObject | null)[] = [];
   topTenArtistsBarOptions: Highcharts.Options = {
@@ -122,7 +129,6 @@ export class AdminStatisticsPageComponent {
   constructor() {
 
   }
-
 
   onUpdateCharts() {
 
@@ -218,6 +224,36 @@ export class AdminStatisticsPageComponent {
       this.onUpdateCharts();
     });
 
+    this.adminService.customCount("SELECT COUNT(*) FROM USERS"
+    ).subscribe(data => {
+      this.userCount = data;
+    });
+
+    this.adminService.customCount("SELECT COUNT(*) FROM ARTISTS"
+    ).subscribe(data => {
+      this.artistCount = data;
+    });
+
+    this.adminService.customCount("SELECT COUNT(*) FROM TRACKS"
+    ).subscribe(data => {
+      this.songCount = data;
+    });
+
+    this.adminService.customCount("SELECT COUNT(*) FROM Playlists"
+    ).subscribe(data => {
+      this.playlistCount = data;
+    });
+
+    this.adminService.customCount("SELECT COUNT(*) FROM COMMENTS"
+    ).subscribe(data => {
+      this.commentCount = data;
+    });
+
+    this.adminService.customCount("SELECT COUNT(*) FROM FORUM_POSTS"
+    ).subscribe(data => {
+      this.forumCount = data;
+    });
+
     // KPI ==========================
     // Artists number
 
@@ -257,5 +293,7 @@ export class AdminStatisticsPageComponent {
     //
 
   }
+
+  protected readonly Component = Component;
 }
 

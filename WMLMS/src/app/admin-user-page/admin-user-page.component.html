@@ -6,9 +6,9 @@
     Reload
   </button>
 
-  <label *ngIf="!rowData" style="flex: 1; margin-right: 35px" class="col alert alert-danger">Error while loading the list</label>
+  <label *ngIf="!loaded" style="flex: 1; margin-right: 35px" class="col alert alert-danger">Error while loading the list</label>
 
-  <label *ngIf="rowData" style="flex: 1; margin-right: 35px"  class="col alert alert-success">User list loaded successfully !</label>
+  <label *ngIf="loaded" style="flex: 1; margin-right: 35px"  class="col alert alert-success">User list loaded successfully !</label>
 
 </span>
 

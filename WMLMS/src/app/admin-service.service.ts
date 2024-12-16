@@ -86,5 +86,13 @@ export class AdminServiceService {
     });
   }
 
+  customCount(query : string) : Observable<number>
+  {
+    console.log("Admin Service POST : Custom Count");
+    return this.httpClient.post<number>(`/s/admin/query-count`, {
+      query : query
+    });
+  }
+
 }
 

@@ -32,6 +32,10 @@ import {NgIf} from '@angular/common';
 export class AdminTablesPageComponent {
 
   loaded :boolean = false;
+
+  errorMessage : string = '';
+  isError : boolean = false;
+
   colDefs: ColDef[] = [];
 
   rowData : Albums[] | Playlists[] | ForumReplies[] | ForumPosts[] | Tracks[] = [];
@@ -57,8 +61,11 @@ export class AdminTablesPageComponent {
     // Load the rows content
     this.adminService.getAlbums().subscribe({
       next: data => {
+        this.isError = false;
         this.rowData = data;
       }, error:err=> {
+        this.isError = true;
+        this.errorMessage = 'Failed to load Albums List';
         console.log("Failed to load Albums List");
       }
     });
@@ -84,8 +91,11 @@ export class AdminTablesPageComponent {
     // Load the rows content
     this.adminService.getPlaylists().subscribe({
       next: data => {
+        this.isError = false;
         this.rowData = data;
       }, error:err=> {
+        this.isError = true;
+        this.errorMessage = "Failed to load Playlists List";
         console.log("Failed to load Playlists List");
       }
     });
@@ -111,8 +121,11 @@ export class AdminTablesPageComponent {
     // Load the rows content
     this.adminService.getForumsReplies().subscribe({
       next: data => {
+        this.isError = false;
         this.rowData = data;
       }, error:err=> {
+        this.isError = true;
+        this.errorMessage = "Failed to load Forums Replies List";
         console.log("Failed to load Forums Replies List");
       }
     });
@@ -138,8 +151,11 @@ export class AdminTablesPageComponent {
     // Load the rows content
     this.adminService.getForumsPosts().subscribe({
       next: data => {
+        this.isError = true;
         this.rowData = data;
       }, error:err=> {
+        this.isError = false;
+        this.errorMessage = "Failed to load Forums Posts List";
         console.log("Failed to load Forums Posts List");
       }
     });
@@ -165,8 +181,11 @@ export class AdminTablesPageComponent {
     // Load the rows content
     this.adminService.getTracks().subscribe({
       next: data => {
+        this.isError = false;
         this.rowData = data;
       }, error:err=> {
+        this.isError = true;
+        this.errorMessage = "Failed to load Forums Replies List";
         console.log("Failed to load Forums Replies List");
       }
     });

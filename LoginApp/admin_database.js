@@ -218,6 +218,27 @@ export class AdminDatabase {
          *         description : Bad request !
          */
         this.#app.post('/s/admin/query', (req, res) => this.customQuery(req, res))
+
+        /**
+         * @openapi
+         * /s/admin/query-count:
+         *   post:
+         *     description: Run a custom count query on DB and retrieve the count
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             $ref: '#/components/schemas/Query'
+         *     responses:
+         *       200:
+         *         description: Result of the operation or status of the request
+         *       404:
+         *         description: Table not found !
+         *       400 :
+         *         description : Bad request !
+         */
+        this.#app.post('/s/admin/query-count', (req, res) => this.customCount(req, res))
     }
 
     // Standard function to get the list of any tables
@@ -231,7 +252,7 @@ export class AdminDatabase {
 
         if(!/^[A-Za-z\_]*$/.test(tableName)) {
             console.log("SQL Injection detected, query aborded !");
-            res.send("Bad request !").status(400);
+            res.json({message: "Bad request !"}).status(400);
             return;
         }
 
@@ -246,7 +267,7 @@ export class AdminDatabase {
 
             // Send message and 404 result
             console.log('Table doesn"t exists !');
-            res.send("Table not found !").status(404);
+            res.json({message : "Table not found !"}).status(404);
 
         }
     }
@@ -307,7 +328,7 @@ export class AdminDatabase {
 
         if (users[0].length == 0)
         {
-            res.send('Not found !').status(404);
+            res.json({message: 'Not found !'}).status(404);
         }
         else {
             res.json(users[0][0]).status(200);
@@ -338,7 +359,7 @@ export class AdminDatabase {
         if(userLookup[0].length === 0)
         {
             console.log("[-] Not found !")
-            res.send("User not found !").status(404);
+            res.json({ message : "User not found !"}).status(404);
             return;
         }
 
@@ -347,7 +368,7 @@ export class AdminDatabase {
             bind : [id]
         });
 
-        res.send("User successfully deleted !").status(200);
+        res.json({message : "User successfully deleted !"}).status(200);
     }
 
     // PUT BY ID ==================================================================================
@@ -374,7 +395,7 @@ export class AdminDatabase {
         if(userLookup[0].length === 0)
         {
             console.log("[-] Not found !")
-            res.send("User not found !").status(404);
+            res.json({message: "User not found !"}).status(404);
             return;
         }
 
@@ -412,10 +433,54 @@ export class AdminDatabase {
             });
         }
 
-        res.send("User successfully updated !").status(200);
+        res.json({message : "User successfully updated !"}).status(200);
     }
 
     // OTHER ======================================================================================
+
+    // Admin POST Custom count
+    async customCount(req, res) {
+
+        // Display the command name
+        console.log("Admin POST Custom count");
+
+        // Get and check the query
+        let { query } = req.body;
+
+        if(query === undefined){
+            res.json({message: "Bad request !"}).status(400);
+            return
+        }
+
+        // Standardize the query
+        query = String(query).toUpperCase();
+
+        try {
+            // We execute the query
+            const queryResult = await this.#connection.query(query);
+
+            // We will trim the second part of the response to only keep the output column name
+            queryResult[1] = queryResult[1].map(item => ({
+                    field: item.name
+                })
+            )
+
+            // We check the content of the query and extract the count value
+            let result = 0;
+
+            for (let item in queryResult[0][0]) {
+                result = queryResult[0][0][item];
+                break;
+            }
+
+            console.log("[+] Custom query Ok");
+            res.json(result).status(200);
+        }
+        catch (e) {
+            console.log("[-] Invalid custom query !");
+            res.json({message: e}).status(400);
+        }
+    }
 
     // Admin POST Custom query
     async customQuery(req, res) {
@@ -451,8 +516,5 @@ export class AdminDatabase {
             console.log("[-] Invalid custom query !");
             res.json({message: e}).status(400);
         }
-
-
-
     }
 }

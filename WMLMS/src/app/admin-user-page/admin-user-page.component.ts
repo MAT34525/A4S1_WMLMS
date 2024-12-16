@@ -32,6 +32,8 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
 export class AdminUserPageComponent implements OnInit{
 
+  loaded : boolean = false;
+
   private readonly adminService = inject(AdminServiceService);
 
   public components: {
@@ -73,8 +75,10 @@ export class AdminUserPageComponent implements OnInit{
   {
     this.adminService.getUsers().subscribe({
       next: data => {
+        this.loaded = true;
         this.rowData = data;
       }, error:err=> {
+        this.loaded=false;
         console.log("Failed to load User List");
       }
     });

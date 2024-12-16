@@ -29,6 +29,9 @@
   <label  class="alert alert-danger" style="width: 98%; margin-left: 1%; margin-right: 1%">No table loaded, please select one above !</label>
 </div>
 
+<div *ngIf="isError" class="col" >
+  <label  class="alert alert-danger" style="width: 98%; margin-left: 1%; margin-right: 1%">{{errorMessage}}</label>
+</div>
 
 <br/>
 <ag-grid-angular *ngIf="loaded"
