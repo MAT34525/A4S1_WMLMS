@@ -151,10 +151,10 @@ export class AdminTablesPageComponent {
     // Load the rows content
     this.adminService.getForumsPosts().subscribe({
       next: data => {
-        this.isError = true;
+        this.isError = false;
         this.rowData = data;
       }, error:err=> {
-        this.isError = false;
+        this.isError = true;
         this.errorMessage = "Failed to load Forums Posts List";
         console.log("Failed to load Forums Posts List");
       }

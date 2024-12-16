@@ -36,12 +36,16 @@ export class AdminQueriesPageComponent {
 
   customQueries : { name: string, query: string }[] = [
     {
-      name: "Command 1",
+      name: "SELECT ALL USERS",
       query: "SELECT * FROM USERS",
     },
     {
-      name: "Command 2",
+      name: "SELECT ALL ARTISTS",
       query: "SELECT * FROM ARTISTS",
+    },
+    {
+      name: "INSERT TEMPLATE",
+      query: "INSERT INTO <TABLE> (<col1>, <col2>) VALUES (<val1>, <val2>)"
     }
   ]
 
