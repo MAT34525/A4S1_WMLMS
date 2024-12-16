@@ -1,7 +1,7 @@
 import csv
 
 # Colonnes pour chaque fichier
-tracks_columns = ['id', 'name', 'popularity', 'duration_ms', 'explicit', 'artists', 'id_artists', 'release_date', 'time_signature']
+tracks_columns = ['id', 'name','artists', 'id_artists','duration_ms', 'explicit','release_date','time_signature']
 audio_features_columns = ['id', 'danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo']
 
 # Ouvrir le fichier source (tracks.csv renommé en tracks_i.csv) et créer les fichiers de destination
