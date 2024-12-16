@@ -963,6 +963,10 @@ SET account_status = 'ARTIST'
 WHERE user_id = '[ID_DE_L_UTILISATEUR]';
 */
 
+UPDATE users
+SET account_status = 'ARTIST'
+WHERE user_id = '6c773872-232e-4427-ba1a-1f492ca0163a';
+
 
 -- Système de logs pour les activités des utilisateurs et les événements système
 CREATE TABLE logs (
@@ -1033,6 +1037,10 @@ END;
 INSERT INTO users (user_id, username, password, email, full_name)
 VALUES (generate_uuid(), 'Thrind', 'userpassword99', 'mailuser@exemple.com', 'Thrindrun');
 -- et après avoir fait SELECT * FROM logs, on a bien le log de la création du compte
+
+-- Ajout d'une colonne booléenne dans users et artists pour le statut compte bloqué ou non
+ALTER TABLE users ADD (is_blocked CHAR(1) DEFAULT 'N' CHECK (is_blocked IN ('Y', 'N')));
+ALTER TABLE artists ADD (is_verified CHAR(1) DEFAULT 'N' CHECK (is_verified IN ('Y', 'N')));
 
 
 
