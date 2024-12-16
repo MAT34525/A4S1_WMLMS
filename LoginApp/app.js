@@ -9,6 +9,7 @@ import {Database} from './database.js';
 
 import swaggerJsdoc from 'swagger-jsdoc'; // * as swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express';
+import session from 'express-session';
 
 const jsDocOptions = {
     definition: {
@@ -197,6 +198,16 @@ app.use(express.json());
 
 app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(apiDoc));
 
+//gestion des sessions de chaque user
+app.use(session({
+    secret: 'session_secrete', // Utilisez une clé secrète pour signer les sessions
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // En production, vous devriez mettre `secure: true` si vous utilisez HTTPS
+}));
+
+
+
 // Connexion BDD
 
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
@@ -237,7 +248,7 @@ app.post('/login', async (req, res) => {
         // Connexion à la base de données Oracle
         const connection = await oracledb.getConnection({
             user: "admin",
-            password: mypw,  // Remplacez par votre mot de passe réel
+            password: mypw,
             connectString: "localhost:1521/wmlmspdb"
         });
 
@@ -332,6 +343,62 @@ app.post('/register', async (req, res) => {
         res.render('register', { errorMessage: 'Une erreur est survenue, veuillez réessayer.' });
     }
 });
+
+// Route pour afficher les playlists de l'utilisateur connecté
+app.get('/playlists', async (req, res) => {
+    const userId = req.session.userId; // On suppose que l'ID de l'utilisateur est stocké dans la session
+
+    // Vérifier si l'utilisateur est connecté
+    if (!userId) {
+        return res.redirect('/login'); // Redirige vers la page de login si l'utilisateur n'est pas connecté
+    }
+
+    try {
+        // Connexion à la base de données
+        const connection = await oracledb.getConnection({
+            user: "admin",
+            password: mypw,
+            connectString: "localhost:1521/wmlmspdb"
+        });
+
+        // Récupérer les playlists de l'utilisateur
+        const result = await connection.execute(
+            `SELECT PLAYLIST_ID, NAME, DESCRIPTION, IS_PUBLIC, CREATED_AT, UPDATED_AT
+             FROM playlists
+             WHERE USER_ID = :userId`,
+            [userId]
+        );
+
+        console.log('Playlists récupérées pour l\'utilisateur:', result.rows); // Log pour débogage
+
+        // Fermer la connexion à la base de données
+        await connection.close();
+
+        // Passer les playlists à la vue
+        res.render('playlists', { playlists: result.rows });
+
+    } catch (error) {
+        console.error('Erreur lors de la récupération des playlists:', error);
+        res.render('error', { errorMessage: 'Une erreur est survenue lors de la récupération des playlists.' });
+    }
+});
+
+
+//méthode du boutton pour se déconnecter
+app.get('/logout', (req, res) => {
+    // Supprimer les informations de session (ici, l'ID de l'utilisateur)
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Erreur lors de la destruction de la session:', err);
+            return res.redirect('/playlists'); // Rediriger vers la page des playlists en cas d'erreur
+        }
+
+        // Rediriger l'utilisateur vers la page de login après la déconnexion
+        res.redirect('/login');
+    });
+});
+
+
 
 // Démarrer le serveur
 app.listen(3000, () => {
