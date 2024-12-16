@@ -1038,6 +1038,11 @@ INSERT INTO users (user_id, username, password, email, full_name)
 VALUES (generate_uuid(), 'Thrind', 'userpassword99', 'mailuser@exemple.com', 'Thrindrun');
 -- et après avoir fait SELECT * FROM logs, on a bien le log de la création du compte
 
+-- Ajout d'un autre user
+INSERT INTO users (user_id, username, password, email, full_name)
+VALUES (generate_uuid(), 'B.Curlu', 'userpassword88', 'mailuser2@exemple.com', 'Ohzman');
+-- et après avoir fait SELECT * FROM logs;, on a bien aussi le log de la création du compte
+
 -- Ajout d'une colonne booléenne dans users et artists pour le statut compte bloqué ou non
 ALTER TABLE users ADD (is_blocked CHAR(1) DEFAULT 'N' CHECK (is_blocked IN ('Y', 'N')));
 ALTER TABLE artists ADD (is_verified CHAR(1) DEFAULT 'N' CHECK (is_verified IN ('Y', 'N')));
