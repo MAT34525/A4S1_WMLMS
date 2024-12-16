@@ -30,6 +30,8 @@ export class AdminStatisticsPageComponent {
 
   updateFlag = false;
 
+  isError : boolean = false;
+
   userCount : number = 0;
   artistCount : number = 0;
   playlistCount : number = 0;
@@ -209,9 +211,12 @@ export class AdminStatisticsPageComponent {
     this.adminService.customQuery(
       "SELECT USERNAME, COUNT(*) " +
       "FROM USERS GROUP BY USERNAME"
-    ).subscribe(data => {
-      this.topTenArtistsBarData = this.convertQueryResultToData(data);
-      this.onUpdateCharts();
+    ).subscribe({ next : data => {
+        this.topTenArtistsBarData = this.convertQueryResultToData(data);
+        this.onUpdateCharts();
+    }, error : err => {
+      this.onError();
+    }
     });
 
     this.adminService.customQuery(
@@ -219,81 +224,74 @@ export class AdminStatisticsPageComponent {
       "    FROM artists a\n" +
       "    GROUP BY a.genres\n" +
       "    ORDER BY total_followers DESC;"
-    ).subscribe(data => {
+    ).subscribe({ next : data => {
+      this.isError = false;
       this.genreRepartitionData = this.convertQueryResultToData(data);
       this.onUpdateCharts();
+    }, error : err => {
+        this.onError();
+      }
     });
 
     this.adminService.customCount("SELECT COUNT(*) FROM USERS"
-    ).subscribe(data => {
+    ).subscribe({ next : data => {
+      this.isError = false;
       this.userCount = data;
+    }, error : err => {
+        this.onError();
+      }
     });
 
     this.adminService.customCount("SELECT COUNT(*) FROM ARTISTS"
-    ).subscribe(data => {
-      this.artistCount = data;
+    ).subscribe({ next : data => {
+        this.isError = false;
+        this.artistCount = data;
+      }, error : err => {
+        this.onError();
+      }
     });
 
     this.adminService.customCount("SELECT COUNT(*) FROM TRACKS"
-    ).subscribe(data => {
-      this.songCount = data;
+    ).subscribe({ next : data => {
+        this.isError = false;
+        this.songCount = data;
+    }, error : err => {
+        this.onError();
+      }
     });
 
     this.adminService.customCount("SELECT COUNT(*) FROM Playlists"
-    ).subscribe(data => {
-      this.playlistCount = data;
+    ).subscribe({ next : data => {
+        this.isError = false;
+        this.playlistCount = data;
+    }, error : err => {
+        this.onError();
+      }
     });
 
     this.adminService.customCount("SELECT COUNT(*) FROM COMMENTS"
-    ).subscribe(data => {
-      this.commentCount = data;
+    ).subscribe({ next : data => {
+        this.isError = false;
+        this.commentCount = data;
+    }, error : err => {
+        this.onError();
+      }
     });
 
     this.adminService.customCount("SELECT COUNT(*) FROM FORUM_POSTS"
-    ).subscribe(data => {
-      this.forumCount = data;
+    ).subscribe({ next : data => {
+        this.isError = false;
+        this.commentCount = data;
+    }, error : err => {
+        this.onError();
+      }
     });
-
-    // KPI ==========================
-    // Artists number
-
-    // User number
-
-    // Comments number
-
-    // Forums number
-
-    // Songs number
-
-    // Playlists number
-
-    // Graphs =======================
-
-    // Genres repartition
-
-    /*
-    SELECT a.genres, SUM(a.followers) AS total_followers
-    FROM artists a
-    GROUP BY a.genres
-    ORDER BY total_followers DESC;
-     */
-
-    // Top 10 rank of artists per followers
-
-    // Get data for
-    // Get data for pie chart 2 : number of users per genres
-
-      /*
-      SELECT a.genres, SUM(a.followers) AS total_followers
-      FROM artists a
-      GROUP BY a.genres
-      ORDER BY total_followers DESC;
-       */
-
-    //
-
   }
 
-  protected readonly Component = Component;
+  onError() {
+    this.isError = true;
+    console.log('Failed to load the data !');
+  }
+
 }
 
