@@ -6,8 +6,8 @@ Léandre BROSSIER, Mathys DECKER, Benoît HUA, Kylie WU
 
 The “Web Music Library Management System” (WMLMS) is designed to provide users with a user-friendly experience to manage their playlists. Users can easily create and edit them.
 
-The repository contains 
-- Scripts for database setup, including table creation, data population, user management, and security measures (SQL). It also includes queries for data retrieval and system optimization.
+## The repository contains : 
+- Scripts for database setup, including table creation, data population, user management, and security measures (SQL). It also includes queries for data retrieval and system optimization. The dataset used for this project is the Spotify Dataset from Kaggle : https://www.kaggle.com/datasets/yamaerenay/spotify-dataset-19212020-600k-tracks, with “artists.csv” and “tracks.csv”. We chose to split “tracks.csv” into “tracks.csv” and “tracks_audio_features.csv” thanks to a python script ;
 - Management, login and navigation interfaces codes (Node and React)
 
 ## Key features
