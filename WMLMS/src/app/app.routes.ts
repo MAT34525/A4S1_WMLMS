@@ -13,6 +13,12 @@ import {AdminUserEditComponent} from './admin-user-edit/admin-user-edit.componen
 import {AdminArtistPageComponent} from './admin-artist-page/admin-artist-page.component';
 import {SignupPageComponent} from './signup-page/signup-page.component';
 import {AdminLoginPageComponent} from './admin-login-page/admin-login-page.component';
+import {UserPageComponent} from './user-page/user-page.component';
+import {UserPageHomeComponent} from './user-page-home/user-page-home.component';
+import {UserPageArtistsComponent} from './user-page-artists/user-page-artists.component';
+import {UserPagePlaylistsComponent} from './user-page-playlists/user-page-playlists.component';
+import {UserPageSongsComponent} from './user-page-songs/user-page-songs.component';
+
 
 export const routes: Routes = [
   {
@@ -29,6 +35,33 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
 
+  {
+    path: "user",
+    component: UserPageComponent,
+    children: [
+      {
+        path:'',
+        redirectTo: 'home',
+        pathMatch: 'full',
+      },
+      {
+        path:'home',
+        component:UserPageHomeComponent,
+      },
+      {
+        path:'artists',
+        component:UserPageArtistsComponent,
+      },
+      {
+        path:'playlists',
+        component:UserPagePlaylistsComponent,
+      },
+      {
+        path:'songs',
+        component:UserPageSongsComponent,
+      }
+    ]
+  },
   {
     path: "a",
     component: AdminPageComponent,
