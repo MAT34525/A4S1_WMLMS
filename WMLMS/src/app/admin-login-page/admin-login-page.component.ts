@@ -27,8 +27,6 @@ export class AdminLoginPageComponent {
     this.authService.adminLogin(payload).subscribe({
       next: (response) => {
 
-        console.log("Status : ", response.status)
-        console.log("Message : ", response.message)
         if(response.status === 200) {
           console.log('Login successful:', response.message);
           localStorage.setItem('token', response.token || '');
