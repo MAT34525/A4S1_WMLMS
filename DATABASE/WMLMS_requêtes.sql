@@ -177,5 +177,3 @@ SELECT p.title, p.content AS post_content, r.content AS reply_content, u.usernam
 FROM forum_posts p
 LEFT JOIN forum_replies r ON p.post_id = r.post_id
 LEFT JOIN users u ON r.user_id = u.user_id;
-
-
