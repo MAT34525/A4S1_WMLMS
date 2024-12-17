@@ -21,12 +21,22 @@ const jsDocOptions = {
         },
         components: {
             schemas: {
+                Register : {
+                    type : 'object',
+                    properties : {
+                        USERNAME : {type : 'string'},
+                        PASSWORD : {type :'string'},
+                        EMAIL : {type : 'string'},
+                        FULL_NAME : {type :"string"}
+                    },
+                    required : ["USERNAME", "PASSWORD", "EMAIL", "FULL_NAME"]
+                },
                 Query: {
                     type: "object",
                     properties: {
                         query: {type: "string"},
                     },
-                    required: ["Query"]
+                    required: ["query"]
                 },
                 Artists: {
                     type: "object",
@@ -229,12 +239,12 @@ databaseConnexions.push(new Database(app, 'admin', 'admin'))
 // app.get("/yeet", (req, res) => database.test_function(req, res))
 
 // Route pour afficher la page de login
-app.get('/login', (req, res) => {
+app.get('/u/login', (req, res) => {
     res.render('login', { errorMessage: null }); // Pas d'erreur initialement
 });
 
 
-app.post('/login', async (req, res) => {
+app.post('/u/login', async (req, res) => {
     const { username, password } = req.body;
 
     // Vérifier si l'utilisateur et le mot de passe ont été fournis
@@ -281,31 +291,47 @@ app.post('/login', async (req, res) => {
         if (isPasswordValid) {
             console.log('Mot de passe valide. Connexion réussie!');
             await connection.close();
-            res.send('Login réussi!');
+            res.json({message: 'Login réussi!'}).status(200);
         } else {
             console.log('Mot de passe incorrect');
             await connection.close();
-            res.render('login', { errorMessage: 'Identifiants incorrects.' });
+            res.json({ errorMessage: 'Identifiants incorrects.' }).status(400);
         }
 
     } catch (error) {
         console.error('Erreur lors de la connexion:', error); // Log de l'erreur détaillée
-        res.render('login', { errorMessage: 'Une erreur est survenue, veuillez réessayer.' });
+        res.json({ errorMessage: 'Une erreur est survenue, veuillez réessayer.' }).status(400);
     }
 });
 
 //Route pour la création de compte
-app.get('/register', (req, res) => {
+app.get('/u/register', (req, res) => {
     res.render('register', { errorMessage: null });
 });
 
-
-app.post('/register', async (req, res) => {
-    const { username, password, email, full_name } = req.body;
+/**
+ * @openapi
+ * /u/register:
+ *   post:
+ *     description: Register a new user with a post request
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Register'
+ *     responses:
+ *       200:
+ *         description: Successfull user creation !
+ *       404:
+ *         description: An error occured, please try again.
+ */
+app.post('/u/register', async (req, res) => {
+    const { username, password, email} = req.body;
 
     // Vérification que tous les champs sont remplis
-    if (!username || !password || !email || !full_name) {
-        return res.render('register', { errorMessage: 'Tous les champs sont obligatoires.' });
+    if (!username || !password || !email) {
+        return res.json({ errorMessage: 'Tous les champs sont obligatoires.' }).status(400);
     }
 
     try {
@@ -321,13 +347,12 @@ app.post('/register', async (req, res) => {
 
         // Insertion de l'utilisateur dans la base de données
         const insertResult = await connection.execute(
-            `INSERT INTO users (username, password, email, full_name)
-             VALUES (:username, :password, :email, :full_name)`,
+            `INSERT INTO users (username, password, email)
+             VALUES (:username, :password, :email)`,
             {
                 username: username,
                 password: hashedPassword,
-                email: email,
-                full_name: full_name
+                email: email
             },
             { autoCommit: true }  // Assurez-vous que les modifications sont validées dans la base de données
         );
@@ -336,16 +361,16 @@ app.post('/register', async (req, res) => {
         await connection.close();
 
         // Redirection ou message de succès
-        res.send('Compte créé avec succès! Veuillez vous connecter.');
+        res.json({message: 'Successfull user creation !'}).status(200);
 
     } catch (error) {
         console.error('Erreur lors de l\'inscription:', error);
-        res.render('register', { errorMessage: 'Une erreur est survenue, veuillez réessayer.' });
+        res.json({errorMessage: 'An error occured, please try again.' }).status(400);
     }
 });
 
 // Route pour afficher les playlists de l'utilisateur connecté
-app.get('/playlists', async (req, res) => {
+app.get('/u/playlists', async (req, res) => {
     const userId = req.session.userId; // On suppose que l'ID de l'utilisateur est stocké dans la session
 
     // Vérifier si l'utilisateur est connecté
@@ -385,7 +410,7 @@ app.get('/playlists', async (req, res) => {
 
 
 //méthode du boutton pour se déconnecter
-app.get('/logout', (req, res) => {
+app.get('/u/logout', (req, res) => {
     // Supprimer les informations de session (ici, l'ID de l'utilisateur)
     req.session.destroy((err) => {
         if (err) {

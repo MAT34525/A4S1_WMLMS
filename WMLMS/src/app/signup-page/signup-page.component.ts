@@ -28,7 +28,7 @@ export class SignupPageComponent {
 
     this.authService.signup(payload).subscribe({
       next: (response) => {
-        console.log('Signup successful:', response.message);
+        console.log('Signup successful:', response);
         this.successMessage = 'Signup successful. You can now log in!';
         // Redirect to login page after success
         setTimeout(() => this.router.navigate(['/login']), 2000);

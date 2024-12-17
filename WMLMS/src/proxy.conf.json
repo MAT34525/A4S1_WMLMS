@@ -2,5 +2,9 @@
   "/s": {
     "target": "http://localhost:3000",
     "secure": false
+  },
+  "/u": {
+    "target": "http://localhost:3000",
+    "secure": false
   }
 }

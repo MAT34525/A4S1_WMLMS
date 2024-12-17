@@ -26,11 +26,11 @@ export class AuthService {
 
   // Login method
   login(payload: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>('/login', payload);
+    return this.http.post<AuthResponse>('/u/login', payload);
   }
 
   // Signup method
   signup(payload: SignupRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>('/signup', payload);
+    return this.http.post<AuthResponse>('/u/register', payload);
   }
 }
