@@ -24,11 +24,21 @@ export class AdminLoginPageComponent {
   onSubmit(): void {
     const payload = { username: this.username, password: this.password };
 
-    this.authService.login(payload).subscribe({
+    this.authService.adminLogin(payload).subscribe({
       next: (response) => {
-        console.log('Login successful:', response.message);
-        localStorage.setItem('token', response.token || '');
-        this.router.navigate(['/a']); // Redirect to admin homepage
+
+        console.log("Status : ", response.status)
+        console.log("Message : ", response.message)
+        if(response.status === 200) {
+          console.log('Login successful:', response.message);
+          localStorage.setItem('token', response.token || '');
+          this.router.navigate(['/a']); // Redirect to admin homepage
+        }
+        else
+        {
+          console.log('Login failed :', response.message);
+        }
+
       },
       error: (err) => {
         console.error('Login failed:', err);

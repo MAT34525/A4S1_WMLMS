@@ -3,19 +3,20 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 interface LoginRequest {
-  username: string;
-  password: string;
+  username: string,
+  password: string,
 }
 
 interface SignupRequest {
-  username: string;
-  email: string;
-  password: string;
+  username: string,
+  email: string,
+  password: string,
 }
 
 interface AuthResponse {
-  message: string;
-  token?: string; // Token for login
+  message: string,
+  status : number,
+  token?: string, // Token for login
 }
 
 @Injectable({
@@ -29,13 +30,13 @@ export class AuthService {
     return this.http.post<AuthResponse>('/u/login', payload);
   }
 
+  // Admin login method
+  adminLogin(payload: LoginRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>('/u/admin-login', payload);
+  }
+
   // Signup method
   signup(payload: SignupRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>('/u/register', payload);
-  }
-
-  // Admin login method
-  adminlogin(payload: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>('/a/login', payload);
   }
 }

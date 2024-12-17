@@ -21,6 +21,15 @@ const jsDocOptions = {
         },
         components: {
             schemas: {
+                Login : {
+                    type : 'object',
+                    properties : {
+                        username : {type : 'string'},
+                        password : {type : 'string'}
+                    },
+                    required : ['username', 'password']
+
+                },
                 Register : {
                     type : 'object',
                     properties : {
@@ -233,14 +242,70 @@ let databaseConnexions = [];
 // Ajoute la connexion initiale pour l'application
 // databaseConnexions.push(new Database(app, 'app', 'apppassword'))
 
-databaseConnexions.push(new Database(app, 'admin', 'admin'))
 
-// Lier des fonctions de la bdd aux app
-// app.get("/yeet", (req, res) => database.test_function(req, res))
+// Admin database connection creation
+/**
+ * @openapi
+ * /u/admin-login:
+ *   post:
+ *     description: Log in in the database as an administrator
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Login'
+ *     responses:
+ *       200:
+ *         description: Admin successfully connected !
+ *       404:
+ *         description: An error occured, please try again.
+ */
+app.post('/u/admin-login', async (req, res) => {
+    const { username, password } = req.body;
+
+    // Vérifier si l'utilisateur et le mot de passe ont été fournis
+    if (!username || !password) {
+        return res.json({ errorMessage: 'Tous les champs sont obligatoires.' }).status(400);
+    }
+    try {
+        console.log('Tentative de connexion pour l\'administrateur:', username); // Log pour suivre la tentative de connexion
+
+        // Create a new database connection
+        databaseConnexions.push(new Database(app, username, password));
+
+        // Wait for the database connection to be established before proceeding
+        await databaseConnexions[databaseConnexions.length - 1].connect();
+
+        // Get the connection status
+        let status = databaseConnexions[databaseConnexions.length - 1].getConnectionStatus();
+        console.log("Admin connection status : ", status);
+
+        // Depending on the status, proceed or abord the login
+        if (status)
+        {
+            console.log("Admin successfully connected, admin panel available !");
+            res.json({message : "Admin successfully connected !",  status:200}).status(200);
+            return;
+        } else {
+            console.log("Admin credentials are invalid !");
+            res.json({message : "Admin credentials are invalid!",  status:400}).status(400);
+
+            databaseConnexions.pop();
+
+        }
+
+    // Inform the user for any other issues
+    } catch (error) {
+        console.error('Error when connecting :', error); // Log de l'erreur détaillée
+        res.json({ message: 'An error occured, please try again.', status:400 }).status(400);
+    }
+
+});
 
 // Route pour afficher la page de login
 app.get('/u/login', (req, res) => {
-    res.render('login', { errorMessage: null }); // Pas d'erreur initialement
+    res.json({ message: null,  status:404 }).status(404); // Pas d'erreur initialement
 });
 
 
@@ -249,7 +314,8 @@ app.post('/u/login', async (req, res) => {
 
     // Vérifier si l'utilisateur et le mot de passe ont été fournis
     if (!username || !password) {
-        return res.render('login', { errorMessage: 'Tous les champs sont obligatoires.' });
+        res.json({ messsage : 'Tous les champs sont obligatoires.',  status:400 }).status(400);
+        return;
     }
 
     try {
@@ -276,7 +342,7 @@ app.post('/u/login', async (req, res) => {
         if (result.rows.length === 0) {
             console.log('Aucun utilisateur trouvé avec ce nom d\'utilisateur');
             await connection.close();
-            res.json({ errorMessage: 'Identifiants incorrects.' }).status(400)
+            res.json({message: 'Identifiants incorrects.',  status:400 }).status(400)
             return;
         }
 
@@ -292,24 +358,24 @@ app.post('/u/login', async (req, res) => {
         if (isPasswordValid) {
             console.log('Mot de passe valide. Connexion réussie!');
             await connection.close();
-            res.json({message: 'Login réussi!'}).status(200);
+            res.json({message: 'Login réussi!',  status:200}).status(200);
             return;
         } else {
             console.log('Mot de passe incorrect');
             await connection.close();
-            res.json({ errorMessage: 'Identifiants incorrects.' }).status(400);
+            res.json({ message: 'Identifiants incorrects.',  status:400 }).status(400);
             return;
         }
 
     } catch (error) {
         console.error('Erreur lors de la connexion:', error); // Log de l'erreur détaillée
-        res.json({ errorMessage: 'Une erreur est survenue, veuillez réessayer.' }).status(400);
+        res.json({message: 'Une erreur est survenue, veuillez réessayer.',  status:400 }).status(400);
     }
 });
 
 //Route pour la création de compte
 app.get('/u/register', (req, res) => {
-    res.render('register', { errorMessage: null });
+    res.send({message: null,  status:404 });
 });
 
 /**
@@ -334,7 +400,7 @@ app.post('/u/register', async (req, res) => {
 
     // Vérification que tous les champs sont remplis
     if (!username || !password || !email) {
-        return res.json({ errorMessage: 'Tous les champs sont obligatoires.' }).status(400);
+        return res.json({message: 'Tous les champs sont obligatoires.',  status:400 }).status(400);
     }
 
     try {
@@ -364,11 +430,11 @@ app.post('/u/register', async (req, res) => {
         await connection.close();
 
         // Redirection ou message de succès
-        res.json({message: 'Successfull user creation !'}).status(200);
+        res.json({message: 'Successfull user creation !',  status:200}).status(200);
 
     } catch (error) {
         console.error('Erreur lors de l\'inscription:', error);
-        res.json({errorMessage: 'An error occured, please try again.' }).status(400);
+        res.json({message: 'An error occured, please try again.',  status:400 }).status(400);
     }
 });
 
