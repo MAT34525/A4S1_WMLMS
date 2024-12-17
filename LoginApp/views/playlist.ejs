@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Playlists</title>
+</head>
+<body>
+    <h1>Mes Playlists</h1>
+
+    <% if (playlists.length === 0) { %>
+        <p>Vous n'avez pas encore de playlists.</p>
+    <% } else { %>
+        <ul>
+            <% playlists.forEach(function(playlist) { %>
+                <li>
+                    <strong><%= playlist.NAME %></strong><br>
+                    <%= playlist.DESCRIPTION || 'Pas de description' %><br>
+                    <%= playlist.IS_PUBLIC === 'Y' ? 'Public' : 'Privée' %><br>
+                    Créée le: <%= playlist.CREATED_AT %><br>
+                    <%= playlist.UPDATED_AT ? 'Dernière mise à jour le: ' + playlist.UPDATED_AT : '' %>
+                </li>
+            <% }); %>
+        </ul>
+    <% } %>
+
+    <!-- Bouton de déconnexion -->
+    <form action="/logout" method="get">
+        <button type="submit">Logout</button>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<br>
+
+<div *ngIf="!userItem" class="col">
+  <a class="alert alert-danger">User {{user_id}} does not exist !</a>
+</div>
+
+
+
+<div *ngIf="userItem" class="container">
+  <h1>User view for user : {{user_id}}</h1>
+
+  <div class="row">
+    <div class="col-3" style="font-weight: bold">
+      USER_ID
+    </div>
+    <div class="col-8">
+      {{user_id}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-3" style="font-weight: bold">
+      USERNAME
+    </div>
+    <div class="col-8">
+      {{userItem.USERNAME}}
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-3" style="font-weight: bold">
+      EMAIL
+    </div>
+    <div class="col-8">
+      {{userItem.EMAIL}}
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-3" style="font-weight: bold">
+      FULL_NAME
+    </div>
+    <div class="col-8">
+      {{userItem.FULL_NAME}}
+    </div>
+  </div>
+
+</div>
+
+
+<br/>
+
+<button mat-raised-button color="primary" routerLink="/a/users">< Back</button>

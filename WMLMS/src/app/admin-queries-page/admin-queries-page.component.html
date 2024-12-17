@@ -1,0 +1,65 @@
+
+<br>
+
+
+<div style="height: 90vh">
+  <as-split direction="vertical" disabled="false" gutterSize="4" >
+
+      <as-split-area [size]="50" minSize="20" maxSize="80">
+
+        <textarea [(ngModel)]="query" style="margin-right: 20px; margin-left: 20px; border-radius: 5px; height: calc(100% - 50px); width: calc(100% - 40px); resize:none" id="query" name="query" type="text" #QUERY_AREA></textarea>
+
+        <button style="margin-right: 20px; margin-left: 20px; display: block; width:calc(100% - 40px)" mat-raised-button color="primary" (click)="onRunCustomQuery()">Run</button>
+      </as-split-area>
+
+      <as-split-area [size]="50" minSize="20" maxSize="80">
+
+        <div style="width: 100%; height: 100%">
+          <as-split direction="horizontal" disabled="false" gutterSize="4">
+            <as-split-area [size]="30" minSize="14">
+
+              <div>
+                <h3 style="text-align: center" >Load</h3>
+
+                <div class="scrollMenu" *ngFor="let query of customQueries">
+
+                  <button class="command_button_style" mat-raised-button (click)="onUpdateQuery(query.query)">{{query.name}}</button>
+
+                </div>
+              </div>
+
+            </as-split-area>
+
+            <as-split-area [size]="70" minSize="20">
+
+              <div style="height: 100%">
+                <h3 style="flex: 1; text-align: center" > Results</h3>
+
+                <ag-grid-angular *ngIf="loaded && !isError"
+                                 style="height: calc(100% - 60px); margin-left: 20px; margin-right: 20px"
+                                 class="ag-theme-balham"
+                                 [rowData]="rowData"
+                                 [columnDefs]="colDefs"
+                >
+                </ag-grid-angular>
+
+                <div *ngIf="isError" class="alert alert-danger"
+                     style="height: calc(100% - 60px); margin-left: 20px; margin-right: 20px"
+                >
+
+                  Invalid SQL request !
+                  <br>
+
+                  Here is your error code : {{errorMessage}}
+                </div>
+
+              </div>
+
+            </as-split-area>
+          </as-split>
+        </div>
+
+      </as-split-area>
+
+  </as-split>
+</div>

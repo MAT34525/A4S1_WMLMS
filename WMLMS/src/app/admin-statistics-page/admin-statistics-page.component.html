@@ -1,0 +1,49 @@
+<!-- Great tool to generate css grids !-->
+
+<br/>
+
+<label *ngIf="isError" class="alert alert-danger" style="width:100%; margin-left: 20px; margin-right: 20px">Failed to load the data !</label>
+
+<div class="container">
+  <div class="Graphics">
+    <div class="Pie">
+      <highcharts-chart class="align-content-center" [Highcharts]="genreRepartitionChart" [options]="genreRepartitionOptions" [update]="updateFlag">
+      </highcharts-chart>
+    </div>
+    <div class="Bar">
+      <highcharts-chart  [Highcharts]="topTenArtistsBarChart" [options]="topTenArtistsBarOptions" [update]="updateFlag">
+      </highcharts-chart>
+
+    </div>
+  </div>
+  <div class="KPI1">
+
+    <h3>Users</h3>
+    <h1>{{userCount}}</h1>
+
+  </div>
+  <div class="KPI2">
+    <h3>Artists</h3>
+    <h1>{{artistCount}} </h1>
+
+  </div>
+  <div class="KPI3">
+    <h3>Songs</h3>
+    <h1>{{songCount}}</h1>
+
+  </div>
+  <div class="KPI4">
+    <h3>Playlists</h3>
+    <h1>{{playlistCount}}</h1>
+
+  </div>
+  <div class="KPI5">
+    <h3>Comments</h3>
+    <h1>{{commentCount}}</h1>
+
+  </div>
+  <div class="KPI6">
+    <h3>Forum Posts</h3>
+    <h1>{{forumCount}}</h1>
+  </div>
+</div>
