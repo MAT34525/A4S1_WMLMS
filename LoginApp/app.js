@@ -276,7 +276,8 @@ app.post('/u/login', async (req, res) => {
         if (result.rows.length === 0) {
             console.log('Aucun utilisateur trouvé avec ce nom d\'utilisateur');
             await connection.close();
-            return res.render('login', { errorMessage: 'Identifiants incorrects.' });
+            res.json({ errorMessage: 'Identifiants incorrects.' }).status(400)
+            return;
         }
 
         // Récupérer l'utilisateur de la réponse
@@ -292,10 +293,12 @@ app.post('/u/login', async (req, res) => {
             console.log('Mot de passe valide. Connexion réussie!');
             await connection.close();
             res.json({message: 'Login réussi!'}).status(200);
+            return;
         } else {
             console.log('Mot de passe incorrect');
             await connection.close();
             res.json({ errorMessage: 'Identifiants incorrects.' }).status(400);
+            return;
         }
 
     } catch (error) {
