@@ -33,4 +33,9 @@ export class AuthService {
   signup(payload: SignupRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>('/u/register', payload);
   }
+
+  // Admin login method
+  adminlogin(payload: LoginRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>('/a/login', payload);
+  }
 }

@@ -12,6 +12,7 @@ import {AdminUserViewComponent} from './admin-user-view/admin-user-view.componen
 import {AdminUserEditComponent} from './admin-user-edit/admin-user-edit.component';
 import {AdminArtistPageComponent} from './admin-artist-page/admin-artist-page.component';
 import {SignupPageComponent} from './signup-page/signup-page.component';
+import {AdminLoginPageComponent} from './admin-login-page/admin-login-page.component';
 
 export const routes: Routes = [
   {
@@ -27,6 +28,7 @@ export const routes: Routes = [
     component:MainPageComponent,
     pathMatch: 'full',
   },
+
   {
     path: "a",
     component: AdminPageComponent,
@@ -75,6 +77,10 @@ export const routes: Routes = [
       {
         path: 'logs',
         component:AdminLogsPageComponent,
+      },
+      {
+        path: 'login',
+        component:AdminLoginPageComponent,
       }
     ]
   },

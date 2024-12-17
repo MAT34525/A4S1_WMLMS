@@ -2,8 +2,6 @@ import {Component, inject} from '@angular/core';
 import Highcharts, {PointOptionsObject} from 'highcharts';
 import {HighchartsChartModule} from 'highcharts-angular';
 import {AdminServiceService} from '../admin-service.service';
-import genreRepartitionChart from 'highcharts';
-import topTenArtistsBarChart from 'highcharts';
 import {AgGridAngular} from 'ag-grid-angular';
 import {MatButton} from '@angular/material/button';
 import {NgForOf, NgIf} from '@angular/common';
