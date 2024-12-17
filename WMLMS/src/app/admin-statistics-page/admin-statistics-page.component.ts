@@ -91,7 +91,7 @@ export class AdminStatisticsPageComponent {
       type: 'pie'
     },
     title: {
-      text: 'Genre repartition among tracks'
+      text: 'Explicit tracks repartition'
     },
     subtitle: {
       text: ''
@@ -208,6 +208,7 @@ export class AdminStatisticsPageComponent {
 
   ngOnInit() {
 
+    /*
     this.adminService.customQuery(
       "SELECT USERNAME, COUNT(*) " +
       "FROM USERS GROUP BY USERNAME"
@@ -218,12 +219,56 @@ export class AdminStatisticsPageComponent {
       this.onError();
     }
     });
+    */
+
+    this.topTenArtistsBarData = [
+      {
+        name: 'Taylor Swift',
+        y: 9500,
+        sliced: true,
+        selected: true
+      },
+      {
+        name: 'Drake',
+        y: 8700
+      },
+      {
+        name: 'Ariana Grande',
+        y: 8200
+      },
+      {
+        name: 'Ed Sheeran',
+        y: 7800
+      },
+      {
+        name: 'Beyoncé',
+        y: 7400
+      },
+      {
+        name: 'Billie Eilish',
+        y: 6900
+      },
+      {
+        name: 'Post Malone',
+        y: 6500
+      },
+      {
+        name: 'The Weeknd',
+        y: 6100
+      },
+      {
+        name: 'Rihanna',
+        y: 5700
+      },
+      {
+        name: 'Justin Bieber',
+        y: 5300
+      }
+    ];
+
 
     this.adminService.customQuery(
-      "SELECT a.genres, SUM(a.followers) AS total_followers\n" +
-      "    FROM artists a\n" +
-      "    GROUP BY a.genres\n" +
-      "    ORDER BY total_followers DESC;"
+      "SELECT EXPLICIT, COUNT(*) FROM TRACKS GROUP BY EXPLICIT"
     ).subscribe({ next : data => {
       this.isError = false;
       this.genreRepartitionData = this.convertQueryResultToData(data);
