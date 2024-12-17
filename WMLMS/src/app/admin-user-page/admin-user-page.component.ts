@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import {AdminUserPageButtonsComponent} from '../admin-user-page-buttons/admin-user-page-buttons.component';
 import {Users} from '../schema';
-import {ITextFilterParams} from '@ag-grid-community/core';
+import {GridApi, GridReadyEvent, ITextFilterParams} from '@ag-grid-community/core';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -32,6 +32,8 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
 export class AdminUserPageComponent implements OnInit{
 
+  private gridApi!: GridApi<Users>;
+
   loaded : boolean = false;
 
   private readonly adminService = inject(AdminServiceService);
@@ -45,7 +47,7 @@ export class AdminUserPageComponent implements OnInit{
   rowData : Users[] ;
 
   // Column Definitions: Defines the columns to be displayed.
-  colDefs: ColDef[] = [
+  colDefs: ColDef<Users>[] = [
     { field: "USER_ID" },
     {
       field: "USERNAME",
@@ -88,6 +90,16 @@ export class AdminUserPageComponent implements OnInit{
   {
     this.getUsers();
   }
+
+  onGridReady(params : any) {
+    this.gridApi = params.api;
+  }
+
+
+  onBtExport() {
+    this.gridApi.exportDataAsCsv();
+  }
+
 }
 
 // Filters and searches tutorial : https://www.ag-grid.com/angular-data-grid/filter-text/#text-filter-options

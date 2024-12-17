@@ -18,6 +18,10 @@
   [rowData]="rowData"
   [columnDefs]="colDefs"
   [components]="components"
->
-</ag-grid-angular>
+  (gridReady)="onGridReady($event)"
+/>
+
+<button (click)="onBtExport()">Export CSV</button>
+
+
 
