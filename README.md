@@ -42,6 +42,7 @@ You have a video tutorial for the installation steps in the Presentation folder 
   - [ ] Create a new user
   - [ ] Open the database and create a new service
 - [ ] Step 2 : Prepare and split the dataset using DATABASE\WMLMS_Step_2_Datasets
+  - [ ] Unzip the dataset files
   - [ ] Use the python script WMLMS_Step_2_CSV_Separation.py 
 - [ ] Step 3 : Setup the database using  DATABASE\WMLMS_Step_3_Database_Setup.sql
   - [ ] Run the installation scripts
