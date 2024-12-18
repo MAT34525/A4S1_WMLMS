@@ -1,4 +1,5 @@
 WMLMS/node_modules/**/*
 LoginApp/node_modules/**/*
+WMLMS_Frontend/node_modules/**/*
 WMLMS_Backend/node_modules/**/*
 WMLMS_Backend/dist/**/*
