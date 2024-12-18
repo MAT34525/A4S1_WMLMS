@@ -1,6 +1,7 @@
 import { Sequelize } from 'sequelize';
 import { AdminDatabase } from './admin_database';
 import { Schema } from './database_models'
+import {DB_NAME, SEQUELIZE_DB_PARAMS} from "./config";
 
 export class Database {
 
@@ -36,19 +37,7 @@ export class Database {
     async connect() {
         try {
             // Create the connection to the database
-            this.#connection = await new Sequelize('wmlmspdb', this.#username, this.#password, {
-                host: 'localhost',
-                port: 1521,
-                dialect: 'oracle',
-
-                pool: {
-                    max: 20,
-                    min: 0,
-                    acquire: 30000,
-                    idle: 10000
-                },
-
-            });
+            this.#connection = await new Sequelize(DB_NAME, this.#username, this.#password, SEQUELIZE_DB_PARAMS);
 
             await this.#connection.authenticate();
 

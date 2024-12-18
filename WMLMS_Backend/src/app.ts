@@ -10,6 +10,7 @@ import swaggerJsdoc from 'swagger-jsdoc'; // * as swaggerJsdoc from 'swagger-jsd
 import swaggerUi from 'swagger-ui-express';
 import session from 'express-session';
 import {Database} from "./database";
+import {ORACLE_DB_PARAMS} from "./config";
 
 const jsDocOptions = {
   definition: {
@@ -209,6 +210,7 @@ const jsDocOptions = {
   apis: ['.//src/app.ts', './/src/admin_database.ts', './/src/database.ts'],
 };
 
+
 const apiDoc = swaggerJsdoc(jsDocOptions);
 console.log('api-doc json:', JSON.stringify(apiDoc, null,2));
 
@@ -322,11 +324,7 @@ app.post('/u/login',  async (_req, _res) => {
     console.log('Tentative de connexion pour l\'utilisateur:', username); // Log pour suivre la tentative de connexion
 
     // Connexion à la base de données Oracle
-    const connection = await oracledb.getConnection({
-      user: "admin",
-      password: mypw,
-      connectString: "localhost:1521/wmlmspdb"
-    });
+    const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
     console.log('Connexion à la base de données réussie.'); // Log pour vérifier que la connexion fonctionne
 
@@ -410,11 +408,7 @@ async function register(_req : any, _res : any) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Connexion à la base de données
-    const connection = await oracledb.getConnection({
-      user: "admin",
-      password: mypw,
-      connectString: "localhost:1521/wmlmspdb"
-    });
+    const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
     // Insertion de l'utilisateur dans la base de données
     const insertResult = await connection.execute(
@@ -454,11 +448,7 @@ async function playlists (_req : any, _res : any) {
 
   try {
     // Connexion à la base de données
-    const connection = await oracledb.getConnection({
-      user: "admin",
-      password: mypw,
-      connectString: "localhost:1521/wmlmspdb"
-    });
+    const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
     // Récupérer les playlists de l'utilisateur
     const result = await connection.execute(
