@@ -24,7 +24,7 @@ The “Web Music Library Management System” (WMLMS) is designed to provide use
 ├─ WMLMS_Backend    : The back end (node / typescript) code of the tool
 |                     This is used to link the datatabase to the front end
 |
-├─ Advanced Database Management : Readme assets, presentation video and 
+├─ Advanced Database Management : Final reports, presentation video, installation video 
 ```
 
 ## Installation guide
@@ -78,7 +78,7 @@ To bypass the following steps, you can open individually WMLMS_Backend or WMLMS_
 
 Once both front-end and back-end instances ar running, you can open your browser and navigate to : http://localhost:4200/
 
-Hopefully, if you didn't managed to run or build the project, you have a presentation video int `Presentation` as well !
+Hopefully, if you didn't managed to run or build the project, you have a presentation video in `Advanced Database Management Reports` as well !
 
 ## Key features :
 
