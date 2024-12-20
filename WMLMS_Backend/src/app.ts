@@ -14,6 +14,7 @@ import session from 'express-session';
 import adminRoutes from './routes/AdminRoutes';
 import userRoutes from './routes/UserRoutes';
 import playlistRoutes from './routes/PlaylistRoutes';
+import MusicRoutes from "./routes/MusicRoutes";
 
 
 const jsDocOptions = {
@@ -220,6 +221,7 @@ console.log('api-doc json:', JSON.stringify(apiDoc, null,2));
 const app = express();
 app.use(express.json());
 
+
 app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(apiDoc));
 
 //gestion des sessions de chaque user
@@ -242,6 +244,7 @@ app.use(express.static('public'));
 app.use(adminRoutes);
 app.use(userRoutes);
 app.use(playlistRoutes);
+app.use(MusicRoutes);
 
 // Démarrer le serveur
 app.listen(3000, () => {
