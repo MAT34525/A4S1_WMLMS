@@ -1,0 +1,49 @@
+.recommendations-container {
+  background-color: #2d4356;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+  height: 120px;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.01);
+  cursor: pointer;
+}
+
+/* Matching the exact colors from the first image */
+.light-card {
+  background-color: #a7c7e7;  /* Light blue from first image */
+}
+
+.medium-card {
+  background-color: #6ea7d9;  /* Medium blue from first image */
+}
+
+.dark-card {
+  background-color: #4189cd;  /* Darker blue from first image */
+}
+
+.card-title {
+  color: white;
+  font-size: 1.2rem;
+}
+
+.recommendation-item:last-child {
+  margin-bottom: 0 !important;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #333;
+}
+
+h2 {
+  color: #333;
+  font-size: 1.8rem;
+}
