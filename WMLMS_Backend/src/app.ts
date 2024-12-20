@@ -239,9 +239,9 @@ app.use(express.static('public'));
 
 
 // Utilisation des routes
-app.use('/u', adminRoutes);
-app.use('/u', userRoutes);
-app.use('/u', playlistRoutes);
+app.use(adminRoutes);
+app.use(userRoutes);
+app.use(playlistRoutes);
 
 // Démarrer le serveur
 app.listen(3000, () => {
