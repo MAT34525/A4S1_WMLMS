@@ -63,6 +63,7 @@ export interface Users {
   PASSWORD: string;
   EMAIL?: string;
   FULL_NAME?: string;
+  IS_LOCKED : 'Y' | 'N';
   IS_ARTIST?: 'Y' | 'N';
   CREATED_AT?: Date;
   UPDATED_AT?: Date;
@@ -183,6 +184,7 @@ export const DUMMY_USER: Users = {
   PASSWORD: "",
   EMAIL: "",
   FULL_NAME: "",
+  IS_LOCKED: "N",
   IS_ARTIST: "N",
   CREATED_AT: new Date(),
   UPDATED_AT: new Date()

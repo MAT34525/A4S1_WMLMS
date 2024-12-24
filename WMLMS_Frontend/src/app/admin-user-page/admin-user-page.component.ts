@@ -56,6 +56,7 @@ export class AdminUserPageComponent implements OnInit{
     },
     { field: "FULL_NAME" },
     { field: "EMAIL" },
+    { field: "IS_LOCKED" },
     {
       headerName: "ACTIONS",
       field: "USER_ID",
