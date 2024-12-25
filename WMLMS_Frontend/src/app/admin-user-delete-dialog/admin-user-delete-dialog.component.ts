@@ -28,12 +28,11 @@ export class AdminUserDeleteDialogComponent {
   }
 
   onYesClick(): void {
-    this.dialogRef.close();
-    this.adminService.deleteUser(this.data.USER_ID)
+    this.dialogRef.close(true);
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
 }

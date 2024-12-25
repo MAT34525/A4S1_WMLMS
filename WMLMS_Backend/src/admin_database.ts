@@ -79,11 +79,37 @@ export class AdminDatabase {
          *             $ref: '#/components/schemas/Users'
          *     responses:
          *       200:
-         *         description: Success reponse
+         *         description: Success response
          *       404:
-         *         description: Not found reponse
+         *         description: Not found response
          */
         this.#app.put('/s/admin/users/:id', (req, res) => this.putUser(req, res));
+
+        /**
+         * @openapi
+         * /s/admin/users/lock/{id}:
+         *   put:
+         *     description:  Update an existing user by UUID
+         *     parameters:
+         *      - name: id
+         *        in: path
+         *        required: true
+         *        description: The UUID of the user
+         *        schema:
+         *          type: string
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             $ref: '#/components/schemas/Users'
+         *     responses:
+         *       200:
+         *         description: Success response
+         *       404:
+         *         description: Not found response
+         */
+        this.#app.put('/s/admin/users/lock/:id', (req, res) => this.putUserLock(req, res));
 
         /**
          * @openapi
@@ -373,11 +399,11 @@ export class AdminDatabase {
 
     // PUT BY ID ==================================================================================
 
-    // Admin PUT USER ID function
-    async putUser(req, res) {
+    // Admin PUT USER Lock By ID function
+    async putUserLock(req, res) {
 
         // Display the command name
-        console.log("Admin PUT User By ID");
+        console.log("Admin PUT User Lock By ID");
 
         let item = req.body;
 
@@ -400,15 +426,57 @@ export class AdminDatabase {
         }
 
         // We modify the user depending on the existance of the given parameters
+        if(item["IS_LOCKED"] !== undefined && (item["IS_LOCKED"].length === 1))
+        {
+            let newLock = (item["IS_LOCKED"] === 'N') ? 'Y' : 'N';
+
+            console.log("[+] Locked toggled from ", item["IS_LOCKED"], ' to ', newLock )
+
+            await this.#connection.query('UPDATE USERS SET IS_LOCKED=:newLock WHERE USER_ID=:id',
+            {
+                bind : [newLock, id]
+            });
+        }
+
+        res.json({message : "User successfully updated !"}).status(200);
+    }
+
+    // Admin PUT USER By ID function
+    async putUser(req, res) {
+
+        // Display the command name
+        console.log("Admin PUT User By ID");
+
+        let item = req.body;
+
+        console.log(item);
+
+        // We check that the user exists
+        const { id } = req.params;
+
+        // We get look for the user id in the table
+        const userLookup = await this.#connection.query('SELECT USER_ID FROM USERS WHERE user_id=:id',
+            {
+                bind : [id]
+            });
+
+        if(userLookup[0].length === 0)
+        {
+            console.log("[-] Not found !")
+            res.json({message: "User not found !"}).status(404);
+            return;
+        }
+
+        // We modify the user depending on the existance of the given parameters
         if(item["USERNAME"] !== undefined)
         {
             console.log("[+] USERNAME Modified !")
 
             let username = item["USERNAME"]
             await this.#connection.query('UPDATE USERS SET USERNAME=:username WHERE USER_ID=:id',
-            {
-                bind : [username, id]
-            });
+                {
+                    bind : [username, id]
+                });
         }
 
         if(item["EMAIL"] !== undefined && item["EMAIL"] !== '')
@@ -417,9 +485,9 @@ export class AdminDatabase {
 
             let email = item["EMAIL"]
             await this.#connection.query('UPDATE USERS SET EMAIL=:email WHERE USER_ID=:id',
-            {
-                bind : [email, id]
-            });
+                {
+                    bind : [email, id]
+                });
         }
 
         if(item["FULL_NAME"] !== undefined && item["FULL_NAME"] !== '')
@@ -428,9 +496,9 @@ export class AdminDatabase {
 
             let fullName = item["FULL_NAME"]
             await this.#connection.query('UPDATE USERS SET FULL_NAME=:fullName WHERE USER_ID=:id',
-            {
-                bind : [fullName, id]
-            });
+                {
+                    bind : [fullName, id]
+                });
         }
 
         res.json({message : "User successfully updated !"}).status(200);

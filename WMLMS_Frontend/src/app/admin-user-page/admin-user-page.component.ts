@@ -52,16 +52,21 @@ export class AdminUserPageComponent implements OnInit{
     {
       field: "USERNAME",
       filter: "agTextColumnFilter",
-      filterParams: containsFilterParams
+      filterParams: userFilterParams
     },
     { field: "FULL_NAME" },
     { field: "EMAIL" },
-    { field: "IS_LOCKED" },
     {
       headerName: "ACTIONS",
-      field: "USER_ID",
-      width: 250,
+      field: "IS_LOCKED",
+      filter: "agTextColumnFilter",
+      filterParams: lockFilterParams,
+      width: 300,
       cellRenderer: AdminUserPageButtonsComponent,
+      cellRendererParams: {
+        USER_ID: "USER_ID",
+        IS_LOCKED: "IS_LOCKED"
+      },
     },
   ];
 
@@ -105,8 +110,18 @@ export class AdminUserPageComponent implements OnInit{
 
 // Filters and searches tutorial : https://www.ag-grid.com/angular-data-grid/filter-text/#text-filter-options
 
-const containsFilterParams: ITextFilterParams = {
+const lockFilterParams: ITextFilterParams = {
+  filterOptions: ["equals"],
+  maxNumConditions: 1,
+  textMatcher: ({ value, filterText }) => {
+    const literalMatch = contains(value, filterText || "");
+    return !!literalMatch;
+  }
+};
+
+const userFilterParams: ITextFilterParams = {
   filterOptions: ["contains"],
+  maxNumConditions: 1,
   textMatcher: ({ value, filterText }) => {
     const literalMatch = contains(value, filterText || "");
     return !!literalMatch;

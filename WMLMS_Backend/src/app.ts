@@ -27,6 +27,13 @@ const jsDocOptions = {
     },
     components: {
       schemas: {
+        UserLock : {
+          type : 'object',
+          properties : {
+            lock : {type : 'string'},
+          },
+          required : ['lock']
+        },
         Login : {
           type : 'object',
           properties : {
@@ -34,7 +41,6 @@ const jsDocOptions = {
             password : {type : 'string'}
           },
           required : ['username', 'password']
-
         },
         Register : {
           type : 'object',
@@ -119,7 +125,8 @@ const jsDocOptions = {
             PASSWORD: { type: "string" },
             EMAIL: { type: "string", format: "email", nullable: true },
             FULL_NAME: { type: "string", nullable: true },
-            IS_ARTIST: { type: "string", enum: ["Y", "N"], nullable: true },
+            IS_LOCKED: { type: "string", enum: ["Y", "N"] },
+            IS_ARTIST: { type: "string", enum: ["Y", "N"]},
             CREATED_AT: { type: "string", format: "date-time", nullable: true },
             UPDATED_AT: { type: "string", format: "date-time", nullable: true }
           },

@@ -68,6 +68,13 @@ export class AdminServiceService {
     return this.httpClient.put<Users>(`/s/admin/users/${users_id}`, user);
   }
 
+  // Put request for a specific Users using ID and body
+  toogleUserLock(users_id : string, user : Users) : Observable<Users>
+  {
+    console.log("Admin Service Put : User Lock By ID", user);
+    return this.httpClient.put<Users>(`/s/admin/users/lock/${users_id}`, user);
+  }
+
   // DELETE =======================================================================================
 
   deleteUser(users_id : string) : Observable<Users>
