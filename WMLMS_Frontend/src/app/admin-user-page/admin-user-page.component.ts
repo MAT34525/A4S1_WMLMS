@@ -4,15 +4,96 @@ import {AdminServiceService} from '../admin-service.service';
 import {MatButton, MatButtonModule} from '@angular/material/button';
 import {NgIf} from '@angular/common';
 import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
-import type { ColDef } from 'ag-grid-community'; // Column Definition Type Interface
 import { MatIconModule } from '@angular/material/icon';
 
-import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+import {
+  ClientSideRowModelModule,
+  ColDef,
+  ColGroupDef,
+  GridApi,
+  GridOptions,
+  ModuleRegistry,
+  NumberEditorModule,
+  NumberFilterModule,
+  PaginationModule,
+  RowSelectionModule,
+  RowSelectionOptions,
+  TextEditorModule,
+  TextFilterModule,
+  ValidationModule,
+  createGrid,
+} from 'ag-grid-community';
 import {AdminUserPageButtonsComponent} from '../admin-user-page-buttons/admin-user-page-buttons.component';
 import {Users} from '../schema';
-import {GridApi, GridReadyEvent, ITextFilterParams} from '@ag-grid-community/core';
+import {ITextFilterParams} from '@ag-grid-community/core';
 
-ModuleRegistry.registerModules([AllCommunityModule]);
+ModuleRegistry.registerModules([
+  NumberEditorModule,
+  TextEditorModule,
+  TextFilterModule,
+  NumberFilterModule,
+  RowSelectionModule,
+  PaginationModule,
+  ClientSideRowModelModule
+]);
+
+// Filters and searches tutorial : https://www.ag-grid.com/angular-data-grid/filter-text/#text-filter-options
+
+const lockFilterParams: ITextFilterParams = {
+  filterOptions: ["equals"],
+  maxNumConditions: 1,
+  textMatcher: ({ value, filterText }) => {
+    const literalMatch = contains(value, filterText || "");
+    return !!literalMatch;
+  }
+};
+
+const userFilterParams: ITextFilterParams = {
+  filterOptions: ["contains"],
+  maxNumConditions: 1,
+  textMatcher: ({ value, filterText }) => {
+    const literalMatch = contains(value, filterText || "");
+    return !!literalMatch;
+  }
+};
+
+function contains(target: string, lookingFor: string) {
+  return target && target.indexOf(lookingFor) >= 0;
+}
+
+
+// Column Definitions: Defines the columns to be displayed.
+const columnDefs: (ColDef<Users, any>)[] = [
+  { field: "USER_ID" },
+  {
+    field: "USERNAME",
+    filter: "agTextColumnFilter",
+    filterParams: userFilterParams
+  },
+  { field: "FULL_NAME" },
+  { field: "EMAIL" },
+  {
+    headerName: "ACTIONS",
+    field: "IS_LOCKED",
+    filter: "agTextColumnFilter",
+    filterParams: lockFilterParams,
+    width: 300,
+    cellRenderer: AdminUserPageButtonsComponent,
+    cellRendererParams: {
+      USER_ID: "USER_ID",
+      IS_LOCKED: "IS_LOCKED"
+    },
+  },
+];
+
+const gridOptions : GridOptions<Users> | undefined = {
+  defaultColDef: {
+    editable: false,
+    filter:true,
+    flex:1
+  },
+  pagination: true,
+}
 
 @Component({
   selector: 'app-admin-user-page',
@@ -46,32 +127,9 @@ export class AdminUserPageComponent implements OnInit{
 
   rowData : Users[] ;
 
-  // Column Definitions: Defines the columns to be displayed.
-  colDefs: ColDef<Users>[] = [
-    { field: "USER_ID" },
-    {
-      field: "USERNAME",
-      filter: "agTextColumnFilter",
-      filterParams: userFilterParams
-    },
-    { field: "FULL_NAME" },
-    { field: "EMAIL" },
-    {
-      headerName: "ACTIONS",
-      field: "IS_LOCKED",
-      filter: "agTextColumnFilter",
-      filterParams: lockFilterParams,
-      width: 300,
-      cellRenderer: AdminUserPageButtonsComponent,
-      cellRendererParams: {
-        USER_ID: "USER_ID",
-        IS_LOCKED: "IS_LOCKED"
-      },
-    },
-  ];
-
   constructor(private route : Router) {
     this.rowData = [];
+
   }
 
   ngOnInit() {
@@ -106,28 +164,6 @@ export class AdminUserPageComponent implements OnInit{
     this.gridApi.exportDataAsCsv();
   }
 
-}
-
-// Filters and searches tutorial : https://www.ag-grid.com/angular-data-grid/filter-text/#text-filter-options
-
-const lockFilterParams: ITextFilterParams = {
-  filterOptions: ["equals"],
-  maxNumConditions: 1,
-  textMatcher: ({ value, filterText }) => {
-    const literalMatch = contains(value, filterText || "");
-    return !!literalMatch;
-  }
-};
-
-const userFilterParams: ITextFilterParams = {
-  filterOptions: ["contains"],
-  maxNumConditions: 1,
-  textMatcher: ({ value, filterText }) => {
-    const literalMatch = contains(value, filterText || "");
-    return !!literalMatch;
-  }
-};
-
-function contains(target: string, lookingFor: string) {
-  return target && target.indexOf(lookingFor) >= 0;
+  protected readonly columnDefs = columnDefs;
+  protected readonly gridOptions = gridOptions;
 }
