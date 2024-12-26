@@ -57,7 +57,7 @@ export class AdminUserEditComponent {
       });
     }
     else {
-      console.warn("User ID was not numeric !");
+      console.warn("User ID was not valid !");
     }
   }
 

@@ -5,7 +5,23 @@ const router = express.Router();
 
 let databaseConnexions = [];
 
-
+/**
+ * @openapi
+ * /u/admin-login:
+ *   post:
+ *     description: Log in the database as an administrator
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Login'
+ *     responses:
+ *       200:
+ *         description: Admin successfully connected !
+ *       404:
+ *         description: An error occurred, please try again.
+ */
 router.post('/u/admin-login', (_req, _res) => adminLogin(_req, _res));
 
 async function adminLogin(_req : any, _res : any) {
@@ -46,46 +62,8 @@ async function adminLogin(_req : any, _res : any) {
         // Inform the user for any other issues
     } catch (error) {
         console.error('Error when connecting :', error); // Log de l'erreur détaillée
-        _res.json({ message: 'An error occured, please try again.', status:400 }).status(400);
+        _res.json({ message: 'An error occurred, please try again.', status:400 }).status(400);
     }
 }
-
-// Admin database connection creation
-/**
- * @openapi
- * /u/admin-login:
- *   post:
- *     description: Log in the database as an administrator
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Login'
- *     responses:
- *       200:
- *         description: Admin successfully connected !
- *       404:
- *         description: An error occured, please try again.
- */
-
-
-/**
- * @openapi
- * /u/register:
- *   post:
- *     description: Register a new user with a post request
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Register'
- *     responses:
- *       200:
- *         description: Successfull user creation !
- *       404:
- *         description: An error occured, please try again.
- */
 
 export default router;

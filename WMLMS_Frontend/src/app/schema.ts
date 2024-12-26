@@ -12,6 +12,7 @@ export interface Artists {
   NAME: string;
   FOLLOWERS?: number;
   GENRES?: string;
+  IS_VERIFIED: string;
   POPULARITY?: number;
   CREATED_AT?: Date;
   UPDATED_AT?: Date;
@@ -137,6 +138,7 @@ export const DUMMY_ARTIST: Artists = {
   NAME: "",
   FOLLOWERS: 0,
   GENRES: "",
+  IS_VERIFIED: 'N',
   POPULARITY: 0,
   CREATED_AT: new Date(),
   UPDATED_AT: new Date()

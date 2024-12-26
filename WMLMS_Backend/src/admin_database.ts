@@ -141,8 +141,31 @@ export class AdminDatabase {
 
         /**
          * @openapi
-         * /s/admin/artists:
+         * /s/admin/users/{id}:
          *   get:
+         *     description: Get an user by UUID
+         *     parameters:
+         *      - name: id
+         *        in: path
+         *        required: true
+         *        description: The UUID of the user
+         *        schema:
+         *            type: string
+         *     responses:
+         *       200:
+         *         description: The user matching the UUID
+         *         schema:
+         *             $ref: '#/components/schemas/Users'
+         *       404:
+         *         description: User not found
+         */
+        this.#app.get('/s/admin/artists/:id', (req, res) => this.getArtist(req, res));
+
+
+        /**
+         * @openapi
+         * /s/admin/artists:
+         *   post:
          *     description: Get all artists
          *     responses:
          *       200:
@@ -155,6 +178,68 @@ export class AdminDatabase {
          *         description : Bad request !
          */
         this.#app.get('/s/admin/artists', (req, res) => this.getArtistList(req, res));
+
+        /**
+         * @openapi
+         * /s/admin/artists/count:
+         *   get:
+         *     description: Get artists count
+         *     responses:
+         *       200:
+         *         description: Number of artists in the DB
+         *       404:
+         *         description: Table not found !
+         *       400 :
+         *         description : Bad request !
+         */
+        this.#app.get('/s/admin/artists/count', (req, res) => this.getArtistCount(req, res));
+
+        /**
+         * @openapi
+         * /s/admin/artists/delayed:
+         *   post:
+         *     description: Get artists count
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             $ref: '#/components/schemas/ArtistPage'
+         *     responses:
+         *       200:
+         *         description: List of artists of the selected page
+         *       404:
+         *         description: Table not found !
+         *       400 :
+         *         description : Bad request !
+         */
+        this.#app.post('/s/admin/artists/delayed', (req, res) => this.getArtistListDelayed(req, res));
+
+        /**
+         * @openapi
+         * /s/admin/artists/verification/{id}:
+         *   put:
+         *     description:  Update an existing artist by UUID
+         *     parameters:
+         *      - name: id
+         *        in: path
+         *        required: true
+         *        description: The UUID of the artist
+         *        schema:
+         *          type: string
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             $ref: '#/components/schemas/Artists'
+         *     responses:
+         *       200:
+         *         description: Success response
+         *       404:
+         *         description: Not found response
+         */
+        this.#app.put('/s/admin/artists/verification/:id', (req, res) => this.putArtistVerification(req, res));
 
 
         // Table visualisation
@@ -320,16 +405,81 @@ export class AdminDatabase {
 
     // GET ========================================================================================
 
-    // Admin Get User List  function
+
+    // Admin Get User List function
     async getUserList(req, res) {
 
         this.getList('Users', req, res);
     }
 
-    // Admin Get Artist List  function
+    // Admin Get Artist List function
     async getArtistList(req, res) {
 
         this.getList('Artists', req, res);
+    }
+
+    // Admin Get Artist Count function
+    async getArtistCount(req, res) {
+
+        // Try to execute the query and handle the Table Not Found error.
+        try {
+
+            // Execute the query and send result
+            const result = await this.#connection.query(`SELECT COUNT(ARTIST_ID) FROM ARTISTS;`);
+            res.json({ result : result[0][0]["COUNT(ARTIST_ID)"]}).status(200);
+
+        } catch (error) {
+
+            // Send message and 404 result
+            console.log('Table doesn"t exists !');
+            res.json({message : "Table not found !"}).status(404);
+
+        }
+    }
+
+    // Admin Get Artist List  function
+    async getArtistListDelayed(req, res) {
+
+        // Display the command name
+        console.log("Admin GET Artists List by page");
+
+
+        // Checking parameters values
+        const { page, size } = req.body;
+
+        console.log(req.body)
+
+        if(page === undefined || size === undefined) {
+            res.json({message : "Missing body fields !"}).status(400);
+            return
+        }
+
+        if(page < 0 || size <= 0) {
+            res.json({message : "Invalid sizes !"}).status(400);
+            return
+        }
+
+        // Try to execute the query and handle the Table Not Found error.
+        try {
+
+            // Compute offset
+            let offset : number = page * size;
+            let limit : number = size;
+
+            // Execute the query and send result
+            const result = await this.#connection.query(`SELECT * FROM ARTISTS OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY;`,
+                {
+                    bind: [offset, limit],
+                });
+            res.json(result[0]).status(200);
+
+        } catch (error) {
+
+            // Send message and 404 result
+            console.log('Table doesn"t exists !');
+            res.json({message : "Table not found !"}).status(404);
+
+        }
     }
 
     // Admin Get Tracks List  function
@@ -384,6 +534,29 @@ export class AdminDatabase {
         }
         else {
             res.json(users[0][0]).status(200);
+        }
+    }
+
+    // Admin Get USER ID function
+    async getArtist(req, res) {
+        // Display the command name
+        console.log("Admin GET Artist By ID");
+
+        const { id } = req.params;
+
+        const artist = await this.#connection.query('SELECT * FROM ARTISTS WHERE ARTIST_ID=:id',
+            {
+                bind : [id]
+            });
+
+        console.log(artist[0][0]);
+
+        if (artist[0].length == 0)
+        {
+            res.json({message: 'Not found !'}).status(404);
+        }
+        else {
+            res.json(artist[0][0]).status(200);
         }
     }
 
@@ -465,6 +638,48 @@ export class AdminDatabase {
         }
 
         res.json({message : "User successfully updated !"}).status(200);
+    }
+
+    // Admin PUT ARTIST Verification By ID function
+    async putArtistVerification(req, res) {
+
+        // Display the command name
+        console.log("Admin PUT Artist Verification By ID");
+
+        let item = req.body;
+
+        console.log(item);
+
+        // We check that the user exists
+        const { id } = req.params;
+
+        // We get look for the artist id in the table
+        const artistLookup = await this.#connection.query('SELECT ARTIST_ID FROM ARTISTS WHERE artist_id=:id',
+            {
+                bind : [id]
+            });
+
+        if(artistLookup[0].length === 0)
+        {
+            console.log("[-] Not found !")
+            res.json({message: "Artist not found !"}).status(404);
+            return;
+        }
+
+        // We modify the user depending on the existance of the given parameters
+        if(item["IS_VERIFIED"] !== undefined && (item["IS_VERIFIED"].length === 1))
+        {
+            let newLock = (item["IS_VERIFIED"] === 'N') ? 'Y' : 'N';
+
+            console.log("[+] Verification toggled from ", item["IS_VERIFIED"], ' to ', newLock )
+
+            await this.#connection.query('UPDATE ARTISTS SET IS_VERIFIED=:newLock WHERE ARTIST_ID=:id',
+                {
+                    bind : [newLock, id]
+                });
+        }
+
+        res.json({message : "Artist successfully updated !"}).status(200);
     }
 
     // Admin PUT USER By ID function

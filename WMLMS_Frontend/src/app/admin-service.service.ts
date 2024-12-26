@@ -22,11 +22,11 @@ export class AdminServiceService {
     return this.httpClient.get<Users[]>('/s/admin/users');
   }
 
-  // Get request for the Users list
-  getArtists(page : number, pageSize : number) : Observable<Artists[]>
+  // Get request for the Artists Count (for progress bar reference) Users list
+  getArtistsCount() : Observable<number>
   {
-    console.log("Admin Service Get : Artists List");
-    return this.httpClient.post<Artists[]>('/s/admin/artists', {num : page , size : pageSize});
+    console.log("Admin Service Get : Artists Count");
+    return this.httpClient.get<number>('/s/admin/artists/count');
   }
 
   // Get request for a specific Users using IDs
@@ -34,6 +34,13 @@ export class AdminServiceService {
   {
     console.log("Admin Service Get : Users By ID");
     return this.httpClient.get<Users>(`/s/admin/users/${users_id}`);
+  }
+
+  // Get request for a specific Artist using IDs
+  getArtist(artist_id : string) : Observable<Artists>
+  {
+    console.log("Admin Service Get : Users By ID");
+    return this.httpClient.get<Artists>(`/s/admin/artists/${artist_id}`);
   }
 
 
@@ -83,6 +90,13 @@ export class AdminServiceService {
     return this.httpClient.put<Users>(`/s/admin/users/lock/${users_id}`, user);
   }
 
+  // Put request for a specific Users using ID and body
+  toogleArtistVerification(artist_id : string, artist : Artists) : Observable<Artists>
+  {
+    console.log("Admin Service Put : Artist Verifiaction By ID", artist);
+    return this.httpClient.put<Artists>(`/s/admin/artists/verification/${artist_id}`, artist);
+  }
+
   // DELETE =======================================================================================
 
   deleteUser(users_id : string) : Observable<Users>
@@ -107,6 +121,13 @@ export class AdminServiceService {
     return this.httpClient.post<number>(`/s/admin/query-count`, {
       query : query
     });
+  }
+
+  // Post request for the Artist list depending on the requested page and the page size
+  getArtists(pageNumber : number, pageSize : number) : Observable<Artists[]>
+  {
+    console.log("Admin Service Get : Artists List");
+    return this.httpClient.post<Artists[]>('/s/admin/artists/delayed', {page : pageNumber , size : pageSize});
   }
 
 }

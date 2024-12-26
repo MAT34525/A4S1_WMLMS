@@ -27,6 +27,8 @@ import {
 } from 'ag-grid-community';
 import {Artists} from '../schema';
 import {ITextFilterParams} from '@ag-grid-community/core';
+import {AdminUserPageButtonsComponent} from '../admin-user-page-buttons/admin-user-page-buttons.component';
+import {AdminArtistPageButtonsComponent} from '../admin-artist-page-buttons/admin-artist-page-buttons.component';
 
 ModuleRegistry.registerModules([
   NumberEditorModule,
@@ -68,7 +70,29 @@ const columnDefs: (ColDef<Artists, any>)[] = [
   {
     field: 'ARTIST_ID',
     type: 'string',
-  }
+  },
+  {
+    field: 'NAME',
+    type: 'string',
+  },
+  {
+    field: 'IS_VERIFIED',
+    type: 'string',
+  },
+  {
+    field: 'CREATED_AT',
+    type: 'date',
+  },
+  {
+    headerName: "VERIFY",
+    field: "IS_VERIFIED",
+    width: 300,
+    cellRenderer: AdminArtistPageButtonsComponent,
+    cellRendererParams: {
+      USER_ID: "ARTIST_ID",
+      IS_LOCKED: "IS_VERIFIED"
+    },
+  },
 ];
 
 const gridOptions : GridOptions<Artists> | undefined = {
@@ -77,7 +101,7 @@ const gridOptions : GridOptions<Artists> | undefined = {
     filter:true,
     flex:1
   },
-  pagination: true,
+  pagination: false,
 }
 
 @Component({
@@ -96,6 +120,7 @@ const gridOptions : GridOptions<Artists> | undefined = {
 export class AdminArtistPageComponent implements OnInit{
 
   private gridApi!: GridApi<Artists>;
+  private artistsCount : number = 0;
 
   loaded : boolean = false;
 
@@ -107,30 +132,39 @@ export class AdminArtistPageComponent implements OnInit{
     // AdminUserPageButtonsComponent: AdminArtistPageButtonsComponent,
   };
 
-  rowData : Artists[] ;
+  rowData : Artists[]  = [];
 
   constructor(private route : Router) {
     this.rowData = [];
+     this.adminService.getArtistsCount().subscribe(data => this.artistsCount = data);
+
 
   }
 
   ngOnInit() {
     this.getArtists();
-    // this.dataSource.paginator = this.paginator;
   }
 
-  getArtists()
+  async getArtists()
   {
-    this.adminService.getArtists().subscribe({
+    console.log('Artist count : ', this.artistsCount);
+
+    let count = 0;
+
+    this.adminService.getArtists(count, 20).subscribe({
       next: data => {
-        this.loaded = true;
+        this.loaded= false;
         this.rowData = data;
+        this.loaded = true;
       }, error:err=> {
         this.loaded=false;
-        console.log("Failed to load User List");
-      }
-    });
+        console.log("Failed to load Artist List");
+      }});
+
+      console.log(count)
+
   }
+
 
   onReloadClick()
   {

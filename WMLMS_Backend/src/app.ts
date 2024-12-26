@@ -27,6 +27,14 @@ const jsDocOptions = {
     },
     components: {
       schemas: {
+        ArtistPage : {
+          type : 'object',
+          properties : {
+            page : {type : 'number'},
+            size : {type : 'number'}
+          },
+          required : ['page', 'size']
+        },
         UserLock : {
           type : 'object',
           properties : {
@@ -65,6 +73,7 @@ const jsDocOptions = {
             ARTIST_ID: { type: "string" },
             NAME: { type: "string" },
             FOLLOWERS: { type: "integer", nullable: true },
+            IS_VERIFIED: {type: "string",  enum: ["Y", "N"] },
             GENRES: { type: "string", nullable: true },
             POPULARITY: { type: "integer", nullable: true },
             CREATED_AT: { type: "string", format: "date-time", nullable: true },
@@ -219,7 +228,7 @@ const jsDocOptions = {
       },
     },
   },
-  apis: ['.//src/app.ts', './/src/admin_database.ts', './/src/database.ts'],
+  apis: ['.//src/admin_database.ts', './/src/routes/*.ts'],
 };
 
 const apiDoc = swaggerJsdoc(jsDocOptions);
