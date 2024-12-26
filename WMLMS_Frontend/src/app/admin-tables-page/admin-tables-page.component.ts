@@ -1,7 +1,23 @@
 import {Component, inject} from '@angular/core';
 import {MatButton} from '@angular/material/button';
 import {AgGridAngular} from 'ag-grid-angular';
-import type {ColDef} from 'ag-grid-community';
+import {
+  ClientSideRowModelModule,
+  ColDef,
+  ColGroupDef,
+  GridApi,
+  GridOptions,
+  ModuleRegistry,
+  NumberEditorModule,
+  NumberFilterModule,
+  PaginationModule,
+  RowSelectionModule,
+  RowSelectionOptions,
+  TextEditorModule,
+  TextFilterModule,
+  ValidationModule,
+  createGrid,
+} from 'ag-grid-community';
 import {AdminUserPageButtonsComponent} from '../admin-user-page-buttons/admin-user-page-buttons.component';
 import {
   Albums,
@@ -17,6 +33,25 @@ import {AdminServiceService} from '../admin-service.service';
 import {GridOptionsService} from '@ag-grid-community/core';
 import {NONE_TYPE} from '@angular/compiler';
 import {NgIf} from '@angular/common';
+
+ModuleRegistry.registerModules([
+  NumberEditorModule,
+  TextEditorModule,
+  TextFilterModule,
+  NumberFilterModule,
+  RowSelectionModule,
+  PaginationModule,
+  ClientSideRowModelModule
+]);
+
+const gridOptions : GridOptions<Users> | undefined = {
+  defaultColDef: {
+    editable: false,
+    filter:true,
+    flex:1
+  },
+  pagination: true,
+}
 
 @Component({
   selector: 'app-admin-tables-page',
@@ -198,4 +233,6 @@ export class AdminTablesPageComponent {
     // Show and refresh the ag-grid
     this.loaded = true;
   }
+
+  protected readonly gridOptions = gridOptions;
 }

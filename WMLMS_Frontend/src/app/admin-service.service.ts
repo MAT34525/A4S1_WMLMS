@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Albums, ForumPosts, ForumReplies, Playlists, Tracks, Users} from './schema';
+import {Albums, Artists, ForumPosts, ForumReplies, Playlists, Tracks, Users} from './schema';
 
 
 @Injectable({
@@ -22,12 +22,20 @@ export class AdminServiceService {
     return this.httpClient.get<Users[]>('/s/admin/users');
   }
 
+  // Get request for the Users list
+  getArtists(page : number, pageSize : number) : Observable<Artists[]>
+  {
+    console.log("Admin Service Get : Artists List");
+    return this.httpClient.post<Artists[]>('/s/admin/artists', {num : page , size : pageSize});
+  }
+
   // Get request for a specific Users using IDs
   getUser(users_id : string) : Observable<Users>
   {
     console.log("Admin Service Get : Users By ID");
     return this.httpClient.get<Users>(`/s/admin/users/${users_id}`);
   }
+
 
   getAlbums() : Observable<Albums[]>
   {

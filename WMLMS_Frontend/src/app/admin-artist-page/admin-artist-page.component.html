@@ -1,1 +1,28 @@
-<p>admin-artist-page works!</p>
+<br/>
+
+<span class="row" style="width:100%">
+
+  <button mat-raised-button style="width:56px; height: 56px; margin-left: 60px; margin-right: 10px " class="col-2" disabled="false" (click)="onReloadClick()">
+    Reload
+  </button>
+
+  <label *ngIf="!loaded" style="flex: 1; margin-right: 35px" class="col alert alert-danger">Error while loading the list</label>
+
+  <label *ngIf="loaded" style="flex: 1; margin-right: 35px"  class="col alert alert-success">User list loaded successfully !</label>
+
+</span>
+
+<ag-grid-angular
+  style="width: 100%; height: 500px; padding-left: 50px; padding-right: 50px; padding-top: 10px;"
+  class="ag-theme-balham"
+  [rowData]="rowData"
+  [columnDefs]="columnDefs"
+  [components]="components"
+  [gridOptions]="gridOptions"
+  (gridReady)="onGridReady($event)"
+/>
+
+<button mat-raised-button color="primary" style="margin-top: 20px; margin-left: 50px" (click)="onBtExport()">Export CSV</button>
+
+
+

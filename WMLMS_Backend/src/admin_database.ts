@@ -137,6 +137,26 @@ export class AdminDatabase {
          */
         this.#app.delete('/s/admin/users/:id', (req, res) => this.deleteUser(req, res));
 
+        // Artists CRUD
+
+        /**
+         * @openapi
+         * /s/admin/artists:
+         *   get:
+         *     description: Get all artists
+         *     responses:
+         *       200:
+         *         description: All artists in the DB
+         *         schema:
+         *           $ref: '#/components/schemas/Artists'
+         *       404:
+         *         description: Table not found !
+         *       400 :
+         *         description : Bad request !
+         */
+        this.#app.get('/s/admin/artists', (req, res) => this.getArtistList(req, res));
+
+
         // Table visualisation
         /**
          * @openapi
@@ -304,6 +324,12 @@ export class AdminDatabase {
     async getUserList(req, res) {
 
         this.getList('Users', req, res);
+    }
+
+    // Admin Get Artist List  function
+    async getArtistList(req, res) {
+
+        this.getList('Artists', req, res);
     }
 
     // Admin Get Tracks List  function
