@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {RouterLink, RouterOutlet} from '@angular/router';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbNavLink} from "@ng-bootstrap/ng-bootstrap";
 import {MatAnchor} from '@angular/material/button';
+import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
 
 
 @Component({
@@ -13,7 +14,9 @@ import {MatAnchor} from '@angular/material/button';
     RouterLink,
     NgbNavLink,
     RouterOutlet,
-    MatAnchor
+    MatAnchor,
+    MatButtonToggleGroup,
+    MatButtonToggle
   ],
   templateUrl: './admin-page-navbar.component.html',
   standalone: true,
