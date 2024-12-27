@@ -7,11 +7,11 @@
 <div class="container">
   <div class="Graphics">
     <div class="Pie">
-      <highcharts-chart class="align-content-center" [Highcharts]="genreRepartitionChart" [options]="genreRepartitionOptions" [update]="updateFlag">
+      <highcharts-chart [Highcharts]="explicitRepartitionChart" [options]="explicitRepartitionOptions" [update]="updateFlag">
       </highcharts-chart>
     </div>
     <div class="Bar">
-      <highcharts-chart  [Highcharts]="topTenArtistsBarChart" [options]="topTenArtistsBarOptions" [update]="updateFlag">
+      <highcharts-chart [Highcharts]="topTenArtistsBarChart" [options]="topTenArtistsBarOptions" [update]="updateFlag">
       </highcharts-chart>
 
     </div>

@@ -39,7 +39,7 @@ export class AdminLoginPageComponent {
 
       },
       error: (err) => {
-        console.error('Login failed:', err);
+        console.error('Login failed :', err);
         this.errorMessage = 'Invalid username or password';
       }
     });

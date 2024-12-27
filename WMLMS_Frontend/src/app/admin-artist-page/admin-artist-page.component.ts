@@ -1,17 +1,15 @@
-import { Component } from '@angular/core';
-
-import {inject, OnInit, ViewChild} from '@angular/core';
-import {Router} from '@angular/router'
+// Angular
+import {Component , inject, OnInit} from '@angular/core';
 import {AdminServiceService} from '../admin-service.service';
-import {MatButton, MatButtonModule} from '@angular/material/button';
+import {MatButton} from '@angular/material/button';
 import {NgIf} from '@angular/common';
-import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
-import { MatIconModule } from '@angular/material/icon';
+import {MatIconModule} from '@angular/material/icon';
 
+// AG Grid
+import { AgGridAngular } from 'ag-grid-angular';
 import {
   ClientSideRowModelModule,
   ColDef,
-  ColGroupDef,
   GridApi,
   GridOptions,
   ModuleRegistry,
@@ -19,17 +17,15 @@ import {
   NumberFilterModule,
   PaginationModule,
   RowSelectionModule,
-  RowSelectionOptions,
   TextEditorModule,
   TextFilterModule,
-  ValidationModule,
-  createGrid,
 } from 'ag-grid-community';
+
+// Project
 import {Artists} from '../schema';
-import {ITextFilterParams} from '@ag-grid-community/core';
-import {AdminUserPageButtonsComponent} from '../admin-user-page-buttons/admin-user-page-buttons.component';
 import {AdminArtistPageButtonsComponent} from '../admin-artist-page-buttons/admin-artist-page-buttons.component';
 
+// AG Grid module registration
 ModuleRegistry.registerModules([
   NumberEditorModule,
   TextEditorModule,
@@ -40,32 +36,7 @@ ModuleRegistry.registerModules([
   ClientSideRowModelModule
 ]);
 
-// Filters and searches tutorial : https://www.ag-grid.com/angular-data-grid/filter-text/#text-filter-options
-
-const lockFilterParams: ITextFilterParams = {
-  filterOptions: ["equals"],
-  maxNumConditions: 1,
-  textMatcher: ({ value, filterText }) => {
-    const literalMatch = contains(value, filterText || "");
-    return !!literalMatch;
-  }
-};
-
-const userFilterParams: ITextFilterParams = {
-  filterOptions: ["contains"],
-  maxNumConditions: 1,
-  textMatcher: ({ value, filterText }) => {
-    const literalMatch = contains(value, filterText || "");
-    return !!literalMatch;
-  }
-};
-
-function contains(target: string, lookingFor: string) {
-  return target && target.indexOf(lookingFor) >= 0;
-}
-
-
-// Column Definitions: Defines the columns to be displayed.
+// Set up the columns displayed
 const columnDefs: (ColDef<Artists, any>)[] = [
   {
     field: 'ARTIST_ID',
@@ -95,11 +66,12 @@ const columnDefs: (ColDef<Artists, any>)[] = [
   },
 ];
 
+// Set up the grid configuration
 const gridOptions : GridOptions<Artists> | undefined = {
   defaultColDef: {
     editable: false,
     filter:true,
-    flex:1
+    flex:1,
   },
   pagination: false,
 }
@@ -116,45 +88,39 @@ const gridOptions : GridOptions<Artists> | undefined = {
   standalone: true,
   styleUrl: './admin-artist-page.component.css'
 })
-
 export class AdminArtistPageComponent implements OnInit{
-
-  private gridApi!: GridApi<Artists>;
-  private artistsCount : number = 0;
-  maxPage : number = 0;
-   page : number = 0;
-
-  loaded : boolean = false;
 
   private readonly adminService = inject(AdminServiceService);
 
-  public components: {
-    [p: string]: any;
-  } = {
-    // AdminUserPageButtonsComponent: AdminArtistPageButtonsComponent,
-  };
+  // AG Grid
+  private gridApi!: GridApi<Artists>;
+  protected readonly columnDefs = columnDefs;
+  protected readonly gridOptions = gridOptions;
 
   rowData : Artists[]  = [];
+  loaded : boolean = false;
 
-  constructor(private route : Router) {
+  // Pagination
+  maxPage : number = 0;
+  page : number = 0;
+
+  constructor() {
     this.rowData = [];
-    this.adminService.getArtistsCount().subscribe(data => {
-        this.artistsCount = data["result"];
-        this.maxPage = Math.ceil(this.artistsCount/20);
-    });
 
+    // Preload the page number
+    this.adminService.getArtistsCount().subscribe(data => {
+        this.maxPage = Math.ceil(data["result"]/20);
+    });
   }
 
+  // Load first page at init
   ngOnInit() {
     this.getArtists(0);
   }
 
+  // Load a page of artists using a page number
   async getArtists(page : number)
   {
-    console.log('Artist count : ', this.artistsCount);
-
-    let count = 0;
-
     this.adminService.getArtists(page, 20).subscribe({
       next: data => {
         this.loaded= false;
@@ -162,40 +128,42 @@ export class AdminArtistPageComponent implements OnInit{
         this.loaded = true;
       }, error:err=> {
         this.loaded=false;
-        console.log("Failed to load Artist List");
+        console.log("Failed to load Artist List", err);
       }});
-
-      console.log(count)
-
   }
 
-
+  // Reload button, reload the selected page data
   onReloadClick()
   {
     this.getArtists(this.page);
   }
 
+  // Load grid
   onGridReady(params : any) {
     this.gridApi = params.api;
   }
 
-
+  // Export grid
   onBtExport() {
     this.gridApi.exportDataAsCsv();
   }
 
-  protected readonly columnDefs = columnDefs;
-  protected readonly gridOptions = gridOptions;
-
-  //
+  // Modify the selected page based on increment
   onPageChange( increment : number) {
+
+    // Check page validity, positive
     if (this.page + increment < 0) {
       return;
     }
 
-    this.page += increment;
+    // Check page validity, maximum
+    if(this.page + increment >= this.maxPage) {
+      this.page = this.maxPage;
+    } else {
+      this.page += increment;
+    }
 
+    // Update the displayed artist
     this.getArtists(this.page);
-
   }
 }

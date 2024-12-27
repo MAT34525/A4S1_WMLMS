@@ -5,7 +5,6 @@ import type { ICellRendererParams } from 'ag-grid-community';
 import {MatButton} from '@angular/material/button';
 import {Router} from '@angular/router';
 import {AdminServiceService} from '../admin-service.service';
-import {AdminUserDeleteDialogComponent} from '../admin-user-delete-dialog/admin-user-delete-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSlideToggle} from '@angular/material/slide-toggle';
 import { firstValueFrom} from 'rxjs';

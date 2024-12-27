@@ -1,14 +1,15 @@
+// Angular
 import {Component, inject} from '@angular/core';
+import {MatButton} from '@angular/material/button';
+import {AdminServiceService} from '../admin-service.service';
+import {MatSlideToggle} from '@angular/material/slide-toggle';
+
+// AG Grid
 import type { ICellRendererAngularComp } from 'ag-grid-angular';
 import type { ICellRendererParams } from 'ag-grid-community';
-import {MatButton} from '@angular/material/button';
-import {Router} from '@angular/router';
-import {AdminServiceService} from '../admin-service.service';
-import {MatDialog} from '@angular/material/dialog';
-import {MatSlideToggle} from '@angular/material/slide-toggle';
-import {FormsModule} from '@angular/forms';
-import {MatCheckbox} from '@angular/material/checkbox';
-import {Artists, Users} from '../schema';
+
+// Project
+import {Artists} from '../schema';
 
 @Component({
   selector: 'app-admin-artist-page-buttons',
@@ -22,75 +23,66 @@ import {Artists, Users} from '../schema';
 })
 export class AdminArtistPageButtonsComponent implements ICellRendererAngularComp {
 
-  public artist_id: string = '';
-  is_verified : string = 'N';
-  artist : Artists | undefined = undefined;
-  toogleLockValue : string = "";
-  toogleLockStatus : boolean = false;
-
-  params : ICellRendererParams | undefined;
-
   adminService = inject(AdminServiceService);
 
-  constructor( private route : Router ) {
-  }
-  // gets called once before the renderer is used
+  // Angular component
+  params : ICellRendererParams | undefined;
+
+  // Private elements
+  private artist_id: string = "";
+  private is_verified : string = "N";
+  private artist : Artists | undefined = undefined;
+
+  // Toggle button
+  toggleVerificationValue : string = "";
+  toggleVerificationStatus : boolean = false;
+
+  // Prepare values at init
   agInit(params: ICellRendererParams): void {
+
     this.params = params;
+
     this.artist_id = params.data.ARTIST_ID;
-
-    this.adminService.getArtist(this.artist_id).subscribe(data =>
-      {
-        console.log('Artist loaded : ', data);
-        this.artist = data;
-      }
-    );
-
     this.is_verified = params.data.IS_VERIFIED;
 
+    // Get additional values of the selected artist
+    this.adminService.getArtist(this.artist_id).subscribe(data => this.artist = data);
+
+    // Update additional components depending on the toggle status
     this.updateLock();
   }
 
+  // Cell refresh
   refresh(params: ICellRendererParams) {
     return true;
   }
 
+  // Toggle values update
   updateLock() {
     if(this.is_verified === 'Y') {
-      this.toogleLockValue = "Verified";
-      this.toogleLockStatus = true;
+      this.toggleVerificationValue = "Verified";
+      this.toggleVerificationStatus = true;
     } else {
-      this.toogleLockValue = "";
-      this.toogleLockStatus = false;
+      this.toggleVerificationValue = "";
+      this.toggleVerificationStatus = false;
     }
   }
 
-  onToogleLockClick()
+  // Actions to run when toggling the verification button
+  onToggleVerificationClick()
   {
+    console.log("Admin user lock toggle triggered for artist  : ", this.artist_id);
+
+    // Invert the verification status
     this.is_verified = (this.is_verified === 'N')? "Y": "N" ;
 
+    // Update toggle value
     this.updateLock();
 
-    console.log(this.is_verified)
-
-    console.log("Admin user lock toogle triggered for artist  : ", this.artist_id);
-
+    // Update the new artist status in the database
     if(this.artist){
       this.adminService.toogleArtistVerification(this.artist_id, this.artist)
-        .subscribe(artists => this.artist);
+        .subscribe(artists => this.artist = artists);
     }
   }
-
-  onViewClick()
-  {
-    console.log("Admin user view triggered for artist : ", this.artist_id);
-    this.route.navigate(['/a/users/view', this.artist_id]);
-  }
-
-  onEditClick()
-  {
-    console.log("Admin user edit triggered for artist : ", this.artist_id);
-    this.route.navigate(['/a/users/edit', this.artist_id]);
-  }
-
 }
