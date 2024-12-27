@@ -121,6 +121,8 @@ export class AdminArtistPageComponent implements OnInit{
 
   private gridApi!: GridApi<Artists>;
   private artistsCount : number = 0;
+  maxPage : number = 0;
+   page : number = 0;
 
   loaded : boolean = false;
 
@@ -136,22 +138,24 @@ export class AdminArtistPageComponent implements OnInit{
 
   constructor(private route : Router) {
     this.rowData = [];
-     this.adminService.getArtistsCount().subscribe(data => this.artistsCount = data);
-
+    this.adminService.getArtistsCount().subscribe(data => {
+        this.artistsCount = data["result"];
+        this.maxPage = Math.ceil(this.artistsCount/20);
+    });
 
   }
 
   ngOnInit() {
-    this.getArtists();
+    this.getArtists(0);
   }
 
-  async getArtists()
+  async getArtists(page : number)
   {
     console.log('Artist count : ', this.artistsCount);
 
     let count = 0;
 
-    this.adminService.getArtists(count, 20).subscribe({
+    this.adminService.getArtists(page, 20).subscribe({
       next: data => {
         this.loaded= false;
         this.rowData = data;
@@ -168,7 +172,7 @@ export class AdminArtistPageComponent implements OnInit{
 
   onReloadClick()
   {
-    this.getArtists();
+    this.getArtists(this.page);
   }
 
   onGridReady(params : any) {
@@ -182,4 +186,16 @@ export class AdminArtistPageComponent implements OnInit{
 
   protected readonly columnDefs = columnDefs;
   protected readonly gridOptions = gridOptions;
+
+  //
+  onPageChange( increment : number) {
+    if (this.page + increment < 0) {
+      return;
+    }
+
+    this.page += increment;
+
+    this.getArtists(this.page);
+
+  }
 }

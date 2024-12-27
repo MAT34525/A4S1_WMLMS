@@ -138,7 +138,6 @@ export class AdminDatabase {
         this.#app.delete('/s/admin/users/:id', (req, res) => this.deleteUser(req, res));
 
         // Artists CRUD
-
         /**
          * @openapi
          * /s/admin/users/{id}:
@@ -161,7 +160,6 @@ export class AdminDatabase {
          */
         this.#app.get('/s/admin/artists/:id', (req, res) => this.getArtist(req, res));
 
-
         /**
          * @openapi
          * /s/admin/artists:
@@ -181,7 +179,7 @@ export class AdminDatabase {
 
         /**
          * @openapi
-         * /s/admin/artists/count:
+         * /s/admin/count/artists:
          *   get:
          *     description: Get artists count
          *     responses:
@@ -192,7 +190,7 @@ export class AdminDatabase {
          *       400 :
          *         description : Bad request !
          */
-        this.#app.get('/s/admin/artists/count', (req, res) => this.getArtistCount(req, res));
+        this.#app.get('/s/admin/count/artists', (req, res) => this.getArtistCount(req, res));
 
         /**
          * @openapi
@@ -240,7 +238,6 @@ export class AdminDatabase {
          *         description: Not found response
          */
         this.#app.put('/s/admin/artists/verification/:id', (req, res) => this.putArtistVerification(req, res));
-
 
         // Table visualisation
         /**
@@ -373,7 +370,7 @@ export class AdminDatabase {
     }
 
     // Standard function to get the list of any tables
-    async getList(tableName, req, res) {
+    async getList(tableName : string, req, res) {
 
         // Display the command name
         console.log("Admin GET " + tableName + " List");
@@ -446,8 +443,6 @@ export class AdminDatabase {
 
         // Checking parameters values
         const { page, size } = req.body;
-
-        console.log(req.body)
 
         if(page === undefined || size === undefined) {
             res.json({message : "Missing body fields !"}).status(400);
@@ -549,8 +544,6 @@ export class AdminDatabase {
                 bind : [id]
             });
 
-        console.log(artist[0][0]);
-
         if (artist[0].length == 0)
         {
             res.json({message: 'Not found !'}).status(404);
@@ -569,8 +562,6 @@ export class AdminDatabase {
         console.log("Admin DELETE User By ID");
 
         let item = req.body;
-
-        console.log(item);
 
         // We check that the user exists
         const { id } = req.params;
@@ -605,8 +596,6 @@ export class AdminDatabase {
         console.log("Admin PUT User Lock By ID");
 
         let item = req.body;
-
-        console.log(item);
 
         // We check that the user exists
         const { id } = req.params;
@@ -648,8 +637,6 @@ export class AdminDatabase {
 
         let item = req.body;
 
-        console.log(item);
-
         // We check that the user exists
         const { id } = req.params;
 
@@ -689,8 +676,6 @@ export class AdminDatabase {
         console.log("Admin PUT User By ID");
 
         let item = req.body;
-
-        console.log(item);
 
         // We check that the user exists
         const { id } = req.params;

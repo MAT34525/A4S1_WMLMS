@@ -22,6 +22,18 @@
   (gridReady)="onGridReady($event)"
 />
 
+<div class="container"
+  style="width: 100%;
+  margin-top: 5px">
+  <span style="display: inline-block"></span>
+
+  <button class="increment" mat-raised-button (click)="onPageChange(-5)">-5</button>
+  <button class="increment" mat-raised-button (click)="onPageChange(-1)">-1</button>
+  <button class="increment" mat-raised-button (click)="onPageChange(1)">+1</button>
+  <button class="increment" mat-raised-button (click)="onPageChange(+5)">+5</button>
+  <label style="width : 200px; margin-left: 20px">Page : {{page}} / {{maxPage}}</label>
+</div>
+
 <button mat-raised-button color="primary" style="margin-top: 20px; margin-left: 50px" (click)="onBtExport()">Export CSV</button>
 
 

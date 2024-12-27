@@ -23,10 +23,10 @@ export class AdminServiceService {
   }
 
   // Get request for the Artists Count (for progress bar reference) Users list
-  getArtistsCount() : Observable<number>
+  getArtistsCount() : Observable<{result : number}>
   {
     console.log("Admin Service Get : Artists Count");
-    return this.httpClient.get<number>('/s/admin/artists/count');
+    return this.httpClient.get<{result : number}>('/s/admin/count/artists');
   }
 
   // Get request for a specific Users using IDs
