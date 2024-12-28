@@ -11,12 +11,12 @@ export class UserService {
 
   searchTracks(query: string): Observable<any[]> {
     console.log(`Search tracks using SQL: ${query}`);
-    return this.httpClient.post<any[]>('/api/execute-query', { query });
+    return this.httpClient.post<any[]>('/user/query', { query });
   }
 
   // Search artists using SQL query
   searchArtists(query: string): Observable<any[]> {
     console.log(`Search artists using SQL: ${query}`);
-    return this.httpClient.post<any[]>('/api/execute-query', { query });
+    return this.httpClient.post<any[]>('/user/query', { query });
   }
 }
