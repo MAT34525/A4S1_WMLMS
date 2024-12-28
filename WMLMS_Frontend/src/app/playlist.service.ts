@@ -6,16 +6,16 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class PlaylistService {
-  private readonly apiUrl = 'http://localhost:3000'; // URL de votre backend
+  private readonly apiUrl = 'http://localhost:3000';
 
   constructor(private http: HttpClient) {}
 
-  // Récupérer toutes les playlists
+  // get all playlists
   getPlaylists(): Observable<any> {
     return this.http.get(`${this.apiUrl}/playlists`);
   }
 
-  // Récupérer les musiques d'une playlist
+  // get musics from a playlist
   getTracksForPlaylist(playlistId: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/playlists/${playlistId}/tracks`);
   }

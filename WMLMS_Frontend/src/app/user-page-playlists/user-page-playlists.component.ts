@@ -40,7 +40,7 @@ export class PlaylistsComponent implements OnInit {
     });
   }
 
-  // Charger les musiques d'une playlist
+  // load musics from a playlist
   loadTracks(playlistId: string, playlistName: string): void {
     this.selectedPlaylistName = playlistName;
     this.playlistService.getTracksForPlaylist(playlistId).subscribe({
