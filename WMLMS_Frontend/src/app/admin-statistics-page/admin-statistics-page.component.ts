@@ -1,24 +1,22 @@
+// Angular
 import {Component, inject} from '@angular/core';
+import {MatButton} from '@angular/material/button';
+import {NgIf} from '@angular/common';
+import {firstValueFrom} from 'rxjs';
+
+// Highcharts
 import Highcharts, {PointOptionsObject} from 'highcharts';
 import {HighchartsChartModule} from 'highcharts-angular';
-import {AdminServiceService} from '../admin-service.service';
-import {AgGridAngular} from 'ag-grid-angular';
-import {MatButton} from '@angular/material/button';
-import {NgForOf, NgIf} from '@angular/common';
-import {ReactiveFormsModule} from '@angular/forms';
-import {SplitAreaComponent, SplitComponent} from 'angular-split';
+
+// Project
+import {AdminService} from '../admin-service.service';
 
 @Component({
   selector: 'app-admin-statistics-page',
   imports: [
     HighchartsChartModule,
-    AgGridAngular,
     MatButton,
-    NgForOf,
     NgIf,
-    ReactiveFormsModule,
-    SplitAreaComponent,
-    SplitComponent
   ],
   templateUrl: './admin-statistics-page.component.html',
   standalone: true,
@@ -26,10 +24,11 @@ import {SplitAreaComponent, SplitComponent} from 'angular-split';
 })
 export class AdminStatisticsPageComponent {
 
-  updateFlag = false;
+  adminService: AdminService = inject(AdminService);
 
   isError : boolean = false;
 
+  // KPI
   userCount : number = 0;
   artistCount : number = 0;
   playlistCount : number = 0;
@@ -37,6 +36,7 @@ export class AdminStatisticsPageComponent {
   forumCount : number = 0;
   commentCount : number = 0;
 
+  // Charts
   topTenArtistsBarChart: typeof Highcharts = Highcharts;
   topTenArtistsBarData : (number | [string, number | null] | PointOptionsObject | null)[] = [];
   topTenArtistsBarOptions: Highcharts.Options = {
@@ -82,9 +82,9 @@ export class AdminStatisticsPageComponent {
     }]
   };
 
-  genreRepartitionChart: typeof Highcharts = Highcharts;
-  genreRepartitionData : (number | [string, number | null] | PointOptionsObject | null)[] = [];
-  genreRepartitionOptions: Highcharts.Options = {
+  explicitRepartitionChart: typeof Highcharts = Highcharts;
+  explicitRepartitionData : (number | [string, number | null] | PointOptionsObject | null)[] = [];
+  explicitRepartitionOptions: Highcharts.Options = {
     chart: {
       type: 'pie'
     },
@@ -124,28 +124,24 @@ export class AdminStatisticsPageComponent {
     }]
   };
 
-  adminService: AdminServiceService = inject(AdminServiceService);
+  updateFlag : boolean = false;
 
-  constructor() {
-
-  }
-
+  // Reload charts with updated data
   onUpdateCharts() {
 
     this.updateFlag = false;
 
-    console.log(this.genreRepartitionData);
-    console.log(this.topTenArtistsBarData);
-
-    if(this.genreRepartitionOptions && this.genreRepartitionOptions.series)
+    // Reload pie chart
+    if(this.explicitRepartitionOptions && this.explicitRepartitionOptions.series)
     {
-      this.genreRepartitionOptions.series = [{
+      this.explicitRepartitionOptions.series = [{
         type: 'pie',
         name: 'Share',
-        data: this.genreRepartitionData
+        data: this.explicitRepartitionData
       }]
     }
 
+    // Reload column chart
     if(this.topTenArtistsBarOptions && this.topTenArtistsBarOptions.series)
     {
       this.topTenArtistsBarOptions.series = [{
@@ -155,186 +151,133 @@ export class AdminStatisticsPageComponent {
       }]
     }
 
+    // Update charts using the update flag
     this.updateFlag = true;
   }
 
+  // Convert backend data into chart-usable data
   convertQueryResultToData(data: any) : (number | [string, number | null] | PointOptionsObject | null)[]
   {
+    // Check for errors
     let { message } = data;
 
-    // Check if the response is valid
     let isError = (message !== undefined);
 
+    // Error message detected
     if(isError)
     {
       return [];
     }
 
-    // We must have only 2 columns
-    if(data[1].length < 2)
+    // Only two elements are expected
+    if(data[1].length != 2)
     {
       return [];
     }
 
-    // We assume the following : the first column is the name, the second is the value
-
-    // We get the two fields :
+    // We get categorical values from the second element of the array
     let fields = [];
 
     for (let item of data[1]) {
       fields.push(item.field);
     }
 
-    console.log(fields);
-
-    // We extract the two fields for each item in the data
+    // We get the values from the first element of the array
     let result = [];
 
     for (let tuple of data[0]) {
       result.push({name: tuple[fields[0]], y: tuple[fields[1]] });
     }
 
-    result[0] = {
-      name: result[0].name,
-      y: result[0].y
-    }
-
-    console.log(result);
-
     return result;
   }
 
-  ngOnInit() {
+  // Preload the values of both charts
+  async getValues() {
 
-    /*
-    this.adminService.customQuery(
-      "SELECT USERNAME, COUNT(*) " +
-      "FROM USERS GROUP BY USERNAME"
-    ).subscribe({ next : data => {
-        this.topTenArtistsBarData = this.convertQueryResultToData(data);
-        this.onUpdateCharts();
-    }, error : err => {
-      this.onError();
-    }
-    });
-    */
-
-    this.topTenArtistsBarData = [
-      {
-        name: 'Taylor Swift',
-        y: 9500,
-        sliced: true,
-        selected: true
-      },
-      {
-        name: 'Drake',
-        y: 8700
-      },
-      {
-        name: 'Ariana Grande',
-        y: 8200
-      },
-      {
-        name: 'Ed Sheeran',
-        y: 7800
-      },
-      {
-        name: 'Beyoncé',
-        y: 7400
-      },
-      {
-        name: 'Billie Eilish',
-        y: 6900
-      },
-      {
-        name: 'Post Malone',
-        y: 6500
-      },
-      {
-        name: 'The Weeknd',
-        y: 6100
-      },
-      {
-        name: 'Rihanna',
-        y: 5700
-      },
-      {
-        name: 'Justin Bieber',
-        y: 5300
-      }
-    ];
-
-
-    this.adminService.customQuery(
+    // Load the pie chart values
+    this.explicitRepartitionData = this.convertQueryResultToData(await firstValueFrom(this.adminService.customQuery(
       "SELECT EXPLICIT, COUNT(*) FROM TRACKS GROUP BY EXPLICIT"
-    ).subscribe({ next : data => {
-      this.isError = false;
-      this.genreRepartitionData = this.convertQueryResultToData(data);
-      this.onUpdateCharts();
-    }, error : err => {
-        this.onError();
-      }
-    });
+    )))
 
+    // Load the column chart values
+    this.topTenArtistsBarData =  this.convertQueryResultToData(await firstValueFrom(this.adminService.customQuery(
+      "SELECT NAME, FOLLOWERS FROM ARTISTS ORDER BY FOLLOWERS DESC NULLS LAST FETCH FIRST 10 ROWS ONLY"
+    )))
+
+    // Update the charts
+    this.onUpdateCharts()
+  }
+
+  async ngOnInit() {
+
+    // Load and update charts with up-to-date values
+    await this.getValues();
+
+    // User count KPI
     this.adminService.customCount("SELECT COUNT(*) FROM USERS"
     ).subscribe({ next : data => {
       this.isError = false;
       this.userCount = data;
     }, error : err => {
-        this.onError();
+        this.onError(err);
       }
     });
 
+    // Artists count KPI
     this.adminService.customCount("SELECT COUNT(*) FROM ARTISTS"
     ).subscribe({ next : data => {
         this.isError = false;
         this.artistCount = data;
       }, error : err => {
-        this.onError();
+        this.onError(err);
       }
     });
 
+    // Tracks count KPI
     this.adminService.customCount("SELECT COUNT(*) FROM TRACKS"
     ).subscribe({ next : data => {
         this.isError = false;
         this.songCount = data;
     }, error : err => {
-        this.onError();
+        this.onError(err);
       }
     });
 
+    // Playlists count KPI
     this.adminService.customCount("SELECT COUNT(*) FROM Playlists"
     ).subscribe({ next : data => {
         this.isError = false;
         this.playlistCount = data;
     }, error : err => {
-        this.onError();
+        this.onError(err);
       }
     });
 
+    // Comments count KPI
     this.adminService.customCount("SELECT COUNT(*) FROM COMMENTS"
     ).subscribe({ next : data => {
         this.isError = false;
         this.commentCount = data;
     }, error : err => {
-        this.onError();
+        this.onError(err);
       }
     });
 
+    // Forums post count KPI
     this.adminService.customCount("SELECT COUNT(*) FROM FORUM_POSTS"
     ).subscribe({ next : data => {
         this.isError = false;
         this.commentCount = data;
     }, error : err => {
-        this.onError();
+        this.onError(err);
       }
     });
   }
 
-  onError() {
+  // Error handling when loading KPI
+  onError(error : string) {
     this.isError = true;
-    console.log('Failed to load the data !');
+    console.log('Failed to load the data ! :', error);
   }
-
 }
-

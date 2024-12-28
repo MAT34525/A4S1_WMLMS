@@ -2,27 +2,13 @@
 
   <a routerLink="" class="navbar-brand" href="#" style="margin-left: 12px">WMLMS</a>
 
-  <a mat-raised-button routerLink="/a/home" class="nav-link" href="#" style="margin-left: 6px">Home</a>
-
-  <a mat-raised-button routerLink="/a/users" class="nav-link" href="#" style="margin-left: 6px">Users</a>
-
-  <a mat-raised-button routerLink="/a/artists" [style.background-color]="'orange'" class="nav-link" href="#" style="margin-left: 6px" hidden>Artists</a>
-
-  <a mat-raised-button routerLink="/a/tables" class="nav-link" href="#" style="margin-left: 6px" >Tables</a>
-
-  <a mat-raised-button routerLink="/a/queries" class="nav-link" href="#" style="margin-left: 6px">Queries</a>
-
-  <a mat-raised-button routerLink="/a/statistics" class="nav-link " href="#" style="margin-left: 6px">Statistics</a>
-
-  <a mat-raised-button routerLink="/a/logs" [style.background-color]="'orange'" class="nav-link" href="#" style="margin-left: 6px" hidden>Logs</a>
-
-
-  <div class="col-2" hidden >
-    <div ngbDropdown  type="button" >
-      <span ngbDropdownToggle></span>
-      <div ngbDropdownMenu >
-        Valeurs
-      </div>
-    </div>
-  </div>
+  <mat-button-toggle-group [hideSingleSelectionIndicator]="true" appearance="legacy">
+    <mat-button-toggle  routerLink="/a/home" class=" mat-raised-button nav-link" href="#" style="margin-left: 6px">Home</mat-button-toggle>
+    <mat-button-toggle  routerLink="/a/users" class="nav-link" href="#" style="margin-left: 6px">Users</mat-button-toggle>
+    <mat-button-toggle  routerLink="/a/artists" class="nav-link" href="#" style="margin-left: 6px">Artists</mat-button-toggle>
+    <mat-button-toggle  routerLink="/a/tables" class="nav-link" href="#" style="margin-left: 6px" >Tables</mat-button-toggle>
+    <mat-button-toggle  routerLink="/a/queries" class="nav-link" href="#" style="margin-left: 6px">Queries</mat-button-toggle>
+    <mat-button-toggle  routerLink="/a/statistics" class="nav-link " href="#" style="margin-left: 6px">Statistics</mat-button-toggle>
+    <mat-button-toggle  routerLink="/a/logs" [style.background-color]="'orange'" class="nav-link" href="#" style="margin-left: 6px" hidden>Logs</mat-button-toggle>
+  </mat-button-toggle-group>
 </nav>

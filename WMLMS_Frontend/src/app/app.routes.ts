@@ -6,7 +6,6 @@ import {AdminUserPageComponent} from './admin-user-page/admin-user-page.componen
 import {AdminTablesPageComponent} from './admin-tables-page/admin-tables-page.component';
 import {AdminQueriesPageComponent} from './admin-queries-page/admin-queries-page.component';
 import {AdminStatisticsPageComponent} from './admin-statistics-page/admin-statistics-page.component';
-import {AdminLogsPageComponent} from './admin-logs-page/admin-logs-page.component';
 import {AdminHomePageComponent} from './admin-home-page/admin-home-page.component';
 import {AdminUserViewComponent} from './admin-user-view/admin-user-view.component';
 import {AdminUserEditComponent} from './admin-user-edit/admin-user-edit.component';
@@ -16,11 +15,16 @@ import {AdminLoginPageComponent} from './admin-login-page/admin-login-page.compo
 import {UserPageComponent} from './user-page/user-page.component';
 import {UserPageHomeComponent} from './user-page-home/user-page-home.component';
 import {UserPageArtistsComponent} from './user-page-artists/user-page-artists.component';
-import {UserPagePlaylistsComponent} from './user-page-playlists/user-page-playlists.component';
+import {PlaylistsComponent} from './user-page-playlists/user-page-playlists.component';
 import {UserPageSongsComponent} from './user-page-songs/user-page-songs.component';
+import {UserQueriesPageComponent} from './user-queries-page/user-queries-page.component';
 
 
 export const routes: Routes = [
+  {
+    path:"",
+    component:MainPageComponent,
+  },
   {
     path:"login",
     component:LoginPageComponent
@@ -34,23 +38,18 @@ export const routes: Routes = [
     component:SignupPageComponent
   },
   {
-    path:"",
-    component:MainPageComponent,
-    pathMatch: 'full',
-  },
-
-  {
     path: "user",
     component: UserPageComponent,
     children: [
       {
         path:'',
-        redirectTo: 'home',
+        redirectTo: 'queries',
         pathMatch: 'full',
       },
       {
         path:'home',
-        component:UserPageHomeComponent,
+        redirectTo: 'queries',
+        pathMatch: 'full'
       },
       {
         path:'artists',
@@ -58,11 +57,15 @@ export const routes: Routes = [
       },
       {
         path:'playlists',
-        component:UserPagePlaylistsComponent,
+        component:PlaylistsComponent,
       },
       {
         path:'songs',
         component:UserPageSongsComponent,
+      },
+      {
+        path:'queries',
+        component:UserQueriesPageComponent,
       }
     ]
   },
@@ -110,10 +113,6 @@ export const routes: Routes = [
       {
         path:'statistics',
         component:AdminStatisticsPageComponent,
-      },
-      {
-        path: 'logs',
-        component:AdminLogsPageComponent,
       },
       {
         path: 'login',

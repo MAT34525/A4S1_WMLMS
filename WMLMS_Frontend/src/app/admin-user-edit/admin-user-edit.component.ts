@@ -1,10 +1,13 @@
+// Angular
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {Users} from '../schema';
-import {AdminServiceService} from '../admin-service.service';
 import {MatButton} from '@angular/material/button';
 import {NgIf} from '@angular/common';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+
+// Project
+import {Users} from '../schema';
+import {AdminService} from '../admin-service.service';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -14,8 +17,8 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
     MatButton,
     NgIf,
     FormsModule,
+    ReactiveFormsModule,
     NgbTooltip,
-    ReactiveFormsModule
   ],
   templateUrl: './admin-user-edit.component.html',
   standalone: true,
@@ -23,59 +26,73 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 })
 export class AdminUserEditComponent {
 
+  private readonly adminService = inject(AdminService);
+
+  // Page components
   user_id : string ='';
   userItem : Users | undefined;
-  adminService=inject(AdminServiceService);
+
+  // Forms
   userForm: FormGroup;
   formsBuilder : FormBuilder;
 
   constructor(private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, private route: Router) {
+
     this.user_id = activatedRoute.snapshot.params['id'];
     this.userItem = undefined;
-    this.formsBuilder = formBuilder;
 
+    // Build the forms
+    this.formsBuilder = formBuilder;
     this.userForm = this.formBuilder.group({
       USERNAME: new FormControl<string>('', Validators.required),
       EMAIL: new FormControl<string>(''),
       FULL_NAME: new FormControl<string>(''),
     });
   }
+
   ngOnInit() {
+    // Load additional user data at component init
     this.getUser(this.user_id);
   }
 
+  // Get user data from backend
   getUser(userID : string)  {
 
-    if(/^[abcdef0-9\-]*$/.test(userID)) { // Avoid SQL injection using user ID
+    // Verify SQL injection
+    if(/^[abcdef0-9\-]*$/.test(userID)) {
+
+      // Load user data using user id
        this.adminService.getUser(userID).subscribe({
         next: data => {
           this.userItem = data;
-          console.log('GET /admin/user/:id', data);
         }, error:err=> {
-          console.log("Failed to load User");
+          console.log("Failed to load User : ", err);
         }
       });
     }
     else {
-      console.warn("User ID was not numeric !");
+      console.warn("User ID was not valid !");
     }
   }
 
+  // Update the user values
   onAdd() {
 
+    // Validate the forms
     if (this.userForm.valid && this.userItem)
     {
       const formData = this.userForm.value;
-      console.log('Form data submitted:', formData);
+      console.log('User updated :', formData);
 
+      // Update user
       this.adminService.putUser(this.user_id, formData)
         .subscribe(users => formData);
 
+      // Return to the user list page
       this.route.navigate(['/a/users']);
     }
     else {
       console.log('Form is invalid. Please check the required fields.');
     }
   }
-
 }

@@ -1,23 +1,8 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
 
-  <a routerLink="/" class="navbar-brand col-2" href="/home" >WMLMS</a>
+  <a routerLink="" class="navbar-brand" href="#" style="margin-left: 12px">WMLMS</a>
 
-  <a class="nav-link col-2" href="/user">Home</a>
+  <a mat-raised-button routerLink="/user/home" class="nav-link" href="#" style="margin-left: 6px">Home</a>
 
-  <a routerLink="/user/playlists" class="nav-link col-2" href="/playlists">Playlists</a>
-
-  <a routerLink="/user/songs" class="nav-link col-2" href="/songs">Songs</a>
-
-  <a routerLink="/user/artists" class="nav-link col-2" href="/artists">Artists</a>
-
-  <div class="col-2" hidden >
-    <div ngbDropdown  type="button" >
-      <span ngbDropdownToggle></span>
-      <div ngbDropdownMenu >
-        Valeurs
-      </div>
-    </div>
-  </div>
-
-
+  <a mat-raised-button routerLink="/user/playlists"  class="nav-link" href="#" style="margin-left: 6px" >Playlists</a>
 </nav>

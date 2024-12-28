@@ -1,4 +1,40 @@
-<app-user-page-navbar />
+<h1>Playlists</h1>
 
-<router-outlet />
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Public</th>
+    <th>Created At</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let playlist of playlists"  (click)="loadTracks(playlist.PLAYLIST_ID, playlist.NAME)">
+      <td>{{ playlist.NAME }}</td> <!-- name -->
+      <td>{{ playlist.DESCRIPTION }}</td> <!-- description -->
+      <td>{{ playlist.IS_PUBLIC === 'Y' ? 'Yes' : 'No' }}</td> <!-- is_public -->
+      <td>{{ playlist.CREATED_AT}}</td> <!-- created_at -->
+    </tr>
+  </tbody>
+</table>
 
+<h2 *ngIf="selectedPlaylistName">Tracks for: {{ selectedPlaylistName }}</h2>
+<table *ngIf="selectedPlaylistTracks.length > 0">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Artists</th>
+    <th>Duration (ms)</th>
+    <th>Explicit</th>
+    <th>Release Date</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let track of selectedPlaylistTracks">
+    <td>{{ track.NAME }}</td> <!-- track name -->
+    <td>{{ track.ARTISTS}}</td> <!-- artists -->
+    <td>{{ track.DURATION_MS}}</td> <!-- duration -->
+  </tr>
+  </tbody>
+</table>

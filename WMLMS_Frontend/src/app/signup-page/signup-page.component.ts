@@ -24,7 +24,7 @@ export class SignupPageComponent {
 
   // Handle form submission
   onSubmit(): void {
-    const payload = { username: this.username, email: this.email, password: this.password };
+    const payload = {username: this.username, email: this.email, password: this.password};
 
     this.authService.signup(payload).subscribe({
       next: (response) => {
@@ -35,7 +35,11 @@ export class SignupPageComponent {
       },
       error: (err) => {
         console.error('Signup failed:', err);
-        this.errorMessage = 'Signup failed. Please try again.';
+        if (err.status === 409) {
+          this.errorMessage = 'Username already exists. Please choose another.';
+        } else {
+          this.errorMessage = 'Signup failed. Please try again.';
+        }
       }
     });
   }

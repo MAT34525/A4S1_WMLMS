@@ -1,4 +1,4 @@
-// This is a small configuration file to store the database configuration
+// This is a small configuration file to store the database connection settings
 
 import {Dialect, Options} from "sequelize";
 

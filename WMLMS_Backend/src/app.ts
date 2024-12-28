@@ -1,20 +1,28 @@
-import express from 'express';
+import express, {Express} from 'express';
 import bodyParser from 'body-parser';
-import bcrypt from 'bcrypt';
 import oracledb from 'oracledb';
+import session from 'express-session';
 
+// Import des routes
+import adminRoutes from './routes/AdminRoutes';
+import userRoutes from './routes/UserRoutes';
+import playlistRoutes from './routes/PlaylistRoutes';
+import MusicRoutes from "./routes/MusicRoutes";
 
 // Swagger
-
-import swaggerJsdoc from 'swagger-jsdoc'; // * as swaggerJsdoc from 'swagger-jsdoc'
-import swaggerUi from 'swagger-ui-express';
-import session from 'express-session';
-import {Database} from "./database";
+import swaggerJsdoc, {SwaggerDefinition} from 'swagger-jsdoc';
+import swaggerUi, {SwaggerOptions} from 'swagger-ui-express';
+import * as sea from "node:sea";
 import {ORACLE_DB_PARAMS} from "./config";
 
-const jsDocOptions = {
+// Default shorten types for express
+export type ReqType = express.Request;
+export type ResType = express.Response;
+
+// Swagger configuration (initial tables created by an LLM using the SQL queries for table creation)
+const jsDocOptions : SwaggerOptions  = {
   definition: {
-    openapi: '3.0.0', // Specify the OpenAPI version
+    openapi: '3.0.0',
     info: {
       title: 'Express API with Swagger',
       version: '1.0.0',
@@ -22,6 +30,21 @@ const jsDocOptions = {
     },
     components: {
       schemas: {
+        ArtistPage : {
+          type : 'object',
+          properties : {
+            page : {type : 'number'},
+            size : {type : 'number'}
+          },
+          required : ['page', 'size']
+        },
+        UserLock : {
+          type : 'object',
+          properties : {
+            lock : {type : 'string'},
+          },
+          required : ['lock']
+        },
         Login : {
           type : 'object',
           properties : {
@@ -29,7 +52,6 @@ const jsDocOptions = {
             password : {type : 'string'}
           },
           required : ['username', 'password']
-
         },
         Register : {
           type : 'object',
@@ -54,6 +76,7 @@ const jsDocOptions = {
             ARTIST_ID: { type: "string" },
             NAME: { type: "string" },
             FOLLOWERS: { type: "integer", nullable: true },
+            IS_VERIFIED: {type: "string",  enum: ["Y", "N"] },
             GENRES: { type: "string", nullable: true },
             POPULARITY: { type: "integer", nullable: true },
             CREATED_AT: { type: "string", format: "date-time", nullable: true },
@@ -114,7 +137,8 @@ const jsDocOptions = {
             PASSWORD: { type: "string" },
             EMAIL: { type: "string", format: "email", nullable: true },
             FULL_NAME: { type: "string", nullable: true },
-            IS_ARTIST: { type: "string", enum: ["Y", "N"], nullable: true },
+            IS_LOCKED: { type: "string", enum: ["Y", "N"] },
+            IS_ARTIST: { type: "string", enum: ["Y", "N"]},
             CREATED_AT: { type: "string", format: "date-time", nullable: true },
             UPDATED_AT: { type: "string", format: "date-time", nullable: true }
           },
@@ -207,289 +231,97 @@ const jsDocOptions = {
       },
     },
   },
-  apis: ['.//src/app.ts', './/src/admin_database.ts', './/src/database.ts'],
+  apis: ['.//src/admin_database.ts', './/src/routes/*.ts'],
 };
 
+const apiDoc : SwaggerOptions = swaggerJsdoc(jsDocOptions);
 
-const apiDoc = swaggerJsdoc(jsDocOptions);
-console.log('api-doc json:', JSON.stringify(apiDoc, null,2));
-
-const app = express();
+// Run the API
+const app : Express = express();
 app.use(express.json());
 
+// Link swagger component
 app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(apiDoc));
 
-//gestion des sessions de chaque user
+// Session handling for users
 app.use(session({
-  secret: 'session_secrete', // Utilisez une clé secrète pour signer les sessions
+  secret: 'session_secrete',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // En production, vous devriez mettre `secure: true` si vous utilisez HTTPS
+  cookie: { secure: false }
 }));
 
-// Connexion BDD
+app.use(express.json());
 
-oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
+// Search tracks endpoint
+app.post('/u/queries/tracks', (req : ReqType, res : ResType ) => searchTracks(req, res));
 
-const mypw = 'admin' // set mypw to the hr schema password
+async function searchTracks(req: ReqType, res : ResType) {
 
-app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
+  console.log("User POST Search for tracks");
 
-let databaseConnexions = [];
+  const query = req.body.query.toString().toLowerCase();
 
-// Ajoute la connexion initiale pour l'application
-// databaseConnexions.push(new Database(app, 'app', 'apppassword'))
-
-
-// Admin database connection creation
-/**
- * @openapi
- * /u/admin-login:
- *   post:
- *     description: Log in the database as an administrator
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Login'
- *     responses:
- *       200:
- *         description: Admin successfully connected !
- *       404:
- *         description: An error occured, please try again.
- */
-app.post('/u/admin-login', (_req, _res) => adminLogin(_req, _res));
-
-async function adminLogin(_req : any, _res : any) {
-
-  const { username, password }  = _req.body as {username? : string, password? : string} ;
-
-  // Vérifier si l'utilisateur et le mot de passe ont été fournis
-  if (!username || !password) {
-    return _res.json({ errorMessage: 'Tous les champs sont obligatoires.' }).status(400);
-  }
-  try {
-    console.log('Tentative de connexion pour l\'administrateur:', username); // Log pour suivre la tentative de connexion
-
-    // Create a new database connection
-    databaseConnexions.push(new Database(app, username, password));
-
-    // Wait for the database connection to be established before proceeding
-    await databaseConnexions[databaseConnexions.length - 1].connect();
-
-    // Get the connection status
-    let status = databaseConnexions[databaseConnexions.length - 1].getConnectionStatus();
-    console.log("Admin connection status : ", status);
-
-    // Depending on the status, proceed or abord the login
-    if (status)
-    {
-      console.log("Admin successfully connected, admin panel available !");
-      _res.json({message : "Admin successfully connected !",  status:200}).status(200);
-      return;
-    } else {
-      console.log("Admin credentials are invalid !");
-      _res.json({message : "Admin credentials are invalid!",  status:400}).status(400);
-
-      databaseConnexions.pop();
-
-    }
-
-    // Inform the user for any other issues
-  } catch (error) {
-    console.error('Error when connecting :', error); // Log de l'erreur détaillée
-    _res.json({ message: 'An error occured, please try again.', status:400 }).status(400);
-  }
-}
-
-// Route pour afficher la page de login
-app.get('/u/login', (_req, _res) => {
-  _res.json({ message: null,  status:404 }).status(404); // Pas d'erreur initialement
-});
-
-
-app.post('/u/login',  async (_req, _res) => {
-  const { username, password } = _req.body;
-
-  // Vérifier si l'utilisateur et le mot de passe ont été fournis
-  if (!username || !password) {
-    _res.json({ messsage : 'Tous les champs sont obligatoires.',  status:400 }).status(400);
+  if (!query || query.trim().length === 0) {
+    res.status(400).send({message: 'Query parameter is required'});
     return;
   }
 
   try {
-    console.log('Tentative de connexion pour l\'utilisateur:', username); // Log pour suivre la tentative de connexion
-
-    // Connexion à la base de données Oracle
     const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
-    console.log('Connexion à la base de données réussie.'); // Log pour vérifier que la connexion fonctionne
+    const sql : string = "SELECT * FROM TRACKS WHERE NAME LIKE '%" + query + "%'";
 
-    // Recherche de l'utilisateur dans la base de données
-    const result = await connection.execute(
-        `SELECT user_id, username, password FROM users WHERE username = :username`,
-        [username]
-    );
+    const result = await connection.execute(sql);
 
-    console.log('Résultat de la recherche utilisateur:', result.rows); // Log du résultat de la recherche
-
-    // Vérifier si l'utilisateur existe
-    if (result.rows.length === 0) {
-      console.log('Aucun utilisateur trouvé avec ce nom d\'utilisateur');
-      await connection.close();
-      _res.json({message: 'Identifiants incorrects.',  status:400 }).status(400)
-      return;
-    }
-
-    // Récupérer l'utilisateur de la réponse
-    const user = result.rows[0];
-    const storedPassword = user.PASSWORD;  // Le mot de passe stocké est dans le champ PASSWORD de la base de données
-
-    console.log('Mot de passe stocké:', storedPassword); // Log pour vérifier que le mot de passe est récupéré correctement
-
-    // Vérifier si le mot de passe correspond
-    const isPasswordValid = await bcrypt.compare(password, storedPassword);
-
-    if (isPasswordValid) {
-      console.log('Mot de passe valide. Connexion réussie!');
-      await connection.close();
-      _res.json({message: 'Login réussi!',  status:200}).status(200);
-      return;
-    } else {
-      console.log('Mot de passe incorrect');
-      await connection.close();
-      _res.json({ message: 'Identifiants incorrects.',  status:400 }).status(400);
-      return;
-    }
-
-  } catch (error) {
-    console.error('Erreur lors de la connexion:', error); // Log de l'erreur détaillée
-    _res.json({message: 'Une erreur est survenue, veuillez réessayer.',  status:400 }).status(400);
-  }
-});
-
-//Route pour la création de compte
-app.get('/u/register', (req, res) => {
-  res.send({message: null,  status:404 });
-});
-
-/**
- * @openapi
- * /u/register:
- *   post:
- *     description: Register a new user with a post request
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Register'
- *     responses:
- *       200:
- *         description: Successfull user creation !
- *       404:
- *         description: An error occured, please try again.
- */
-app.post('/u/register', (_req, _res) => register(_req, _res));
-
-async function register(_req : any, _res : any) {
-  const { username, password, email} = _req.body;
-
-  // Vérification que tous les champs sont remplis
-  if (!username || !password || !email) {
-    return _res.json({message: 'Tous les champs sont obligatoires.',  status:400 }).status(400);
-  }
-
-  try {
-    // Hachage du mot de passe
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Connexion à la base de données
-    const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
-
-    // Insertion de l'utilisateur dans la base de données
-    const insertResult = await connection.execute(
-        `INSERT INTO users (username, password, email)
-             VALUES (:username, :password, :email)`,
-        {
-          username: username,
-          password: hashedPassword,
-          email: email
-        },
-        { autoCommit: true }  // Assurez-vous que les modifications sont validées dans la base de données
-    );
-
-    console.log(insertResult);
-    await connection.close();
-
-    // Redirection ou message de succès
-    _res.json({message: 'Successfull user creation !',  status:200}).status(200);
-
-  } catch (error) {
-    console.error('Erreur lors de l\'inscription:', error);
-    _res.json({message: 'An error occured, please try again.',  status:400 }).status(400);
+    res.status(200).send(result.rows);
+  } catch (err) {
+    res.status(500).send({message: 'Internal server error'});
+    console.log("Internal server error :", err);
   }
 }
 
-// Route pour afficher les playlists de l'utilisateur connecté
-app.get('/u/playlists', (_req, _res) => playlists(_req, _res));
+// Search artists endpoint
+app.post('/u/queries/artists', (req : ReqType, res : ResType) => searchArtist(req, res));
 
-async function playlists (_req : any, _res : any) {
+async function searchArtist(req : ReqType, res : ResType) {
 
-  const userId = _req.session.userId; // On suppose que l'ID de l'utilisateur est stocké dans la session
+  console.log("User POST Search for artists");
 
-  // Vérifier si l'utilisateur est connecté
-  if (!userId) {
-    return _res.redirect('/login'); // Redirige vers la page de login si l'utilisateur n'est pas connecté
+  const query = req.body.query.toString().toLowerCase();
+
+  if (!query || query.trim().length === 0) {
+    res.status(400).send({message: 'Query parameter is required'});
+    return;
   }
 
   try {
-    // Connexion à la base de données
     const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
-    // Récupérer les playlists de l'utilisateur
-    const result = await connection.execute(
-        `SELECT PLAYLIST_ID, NAME, DESCRIPTION, IS_PUBLIC, CREATED_AT, UPDATED_AT
-             FROM playlists
-             WHERE USER_ID = :userId`,
-        [userId]
-    );
+    const sql : string = "SELECT * FROM ARTISTS WHERE NAME LIKE '%" + query + "%'";
+    console.log(sql);
 
-    console.log('Playlists récupérées pour l\'utilisateur:', result.rows); // Log pour débogage
-
-    // Fermer la connexion à la base de données
-    await connection.close();
-
-    // Passer les playlists à la vue
-    _res.render('playlists', { playlists: result.rows });
-
-  } catch (error) {
-    console.error('Erreur lors de la récupération des playlists:', error);
-    _res.render('error', { errorMessage: 'Une erreur est survenue lors de la récupération des playlists.' });
+    const result = await connection.execute(sql);
+    res.status(200).send(result.rows);
+  } catch (err) {
+    res.status(500).send({message: 'Internal server error'});
+    console.log("Internal server error :", err);
   }
 }
 
+// BDD connection
+oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
-//méthode du boutton pour se déconnecter
-app.get('/u/logout', (req, res) => {
-  // Supprimer les informations de session (ici, l'ID de l'utilisateur)
-  req.session.destroy((err) => {
-    if (err) {
-      console.error('Erreur lors de la destruction de la session:', err);
-      return res.redirect('/playlists'); // Rediriger vers la page des playlists en cas d'erreur
-    }
+// Activate routes
+app.use(adminRoutes);
+app.use(userRoutes);
+app.use(playlistRoutes);
+app.use(MusicRoutes);
 
-    // Rediriger l'utilisateur vers la page de login après la déconnexion
-    res.redirect('/login');
-  });
-});
-
-
-
-// Démarrer le serveur
+// API startup
 app.listen(3000, () => {
   console.log('Server running on : http://localhost:3000');
 });

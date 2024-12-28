@@ -1,0 +1,95 @@
+<div class="container">
+  <h1>Search Tracks or Artists</h1>
+
+  <!-- Search Input (keep this one) -->
+  <div class="input-group mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Enter a search query"
+      [(ngModel)]="query"
+    />
+    <button class="btn btn-primary" (click)="performSearch()">Search</button>
+  </div>
+
+  <!-- Search Type Toggle (Tracks or Artists) -->
+  <div class="mb-3">
+    <label>
+      <input
+        type="radio"
+        name="searchType"
+        value="tracks"
+        [(ngModel)]="searchType"
+        checked
+      />
+      Tracks
+    </label>
+    <label>
+      <input
+        type="radio"
+        name="searchType"
+        value="artists"
+        [(ngModel)]="searchType"
+      />
+      Artists
+    </label>
+  </div>
+
+  <!-- Search Results (dynamically displays search results based on type) -->
+  <div *ngIf="trackSearchResults.length === 0 && query">
+    <p>Press 'Search' to look for : {{ query }}</p>
+  </div>
+
+  <span *ngIf="searchType === 'tracks'" style="display: flex" class="container">
+
+    <div style="flex: 1">
+      <!-- Display search results -->
+      <div *ngIf="trackSearchResults.length > 0">
+        <div *ngFor="let track of trackSearchResults" (click)="playTrack(track.TRACK_ID)">
+           <mat-chip style="margin-top: 5px">
+             {{track.NAME}}
+           </mat-chip>
+
+        </div>
+      </div>
+    </div>
+    <div style="flex : 1; margin-left: 30px">
+
+      <label>Click on one of the songs to play it here !</label>
+
+      <!-- Spotify Music Player (shows only if a track is selected) -->
+      <div *ngIf="selectedTrackId" class="spotifywrapper">
+        <iframe
+          style="border-radius:12px"
+          [attr.src]="songURL | safe"
+          width="300"
+          height="380"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy">
+        </iframe>
+      </div>
+
+    </div>
+  </span>
+
+  <span *ngIf="searchType === 'artists'" style="display: flex" class="container">
+
+    <div style="flex: 1">
+      <!-- Display search results -->
+      <div *ngIf="artistSearchResults.length > 0">
+        <div *ngFor="let artists of artistSearchResults">
+           <mat-chip style="margin-top: 5px">
+             {{artists.NAME}}
+           </mat-chip>
+
+        </div>
+      </div>
+    </div>
+    <div style="flex : 1; margin-left: 30px">
+
+      <label>Here are the artists you searched for !</label>
+
+    </div>
+  </span>
+
+</div>

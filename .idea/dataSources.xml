@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="wmlmspdb" uuid="68d2b473-e162-4b78-887a-84173f2c609b">
+    <data-source source="LOCAL" name="wmlmspdb" uuid="830d4244-4614-44c0-bc58-c08614a800ee">
       <driver-ref>oracle.19</driver-ref>
       <synchronize>true</synchronize>
       <auto-commit>false</auto-commit>

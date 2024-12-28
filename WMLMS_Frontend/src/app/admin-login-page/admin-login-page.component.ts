@@ -1,8 +1,11 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { AuthService } from '../auth.service';
+// Angular
+import {Component, inject} from '@angular/core';
+import {Router, RouterLink} from '@angular/router';
+import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
+
+// Project
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-admin-login-page',
@@ -39,7 +42,7 @@ export class AdminLoginPageComponent {
 
       },
       error: (err) => {
-        console.error('Login failed:', err);
+        console.error('Login failed :', err);
         this.errorMessage = 'Invalid username or password';
       }
     });

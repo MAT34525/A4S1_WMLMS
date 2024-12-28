@@ -1,4 +1,8 @@
-.container {  display: grid;
+.container {
+  margin-top: -80px;
+  display: grid;
+  width: 100%;
+  height: calc(50% - 100px);
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 0.7fr 0.9fr 1.3fr;
   gap: 0px 0px;
@@ -10,6 +14,7 @@
 }
 
 .Graphics {  display: grid;
+  height: calc(50% - 100px);
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
   gap: 0px 0px;
@@ -23,6 +28,7 @@
 
 .Pie {
   justify-self: center;
+  height: calc(50% - 100px);;
   grid-area: Pie;
 }
 
@@ -33,16 +39,16 @@
 }
 
 .KPI1 {
-  width: 300px;
+  width: 33%;
   grid-area: KPI1;
-  justify-self: right;
-  justify-content: right;
-  justify-items: right;
+  justify-self: center;
+  justify-items: center;
+  justify-content: center;
   align-content: center;
 }
 
 .KPI2 { grid-area: KPI2;
-  width: 300px;
+  width: 33%;
   justify-content: center;
   justify-self: center;
   justify-items: center;
@@ -50,23 +56,23 @@
 }
 
 .KPI3 { grid-area: KPI3;
-  width: 300px;
-  justify-self: left;
-  justify-content: left;
-  justify-items: left;
+  width: 33%;
+  justify-self: center;
+  justify-items: center;
+  justify-content: center;
   align-content: center;
 }
 
 .KPI4 { grid-area: KPI4;
-  width: 300px;
-  justify-self: right;
-  justify-content: right;
-  justify-items: right;
+  width: 33%;
+  justify-self: center;
+  justify-items: center;
+  justify-content: center;
   align-content: center;
 }
 
 .KPI5 { grid-area: KPI5;
-  width: 300px;
+  width: 33%;
   justify-self: center;
   justify-items: center;
   justify-content: center;
@@ -74,9 +80,9 @@
 }
 
 .KPI6 { grid-area: KPI6;
-  width: 300px;
-  justify-self: left;
-  justify-content: left;
-  justify-items: left;
+  width: 33%;
+  justify-self: center;
+  justify-items: center;
+  justify-content: center;
   align-content: center;
 }

@@ -1,0 +1,2023 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="wmlmspdb">
+  <database-model serializer="dbm" dbms="ORACLE" family-id="ORACLE" format-version="4.53">
+    <root id="1">
+      <ServerVersion>21.0.0.0.0</ServerVersion>
+      <TablespacesHash>24153580728</TablespacesHash>
+      <TenantCategory>PDB</TenantCategory>
+    </root>
+    <schema id="2" parent="1" name="ADMIN">
+      <AutoIntrospectionLevel>3</AutoIntrospectionLevel>
+      <CommentsHash>185280259</CommentsHash>
+      <CreatedTimestamp>2024-12-02.12:15:45</CreatedTimestamp>
+      <Current>1</Current>
+      <LastIntrospectionL1Timestamp>2024-12-28.22:17:56</LastIntrospectionL1Timestamp>
+      <LastIntrospectionL2Timestamp>2024-12-28.22:17:56</LastIntrospectionL2Timestamp>
+      <LastIntrospectionL3Timestamp>2024-12-28.22:17:56</LastIntrospectionL3Timestamp>
+      <LastIntrospectionLevel>3</LastIntrospectionLevel>
+      <LastIntrospectionLocalTimestamp>2024-12-28.20:17:57</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionVersion>200820</LastIntrospectionVersion>
+      <ModifiedTimestamp>2024-12-28.15:38:07</ModifiedTimestamp>
+      <ObjectId>108</ObjectId>
+    </schema>
+    <schema id="3" parent="1" name="ANONYMOUS">
+      <ObjectId>71</ObjectId>
+    </schema>
+    <schema id="4" parent="1" name="APP">
+      <ObjectId>117</ObjectId>
+    </schema>
+    <schema id="5" parent="1" name="APPQOSSYS">
+      <ObjectId>63</ObjectId>
+    </schema>
+    <schema id="6" parent="1" name="AUDSYS">
+      <ObjectId>8</ObjectId>
+    </schema>
+    <schema id="7" parent="1" name="C##COM_USER1">
+      <ObjectId>109</ObjectId>
+    </schema>
+    <schema id="8" parent="1" name="CTXSYS">
+      <ObjectId>91</ObjectId>
+    </schema>
+    <schema id="9" parent="1" name="DBSFWUSER">
+      <ObjectId>38</ObjectId>
+    </schema>
+    <schema id="10" parent="1" name="DBSNMP">
+      <ObjectId>62</ObjectId>
+    </schema>
+    <schema id="11" parent="1" name="DGPDB_INT">
+      <ObjectId>55</ObjectId>
+    </schema>
+    <schema id="12" parent="1" name="DIP">
+      <ObjectId>26</ObjectId>
+    </schema>
+    <schema id="13" parent="1" name="DVF">
+      <ObjectId>107</ObjectId>
+    </schema>
+    <schema id="14" parent="1" name="DVSYS">
+      <ObjectId>1279990</ObjectId>
+    </schema>
+    <schema id="15" parent="1" name="GGSYS">
+      <ObjectId>68</ObjectId>
+    </schema>
+    <schema id="16" parent="1" name="GSMADMIN_INTERNAL">
+      <ObjectId>24</ObjectId>
+    </schema>
+    <schema id="17" parent="1" name="GSMCATUSER">
+      <ObjectId>67</ObjectId>
+    </schema>
+    <schema id="18" parent="1" name="GSMUSER">
+      <ObjectId>25</ObjectId>
+    </schema>
+    <schema id="19" parent="1" name="LBACSYS">
+      <ObjectId>105</ObjectId>
+    </schema>
+    <schema id="20" parent="1" name="MDDATA">
+      <ObjectId>103</ObjectId>
+    </schema>
+    <schema id="21" parent="1" name="MDSYS">
+      <ObjectId>102</ObjectId>
+    </schema>
+    <schema id="22" parent="1" name="OJVMSYS">
+      <ObjectId>89</ObjectId>
+    </schema>
+    <schema id="23" parent="1" name="OLAPSYS">
+      <ObjectId>99</ObjectId>
+    </schema>
+    <schema id="24" parent="1" name="ORACLE_OCM">
+      <ObjectId>42</ObjectId>
+    </schema>
+    <schema id="25" parent="1" name="ORDDATA">
+      <ObjectId>94</ObjectId>
+    </schema>
+    <schema id="26" parent="1" name="ORDPLUGINS">
+      <ObjectId>95</ObjectId>
+    </schema>
+    <schema id="27" parent="1" name="ORDSYS">
+      <ObjectId>93</ObjectId>
+    </schema>
+    <schema id="28" parent="1" name="OUTLN">
+      <ObjectId>13</ObjectId>
+    </schema>
+    <schema id="29" parent="1" name="PUBLIC">
+      <AutoIntrospectionLevel>1</AutoIntrospectionLevel>
+      <LastIntrospectionL1Timestamp>2024-12-28.22:17:56</LastIntrospectionL1Timestamp>
+      <LastIntrospectionLevel>1</LastIntrospectionLevel>
+      <LastIntrospectionLocalTimestamp>2024-12-28.20:17:57</LastIntrospectionLocalTimestamp>
+      <ObjectId>1</ObjectId>
+    </schema>
+    <schema id="30" parent="1" name="REGULAR_USER">
+      <ObjectId>112</ObjectId>
+    </schema>
+    <schema id="31" parent="1" name="REMOTE_SCHEDULER_AGENT">
+      <ObjectId>37</ObjectId>
+    </schema>
+    <schema id="32" parent="1" name="SI_INFORMTN_SCHEMA">
+      <ObjectId>96</ObjectId>
+    </schema>
+    <schema id="33" parent="1" name="SYS">
+      <ObjectId>0</ObjectId>
+    </schema>
+    <schema id="34" parent="1" name="SYS$UMF">
+      <ObjectId>51</ObjectId>
+    </schema>
+    <schema id="35" parent="1" name="SYSBACKUP">
+      <ObjectId>2147483617</ObjectId>
+    </schema>
+    <schema id="36" parent="1" name="SYSDG">
+      <ObjectId>2147483618</ObjectId>
+    </schema>
+    <schema id="37" parent="1" name="SYSKM">
+      <ObjectId>2147483619</ObjectId>
+    </schema>
+    <schema id="38" parent="1" name="SYSRAC">
+      <ObjectId>2147483620</ObjectId>
+    </schema>
+    <schema id="39" parent="1" name="SYSTEM">
+      <ObjectId>9</ObjectId>
+    </schema>
+    <schema id="40" parent="1" name="WMSYS">
+      <ObjectId>80</ObjectId>
+    </schema>
+    <schema id="41" parent="1" name="XDB">
+      <ObjectId>70</ObjectId>
+    </schema>
+    <schema id="42" parent="1" name="XS$NULL">
+      <ObjectId>2147483638</ObjectId>
+    </schema>
+    <tablespace id="43" parent="1" name="SYSAUX">
+      <AutoSegmentManagement>1</AutoSegmentManagement>
+      <BlockSize>8192</BlockSize>
+      <ContentCategory>P</ContentCategory>
+      <LocalExtentManagement>1</LocalExtentManagement>
+      <Logging>2</Logging>
+      <Status>E</Status>
+    </tablespace>
+    <tablespace id="44" parent="1" name="SYSTEM">
+      <BlockSize>8192</BlockSize>
+      <ContentCategory>P</ContentCategory>
+      <LocalExtentManagement>1</LocalExtentManagement>
+      <Logging>2</Logging>
+      <Status>E</Status>
+    </tablespace>
+    <tablespace id="45" parent="1" name="TEMP">
+      <BlockSize>8192</BlockSize>
+      <ContentCategory>T</ContentCategory>
+      <LocalExtentManagement>1</LocalExtentManagement>
+      <Logging>0</Logging>
+      <Status>E</Status>
+    </tablespace>
+    <tablespace id="46" parent="1" name="UNDOTBS1">
+      <BlockSize>8192</BlockSize>
+      <ContentCategory>U</ContentCategory>
+      <LocalExtentManagement>1</LocalExtentManagement>
+      <Logging>1</Logging>
+      <Status>E</Status>
+    </tablespace>
+    <user id="47" parent="1" name="ADMIN">
+      <ObjectId>108</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="48" parent="1" name="ANONYMOUS">
+      <Locked>1</Locked>
+      <ObjectId>71</ObjectId>
+      <DefaultTablespaceName>SYSAUX</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="49" parent="1" name="APP">
+      <ObjectId>117</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="50" parent="1" name="APPQOSSYS">
+      <Locked>1</Locked>
+      <ObjectId>63</ObjectId>
+      <DefaultTablespaceName>SYSAUX</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="51" parent="1" name="AUDSYS">
+      <Locked>1</Locked>
+      <ObjectId>8</ObjectId>
+      <DefaultTablespaceName>SYSAUX</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="52" parent="1" name="C##COM_USER1">
+      <ObjectId>109</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="53" parent="1" name="CTXSYS">
+      <Locked>1</Locked>
+      <ObjectId>91</ObjectId>
+      <DefaultTablespaceName>SYSAUX</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="54" parent="1" name="DBSFWUSER">
+      <Locked>1</Locked>
+      <ObjectId>38</ObjectId>
+      <DefaultTablespaceName>SYSAUX</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="55" parent="1" name="DBSNMP">
+      <Locked>1</Locked>
+      <ObjectId>62</ObjectId>
+      <DefaultTablespaceName>SYSAUX</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="56" parent="1" name="DGPDB_INT">
+      <Locked>1</Locked>
+      <ObjectId>55</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="57" parent="1" name="DIP">
+      <Locked>1</Locked>
+      <ObjectId>26</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="58" parent="1" name="DVF">
+      <Locked>1</Locked>
+      <ObjectId>107</ObjectId>
+      <DefaultTablespaceName>SYSAUX</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="59" parent="1" name="DVSYS">
+      <Locked>1</Locked>
+      <ObjectId>1279990</ObjectId>
+      <DefaultTablespaceName>SYSAUX</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="60" parent="1" name="GGSYS">
+      <Locked>1</Locked>
+      <ObjectId>68</ObjectId>
+      <DefaultTablespaceName>SYSAUX</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="61" parent="1" name="GSMADMIN_INTERNAL">
+      <Locked>1</Locked>
+      <ObjectId>24</ObjectId>
+      <DefaultTablespaceName>SYSAUX</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="62" parent="1" name="GSMCATUSER">
+      <Locked>1</Locked>
+      <ObjectId>67</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="63" parent="1" name="GSMUSER">
+      <Locked>1</Locked>
+      <ObjectId>25</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="64" parent="1" name="LBACSYS">
+      <Locked>1</Locked>
+      <ObjectId>105</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="65" parent="1" name="MDDATA">
+      <Locked>1</Locked>
+      <ObjectId>103</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="66" parent="1" name="MDSYS">
+      <Locked>1</Locked>
+      <ObjectId>102</ObjectId>
+      <DefaultTablespaceName>SYSAUX</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="67" parent="1" name="OJVMSYS">
+      <Locked>1</Locked>
+      <ObjectId>89</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="68" parent="1" name="OLAPSYS">
+      <Locked>1</Locked>
+      <ObjectId>99</ObjectId>
+      <DefaultTablespaceName>SYSAUX</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="69" parent="1" name="ORACLE_OCM">
+      <Locked>1</Locked>
+      <ObjectId>42</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="70" parent="1" name="ORDDATA">
+      <Locked>1</Locked>
+      <ObjectId>94</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="71" parent="1" name="ORDPLUGINS">
+      <Locked>1</Locked>
+      <ObjectId>95</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="72" parent="1" name="ORDSYS">
+      <Locked>1</Locked>
+      <ObjectId>93</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="73" parent="1" name="OUTLN">
+      <Locked>1</Locked>
+      <ObjectId>13</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="74" parent="1" name="REGULAR_USER">
+      <ObjectId>112</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="75" parent="1" name="REMOTE_SCHEDULER_AGENT">
+      <Locked>1</Locked>
+      <ObjectId>37</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="76" parent="1" name="SI_INFORMTN_SCHEMA">
+      <Locked>1</Locked>
+      <ObjectId>96</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="77" parent="1" name="SYS">
+      <ObjectId>0</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="78" parent="1" name="SYS$UMF">
+      <Locked>1</Locked>
+      <ObjectId>51</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="79" parent="1" name="SYSBACKUP">
+      <Locked>1</Locked>
+      <ObjectId>2147483617</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="80" parent="1" name="SYSDG">
+      <Locked>1</Locked>
+      <ObjectId>2147483618</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="81" parent="1" name="SYSKM">
+      <Locked>1</Locked>
+      <ObjectId>2147483619</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="82" parent="1" name="SYSRAC">
+      <ObjectId>2147483620</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="83" parent="1" name="SYSTEM">
+      <ObjectId>9</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="84" parent="1" name="WMSYS">
+      <Locked>1</Locked>
+      <ObjectId>80</ObjectId>
+      <DefaultTablespaceName>SYSAUX</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="85" parent="1" name="XDB">
+      <Locked>1</Locked>
+      <ObjectId>70</ObjectId>
+      <DefaultTablespaceName>SYSAUX</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <user id="86" parent="1" name="XS$NULL">
+      <Locked>1</Locked>
+      <ObjectId>2147483638</ObjectId>
+      <DefaultTablespaceName>SYSTEM</DefaultTablespaceName>
+      <TemporaryTablespaceName>TEMP</TemporaryTablespaceName>
+    </user>
+    <materialized-view id="87" parent="2" name="MV_AVG_ENERGY_PER_YEAR">
+      <CreatedTimestamp>2024-12-16.04:23:56</CreatedTimestamp>
+      <DependsOnIds>76576,76622</DependsOnIds>
+      <DetailsLevel>3</DetailsLevel>
+      <Invalid>1</Invalid>
+      <ModifiedTimestamp>2024-12-16.04:23:57</ModifiedTimestamp>
+      <ObjectId>76623</ObjectId>
+      <RefreshMethod>refresh-force</RefreshMethod>
+      <RefreshMode>refresh-demand</RefreshMode>
+      <SourceTextLength>204</SourceTextLength>
+    </materialized-view>
+    <routine id="88" parent="2" name="ADD_LOG">
+      <CreatedTimestamp>2024-12-16.04:23:58</CreatedTimestamp>
+      <DependsOnIds>7466,76650</DependsOnIds>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-16.04:51:04</ModifiedTimestamp>
+      <ObjectId>76646</ObjectId>
+      <RoutineKind>procedure</RoutineKind>
+      <SourceTextLength>293</SourceTextLength>
+    </routine>
+    <routine id="89" parent="2" name="CUSTOM_HASH">
+      <CreatedTimestamp>2024-12-16.04:23:57</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-16.04:23:57</ModifiedTimestamp>
+      <ObjectId>76639</ObjectId>
+      <RoutineKind>function</RoutineKind>
+      <SourceTextLength>267</SourceTextLength>
+    </routine>
+    <routine id="90" parent="2" name="GENERATE_MONTHLY_REPORT">
+      <CreatedTimestamp>2024-12-16.04:23:57</CreatedTimestamp>
+      <DependsOnIds>77090</DependsOnIds>
+      <DetailsLevel>3</DetailsLevel>
+      <Invalid>1</Invalid>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <ObjectId>76634</ObjectId>
+      <RoutineKind>function</RoutineKind>
+      <SourceTextLength>357</SourceTextLength>
+    </routine>
+    <routine id="91" parent="2" name="GENERATE_UUID">
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <DependsOnIds>7466</DependsOnIds>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <ObjectId>76598</ObjectId>
+      <RoutineKind>function</RoutineKind>
+      <SourceTextLength>197</SourceTextLength>
+    </routine>
+    <routine id="92" parent="2" name="GET_PLAYLIST_DURATION">
+      <CreatedTimestamp>2024-12-16.04:23:57</CreatedTimestamp>
+      <DependsOnIds>7466,77088,77101</DependsOnIds>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <ObjectId>76633</ObjectId>
+      <RoutineKind>function</RoutineKind>
+      <SourceTextLength>351</SourceTextLength>
+    </routine>
+    <routine id="93" parent="2" name="HASH_PASSWORD">
+      <CreatedTimestamp>2024-12-16.04:23:57</CreatedTimestamp>
+      <DependsOnIds>76639</DependsOnIds>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-16.04:23:57</ModifiedTimestamp>
+      <ObjectId>76640</ObjectId>
+      <RoutineKind>function</RoutineKind>
+      <SourceTextLength>137</SourceTextLength>
+    </routine>
+    <routine id="94" parent="2" name="SEND_ALERT">
+      <CreatedTimestamp>2024-12-16.04:23:57</CreatedTimestamp>
+      <DependsOnIds>7466,76628</DependsOnIds>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-16.04:23:57</ModifiedTimestamp>
+      <ObjectId>76631</ObjectId>
+      <RoutineKind>procedure</RoutineKind>
+      <SourceTextLength>132</SourceTextLength>
+    </routine>
+    <sequence id="95" parent="2" name="ISEQ$$_76628">
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>20</CacheSize>
+      <CreatedTimestamp>2024-12-16.04:23:57</CreatedTimestamp>
+      <DetailsLevel>2</DetailsLevel>
+      <ModifiedTimestamp>2024-12-16.04:23:57</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>76629</ObjectId>
+      <SequenceIdentity>1(61)</SequenceIdentity>
+    </sequence>
+    <table id="96" parent="2" name="ALBUMS">
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-28.15:35:35</ModifiedTimestamp>
+      <ObjectId>77086</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="97" parent="2" name="ALERT_LOG">
+      <CreatedTimestamp>2024-12-16.04:23:57</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-16.04:23:57</ModifiedTimestamp>
+      <ObjectId>76628</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="98" parent="2" name="ARTISTS">
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-28.15:35:35</ModifiedTimestamp>
+      <ObjectId>77084</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="99" parent="2" name="COMMENTS">
+      <CreatedTimestamp>2024-12-16.04:12:43</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <ObjectId>76590</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="100" parent="2" name="EXT_ARTISTS">
+      <CreatedTimestamp>2024-12-16.04:23:55</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-16.04:23:55</ModifiedTimestamp>
+      <ObjectId>76612</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="101" parent="2" name="EXT_TRACKS">
+      <CreatedTimestamp>2024-12-16.04:23:55</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-16.04:23:55</ModifiedTimestamp>
+      <ObjectId>76613</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="102" parent="2" name="EXT_TRACKS_AUDIO_FEATURES">
+      <CreatedTimestamp>2024-12-16.04:23:55</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-16.04:23:55</ModifiedTimestamp>
+      <ObjectId>76614</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="103" parent="2" name="FORUM_POSTS">
+      <CreatedTimestamp>2024-12-16.04:12:43</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <ObjectId>76586</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="104" parent="2" name="FORUM_REPLIES">
+      <CreatedTimestamp>2024-12-16.04:12:57</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <ObjectId>76592</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="105" parent="2" name="LOGS">
+      <CreatedTimestamp>2024-12-16.04:51:04</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-16.16:56:32</ModifiedTimestamp>
+      <ObjectId>76650</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="106" parent="2" name="MV_AVG_ENERGY_PER_YEAR">
+      <CreatedTimestamp>2024-12-16.04:23:56</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-16.04:23:56</ModifiedTimestamp>
+      <ObjectId>76622</ObjectId>
+      <TableType>mat-view</TableType>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="107" parent="2" name="PLAYLISTS">
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-28.15:35:37</ModifiedTimestamp>
+      <ObjectId>77094</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="108" parent="2" name="PLAYLIST_SONGS">
+      <CreatedTimestamp>2024-12-02.12:15:45</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-16.16:56:32</ModifiedTimestamp>
+      <ObjectId>76044</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="109" parent="2" name="PLAYLIST_TRACKS">
+      <CreatedTimestamp>2024-12-28.15:35:36</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <ObjectId>77101</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="110" parent="2" name="SONGS">
+      <CreatedTimestamp>2024-12-02.12:15:45</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-16.16:56:32</ModifiedTimestamp>
+      <ObjectId>76040</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="111" parent="2" name="TRACKS">
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-28.15:35:35</ModifiedTimestamp>
+      <ObjectId>77088</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="112" parent="2" name="TRACKS_AUDIO_FEATURES">
+      <CreatedTimestamp>2024-12-16.04:12:42</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-28.15:35:35</ModifiedTimestamp>
+      <ObjectId>76576</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="113" parent="2" name="USERS">
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-28.15:35:37</ModifiedTimestamp>
+      <ObjectId>77090</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="114" parent="2" name="USER_FAVORITE_TRACKS">
+      <CreatedTimestamp>2024-12-16.04:12:43</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-28.15:35:35</ModifiedTimestamp>
+      <ObjectId>76584</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="115" parent="2" name="USER_FOLLOWERS">
+      <CreatedTimestamp>2024-12-16.04:12:57</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <ObjectId>76596</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <view id="116" parent="2" name="ADMIN_VIEW_ARTISTS">
+      <CreatedTimestamp>2024-12-28.15:35:35</CreatedTimestamp>
+      <DependsOnIds>77084</DependsOnIds>
+      <DetailsLevel>3</DetailsLevel>
+      <Modifiable>1</Modifiable>
+      <ModifiedTimestamp>2024-12-28.15:35:35</ModifiedTimestamp>
+      <ObjectId>76049</ObjectId>
+      <SourceTextLength>66</SourceTextLength>
+    </view>
+    <view id="117" parent="2" name="ADMIN_VIEW_TRACKS">
+      <CreatedTimestamp>2024-12-16.04:23:55</CreatedTimestamp>
+      <DependsOnIds>77088</DependsOnIds>
+      <DetailsLevel>3</DetailsLevel>
+      <Modifiable>1</Modifiable>
+      <ModifiedTimestamp>2024-12-28.15:35:35</ModifiedTimestamp>
+      <ObjectId>76616</ObjectId>
+      <SourceTextLength>107</SourceTextLength>
+    </view>
+    <view id="118" parent="2" name="ADMIN_VIEW_USERS">
+      <CreatedTimestamp>2024-12-28.15:35:35</CreatedTimestamp>
+      <DependsOnIds>77090</DependsOnIds>
+      <DetailsLevel>3</DetailsLevel>
+      <Invalid>1</Invalid>
+      <Modifiable>1</Modifiable>
+      <ModifiedTimestamp>2024-12-28.15:35:35</ModifiedTimestamp>
+      <ObjectId>76048</ObjectId>
+      <SourceTextLength>88</SourceTextLength>
+    </view>
+    <view id="119" parent="2" name="APP_VIEW_PLAYLISTS">
+      <CreatedTimestamp>2024-12-28.15:35:35</CreatedTimestamp>
+      <DependsOnIds>77090,77094</DependsOnIds>
+      <DetailsLevel>3</DetailsLevel>
+      <Invalid>1</Invalid>
+      <Modifiable>1</Modifiable>
+      <ModifiedTimestamp>2024-12-28.15:35:35</ModifiedTimestamp>
+      <ObjectId>76047</ObjectId>
+      <SourceTextLength>152</SourceTextLength>
+    </view>
+    <view id="120" parent="2" name="APP_VIEW_TRACKS">
+      <CreatedTimestamp>2024-12-16.04:23:55</CreatedTimestamp>
+      <DependsOnIds>77088</DependsOnIds>
+      <DetailsLevel>3</DetailsLevel>
+      <Modifiable>1</Modifiable>
+      <ModifiedTimestamp>2024-12-28.15:35:35</ModifiedTimestamp>
+      <ObjectId>76615</ObjectId>
+      <SourceTextLength>81</SourceTextLength>
+    </view>
+    <view id="121" parent="2" name="APP_VIEW_USER_PLAYLISTS">
+      <CreatedTimestamp>2024-12-16.16:56:51</CreatedTimestamp>
+      <DependsOnIds>76584,77088,77090,77094</DependsOnIds>
+      <DetailsLevel>3</DetailsLevel>
+      <Invalid>1</Invalid>
+      <Modifiable>1</Modifiable>
+      <ModifiedTimestamp>2024-12-28.15:35:35</ModifiedTimestamp>
+      <ObjectId>76666</ObjectId>
+      <SourceTextLength>282</SourceTextLength>
+    </view>
+    <data-file id="122" parent="43" name="C:\APP\LANDR\PRODUCT\21C\ORADATA\XE\WMLMSPDB\SYSAUX01.DBF">
+      <AutoExtensible>1</AutoExtensible>
+      <AvailabilityStatus>A</AvailabilityStatus>
+      <FileId>17</FileId>
+      <FileSize>57600</FileSize>
+      <IncrementBy>1280</IncrementBy>
+      <MaxSize>4194302</MaxSize>
+      <OnlineStatus>E</OnlineStatus>
+      <Position>4</Position>
+      <UserSize>57472</UserSize>
+    </data-file>
+    <data-file id="123" parent="44" name="C:\APP\LANDR\PRODUCT\21C\ORADATA\XE\WMLMSPDB\SYSTEM01.DBF">
+      <AutoExtensible>1</AutoExtensible>
+      <AvailabilityStatus>A</AvailabilityStatus>
+      <FileId>16</FileId>
+      <FileSize>37120</FileSize>
+      <IncrementBy>1280</IncrementBy>
+      <MaxSize>4194302</MaxSize>
+      <OnlineStatus>S</OnlineStatus>
+      <Position>1</Position>
+      <UserSize>36992</UserSize>
+    </data-file>
+    <data-file id="124" parent="45" name="C:\APP\LANDR\PRODUCT\21C\ORADATA\XE\WMLMSPDB\TEMP012024-09-24_19-12-08-208-PM.DBF">
+      <AutoExtensible>1</AutoExtensible>
+      <FileId>5</FileId>
+      <FileSize>27136</FileSize>
+      <IncrementBy>80</IncrementBy>
+      <MaxSize>4194302</MaxSize>
+      <Position>1</Position>
+      <UserSize>27008</UserSize>
+    </data-file>
+    <data-file id="125" parent="46" name="C:\APP\LANDR\PRODUCT\21C\ORADATA\XE\WMLMSPDB\UNDOTBS01.DBF">
+      <AutoExtensible>1</AutoExtensible>
+      <AvailabilityStatus>A</AvailabilityStatus>
+      <FileId>18</FileId>
+      <FileSize>12800</FileSize>
+      <IncrementBy>640</IncrementBy>
+      <MaxSize>4194302</MaxSize>
+      <OnlineStatus>E</OnlineStatus>
+      <Position>9</Position>
+      <UserSize>12672</UserSize>
+    </data-file>
+    <column id="126" parent="87" name="RELEASE_YEAR">
+      <Position>1</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="127" parent="87" name="AVG_ENERGY">
+      <Position>2</Position>
+      <StoredType>BINARY_FLOAT|0s</StoredType>
+    </column>
+    <argument id="128" parent="88" name="P_USER_ID">
+      <Position>1</Position>
+      <StoredType>VARCHAR2|0s</StoredType>
+    </argument>
+    <argument id="129" parent="88" name="P_EVENT_TYPE">
+      <Position>2</Position>
+      <StoredType>VARCHAR2|0s</StoredType>
+    </argument>
+    <argument id="130" parent="88" name="P_EVENT_DESCRIPTION">
+      <Position>3</Position>
+      <StoredType>VARCHAR2|0s</StoredType>
+    </argument>
+    <argument id="131" parent="88" name="P_IP_ADDRESS">
+      <Position>4</Position>
+      <StoredType>VARCHAR2|0s</StoredType>
+    </argument>
+    <argument id="132" parent="89">
+      <ArgumentDirection>R</ArgumentDirection>
+      <StoredType>VARCHAR2|0s</StoredType>
+    </argument>
+    <argument id="133" parent="89" name="P_INPUT">
+      <Position>1</Position>
+      <StoredType>VARCHAR2|0s</StoredType>
+    </argument>
+    <argument id="134" parent="91">
+      <ArgumentDirection>R</ArgumentDirection>
+      <StoredType>VARCHAR2|0s</StoredType>
+    </argument>
+    <argument id="135" parent="92">
+      <ArgumentDirection>R</ArgumentDirection>
+      <StoredType>NUMBER|0s</StoredType>
+    </argument>
+    <argument id="136" parent="92" name="P_PLAYLIST_ID">
+      <Position>1</Position>
+      <StoredType>VARCHAR2|0s</StoredType>
+    </argument>
+    <argument id="137" parent="93">
+      <ArgumentDirection>R</ArgumentDirection>
+      <StoredType>VARCHAR2|0s</StoredType>
+    </argument>
+    <argument id="138" parent="93" name="P_PASSWORD">
+      <Position>1</Position>
+      <StoredType>VARCHAR2|0s</StoredType>
+    </argument>
+    <argument id="139" parent="93" name="P_SALT">
+      <Position>2</Position>
+      <StoredType>VARCHAR2|0s</StoredType>
+    </argument>
+    <argument id="140" parent="94" name="P_MESSAGE">
+      <Position>1</Position>
+      <StoredType>VARCHAR2|0s</StoredType>
+    </argument>
+    <column id="141" parent="96" name="ALBUM_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <column id="142" parent="96" name="NAME">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>VARCHAR2(255 byte)|0s</StoredType>
+    </column>
+    <column id="143" parent="96" name="RELEASE_DATE">
+      <Position>3</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <column id="144" parent="96" name="ARTIST_ID">
+      <Position>4</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <foreign-key id="145" parent="96" name="SYS_C008356">
+      <ColNames>ARTIST_ID</ColNames>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <OnDelete>restrict</OnDelete>
+      <RefKeyName>SYS_C008353</RefKeyName>
+      <RefTableName>ARTISTS</RefTableName>
+    </foreign-key>
+    <index id="146" parent="96" name="SYS_C008355">
+      <ColNames>ALBUM_ID</ColNames>
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>77087</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <key id="147" parent="96" name="SYS_C008355">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C008355</UnderlyingIndexName>
+    </key>
+    <trigger id="148" parent="96" name="TRG_ALBUMS_ID">
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <DependsOnIds>76598</DependsOnIds>
+      <Events>I</Events>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <ObjectId>76600</ObjectId>
+      <SourceTextLength>99</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <column id="149" parent="97" name="ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+      <SequenceName>ISEQ$$_76628</SequenceName>
+    </column>
+    <column id="150" parent="97" name="MESSAGE">
+      <Position>2</Position>
+      <StoredType>VARCHAR2(4000 byte)|0s</StoredType>
+    </column>
+    <column id="151" parent="97" name="CREATED_AT">
+      <Position>3</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <index id="152" parent="97" name="SYS_C008266">
+      <ColNames>ID</ColNames>
+      <CreatedTimestamp>2024-12-16.04:23:57</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-16.04:23:57</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>76630</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <key id="153" parent="97" name="SYS_C008266">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-16.04:23:57</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C008266</UnderlyingIndexName>
+    </key>
+    <column id="154" parent="98" name="ARTIST_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <column id="155" parent="98" name="NAME">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>VARCHAR2(255 byte)|0s</StoredType>
+    </column>
+    <column id="156" parent="98" name="FOLLOWERS">
+      <Position>3</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="157" parent="98" name="GENRES">
+      <Position>4</Position>
+      <StoredType>VARCHAR2(1000 byte)|0s</StoredType>
+    </column>
+    <column id="158" parent="98" name="POPULARITY">
+      <Position>5</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="159" parent="98" name="CREATED_AT">
+      <DefaultExpression>SYSDATE</DefaultExpression>
+      <Position>6</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <column id="160" parent="98" name="UPDATED_AT">
+      <DefaultExpression>SYSDATE</DefaultExpression>
+      <Position>7</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <index id="161" parent="98" name="SYS_C008353">
+      <ColNames>ARTIST_ID</ColNames>
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>77085</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <key id="162" parent="98" name="SYS_C008353">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C008353</UnderlyingIndexName>
+    </key>
+    <trigger id="163" parent="98" name="TRG_ARTISTS_ID">
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <DependsOnIds>76598</DependsOnIds>
+      <Events>I</Events>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <ObjectId>76599</ObjectId>
+      <SourceTextLength>101</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <trigger id="164" parent="98" name="TRG_UPDATE_ARTISTS_UPDATED_AT">
+      <CreatedTimestamp>2024-12-28.15:35:36</CreatedTimestamp>
+      <Events>U</Events>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <ObjectId>76624</ObjectId>
+      <SourceTextLength>43</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <column id="165" parent="99" name="COMMENT_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>NVARCHAR2(255)|0s</StoredType>
+    </column>
+    <column id="166" parent="99" name="USER_ID">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>NVARCHAR2(255)|0s</StoredType>
+    </column>
+    <column id="167" parent="99" name="TRACK_ID">
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StoredType>NVARCHAR2(255)|0s</StoredType>
+    </column>
+    <column id="168" parent="99" name="COMMENT_TEXT">
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StoredType>NVARCHAR2(255)|0s</StoredType>
+    </column>
+    <column id="169" parent="99" name="CREATED_AT">
+      <Position>5</Position>
+      <StoredType>TIMESTAMP(6) WITH LOCAL TIME ZONE|0s</StoredType>
+    </column>
+    <column id="170" parent="99" name="UPDATED_AT">
+      <Position>6</Position>
+      <StoredType>TIMESTAMP(6) WITH LOCAL TIME ZONE|0s</StoredType>
+    </column>
+    <index id="171" parent="99" name="SYS_C008260">
+      <ColNames>COMMENT_ID</ColNames>
+      <CreatedTimestamp>2024-12-16.04:12:43</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-16.04:12:43</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>76591</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <key id="172" parent="99" name="SYS_C008260">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-16.04:12:43</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C008260</UnderlyingIndexName>
+    </key>
+    <trigger id="173" parent="99" name="TRG_COMMENTS_ID">
+      <CreatedTimestamp>2024-12-16.04:23:57</CreatedTimestamp>
+      <DependsOnIds>76598</DependsOnIds>
+      <Events>I</Events>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <ObjectId>76636</ObjectId>
+      <SourceTextLength>104</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <column id="174" parent="100" name="ID">
+      <Position>1</Position>
+      <StoredType>VARCHAR2(22 byte)|0s</StoredType>
+    </column>
+    <column id="175" parent="100" name="FOLLOWERS">
+      <Position>2</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="176" parent="100" name="GENRES">
+      <Position>3</Position>
+      <StoredType>VARCHAR2(1000 byte)|0s</StoredType>
+    </column>
+    <column id="177" parent="100" name="NAME">
+      <Position>4</Position>
+      <StoredType>VARCHAR2(255 byte)|0s</StoredType>
+    </column>
+    <column id="178" parent="100" name="POPULARITY">
+      <Position>5</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="179" parent="101" name="ID">
+      <Position>1</Position>
+      <StoredType>VARCHAR2(22 byte)|0s</StoredType>
+    </column>
+    <column id="180" parent="101" name="NAME">
+      <Position>2</Position>
+      <StoredType>VARCHAR2(255 byte)|0s</StoredType>
+    </column>
+    <column id="181" parent="101" name="ARTISTS">
+      <Position>3</Position>
+      <StoredType>VARCHAR2(1000 byte)|0s</StoredType>
+    </column>
+    <column id="182" parent="101" name="ID_ARTISTS">
+      <Position>4</Position>
+      <StoredType>VARCHAR2(1000 byte)|0s</StoredType>
+    </column>
+    <column id="183" parent="101" name="DURATION_MS">
+      <Position>5</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="184" parent="101" name="EXPLICIT">
+      <Position>6</Position>
+      <StoredType>NUMBER(1)|0s</StoredType>
+    </column>
+    <column id="185" parent="101" name="RELEASE_DATE">
+      <Position>7</Position>
+      <StoredType>VARCHAR2(10 byte)|0s</StoredType>
+    </column>
+    <column id="186" parent="101" name="TIME_SIGNATURE">
+      <Position>8</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="187" parent="102" name="ID">
+      <Position>1</Position>
+      <StoredType>VARCHAR2(22 byte)|0s</StoredType>
+    </column>
+    <column id="188" parent="102" name="DANCEABILITY">
+      <Position>2</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="189" parent="102" name="ENERGY">
+      <Position>3</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="190" parent="102" name="key">
+      <Position>4</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="191" parent="102" name="LOUDNESS">
+      <Position>5</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="192" parent="102" name="mode">
+      <Position>6</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="193" parent="102" name="SPEECHINESS">
+      <Position>7</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="194" parent="102" name="ACOUSTICNESS">
+      <Position>8</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="195" parent="102" name="INSTRUMENTALNESS">
+      <Position>9</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="196" parent="102" name="LIVENESS">
+      <Position>10</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="197" parent="102" name="VALENCE">
+      <Position>11</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="198" parent="102" name="TEMPO">
+      <Position>12</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="199" parent="103" name="POST_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>NVARCHAR2(255)|0s</StoredType>
+    </column>
+    <column id="200" parent="103" name="USER_ID">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>NVARCHAR2(255)|0s</StoredType>
+    </column>
+    <column id="201" parent="103" name="TITLE">
+      <Position>3</Position>
+      <StoredType>NVARCHAR2(255)|0s</StoredType>
+    </column>
+    <column id="202" parent="103" name="CONTENT">
+      <Position>4</Position>
+      <StoredType>CLOB|0s</StoredType>
+    </column>
+    <column id="203" parent="103" name="CREATED_AT">
+      <Position>5</Position>
+      <StoredType>TIMESTAMP(6) WITH LOCAL TIME ZONE|0s</StoredType>
+    </column>
+    <column id="204" parent="103" name="UPDATED_AT">
+      <Position>6</Position>
+      <StoredType>TIMESTAMP(6) WITH LOCAL TIME ZONE|0s</StoredType>
+    </column>
+    <index id="205" parent="103" name="SYS_C008256">
+      <ColNames>POST_ID</ColNames>
+      <CreatedTimestamp>2024-12-16.04:12:43</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-16.04:12:43</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>76589</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <key id="206" parent="103" name="SYS_C008256">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-16.04:12:43</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C008256</UnderlyingIndexName>
+    </key>
+    <trigger id="207" parent="103" name="TRG_FORUM_POSTS_ID">
+      <CreatedTimestamp>2024-12-16.04:23:57</CreatedTimestamp>
+      <DependsOnIds>76598</DependsOnIds>
+      <Events>I</Events>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <ObjectId>76637</ObjectId>
+      <SourceTextLength>97</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <column id="208" parent="104" name="REPLY_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>NVARCHAR2(255)|0s</StoredType>
+    </column>
+    <column id="209" parent="104" name="POST_ID">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>NVARCHAR2(255)|0s</StoredType>
+    </column>
+    <column id="210" parent="104" name="USER_ID">
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StoredType>NVARCHAR2(255)|0s</StoredType>
+    </column>
+    <column id="211" parent="104" name="CONTENT">
+      <Position>4</Position>
+      <StoredType>CLOB|0s</StoredType>
+    </column>
+    <column id="212" parent="104" name="CREATED_AT">
+      <Position>5</Position>
+      <StoredType>TIMESTAMP(6) WITH LOCAL TIME ZONE|0s</StoredType>
+    </column>
+    <column id="213" parent="104" name="UPDATED_AT">
+      <Position>6</Position>
+      <StoredType>TIMESTAMP(6) WITH LOCAL TIME ZONE|0s</StoredType>
+    </column>
+    <index id="214" parent="104" name="SYS_C008263">
+      <ColNames>REPLY_ID</ColNames>
+      <CreatedTimestamp>2024-12-16.04:12:57</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-16.04:12:57</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>76595</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <key id="215" parent="104" name="SYS_C008263">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-16.04:12:57</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C008263</UnderlyingIndexName>
+    </key>
+    <trigger id="216" parent="104" name="TRG_FORUM_REPLIES_ID">
+      <CreatedTimestamp>2024-12-16.04:23:57</CreatedTimestamp>
+      <DependsOnIds>76598</DependsOnIds>
+      <Events>I</Events>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <ObjectId>76638</ObjectId>
+      <SourceTextLength>99</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <column id="217" parent="105" name="LOG_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <column id="218" parent="105" name="USER_ID">
+      <Position>2</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="219" parent="105" name="EVENT_TYPE">
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StoredType>VARCHAR2(50 byte)|0s</StoredType>
+    </column>
+    <column id="220" parent="105" name="EVENT_DESCRIPTION">
+      <Position>4</Position>
+      <StoredType>VARCHAR2(500 byte)|0s</StoredType>
+    </column>
+    <column id="221" parent="105" name="TIMESTAMP">
+      <DefaultExpression>SYSTIMESTAMP</DefaultExpression>
+      <Position>5</Position>
+      <StoredType>TIMESTAMP(6)|0s</StoredType>
+    </column>
+    <column id="222" parent="105" name="IP_ADDRESS">
+      <Position>6</Position>
+      <StoredType>VARCHAR2(45 byte)|0s</StoredType>
+    </column>
+    <index id="223" parent="105" name="SYS_C008268">
+      <ColNames>LOG_ID</ColNames>
+      <CreatedTimestamp>2024-12-16.04:51:04</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-16.04:51:04</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>76651</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <key id="224" parent="105" name="SYS_C008268">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-16.04:51:04</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C008268</UnderlyingIndexName>
+    </key>
+    <trigger id="225" parent="105" name="TRG_LOGS_ID">
+      <CreatedTimestamp>2024-12-16.04:51:04</CreatedTimestamp>
+      <DependsOnIds>76598</DependsOnIds>
+      <Events>I</Events>
+      <ModifiedTimestamp>2024-12-28.15:35:37</ModifiedTimestamp>
+      <ObjectId>76652</ObjectId>
+      <SourceTextLength>95</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <column id="226" parent="106" name="RELEASE_YEAR">
+      <Position>1</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="227" parent="106" name="AVG_ENERGY">
+      <Position>2</Position>
+      <StoredType>BINARY_FLOAT|0s</StoredType>
+    </column>
+    <column id="228" parent="107" name="PLAYLIST_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <column id="229" parent="107" name="USER_ID">
+      <Position>2</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <column id="230" parent="107" name="NAME">
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StoredType>VARCHAR2(100 byte)|0s</StoredType>
+    </column>
+    <column id="231" parent="107" name="DESCRIPTION">
+      <Position>4</Position>
+      <StoredType>VARCHAR2(500 byte)|0s</StoredType>
+    </column>
+    <column id="232" parent="107" name="IS_PUBLIC">
+      <DefaultExpression>&apos;N&apos;</DefaultExpression>
+      <Position>5</Position>
+      <StoredType>CHAR(1 byte)|0s</StoredType>
+    </column>
+    <column id="233" parent="107" name="CREATED_AT">
+      <DefaultExpression>SYSDATE</DefaultExpression>
+      <Position>6</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <column id="234" parent="107" name="UPDATED_AT">
+      <DefaultExpression>SYSDATE</DefaultExpression>
+      <Position>7</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <column id="235" parent="107" name="IS_FAVORITE">
+      <DefaultExpression>&apos;N&apos;</DefaultExpression>
+      <Position>9</Position>
+      <StoredType>CHAR(1 byte)|0s</StoredType>
+    </column>
+    <foreign-key id="236" parent="107" name="SYS_C008367">
+      <ColNames>USER_ID</ColNames>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <OnDelete>restrict</OnDelete>
+      <RefKeyName>SYS_C008362</RefKeyName>
+      <RefTableName>USERS</RefTableName>
+    </foreign-key>
+    <index id="237" parent="107" name="SYS_C008366">
+      <ColNames>PLAYLIST_ID</ColNames>
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>77095</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <index id="238" parent="107" name="IDX_PLAYLISTS_USER_ID">
+      <ColNames>USER_ID</ColNames>
+      <CreatedTimestamp>2024-12-28.15:35:35</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-28.15:35:35</ModifiedTimestamp>
+      <ObjectId>77099</ObjectId>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <key id="239" parent="107" name="SYS_C008366">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C008366</UnderlyingIndexName>
+    </key>
+    <trigger id="240" parent="107" name="TRG_PLAYLISTS_ID">
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <DependsOnIds>76598</DependsOnIds>
+      <Events>I</Events>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <ObjectId>76603</ObjectId>
+      <SourceTextLength>105</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <trigger id="241" parent="107" name="TRG_UPDATE_PLAYLISTS_UPDATED_AT">
+      <CreatedTimestamp>2024-12-28.15:35:36</CreatedTimestamp>
+      <Events>U</Events>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <ObjectId>76627</ObjectId>
+      <SourceTextLength>43</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <trigger id="242" parent="107" name="TRG_PREVENT_FAVORITE_PLAYLIST_DELETE">
+      <CreatedTimestamp>2024-12-28.15:35:37</CreatedTimestamp>
+      <DependsOnIds>1823</DependsOnIds>
+      <Events>D</Events>
+      <ModifiedTimestamp>2024-12-28.15:35:37</ModifiedTimestamp>
+      <ObjectId>76643</ObjectId>
+      <SourceTextLength>134</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <column id="243" parent="108" name="PLAYLIST_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="244" parent="108" name="SONG_ID">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <foreign-key id="245" parent="108" name="SYS_C008233">
+      <ColNames>SONG_ID</ColNames>
+      <ModifiedTimestamp>2024-12-02.12:15:45</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <OnDelete>restrict</OnDelete>
+      <RefKeyName>SYS_C008226</RefKeyName>
+      <RefTableName>SONGS</RefTableName>
+    </foreign-key>
+    <index id="246" parent="108" name="SYS_C008231">
+      <ColNames>PLAYLIST_ID
+SONG_ID</ColNames>
+      <CreatedTimestamp>2024-12-02.12:15:45</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-02.12:15:45</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>76045</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <key id="247" parent="108" name="SYS_C008231">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-02.12:15:45</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C008231</UnderlyingIndexName>
+    </key>
+    <column id="248" parent="109" name="PLAYLIST_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <column id="249" parent="109" name="TRACK_ID">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <foreign-key id="250" parent="109" name="SYS_C008369">
+      <ColNames>PLAYLIST_ID</ColNames>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <OnDelete>restrict</OnDelete>
+      <RefKeyName>SYS_C008366</RefKeyName>
+      <RefTableName>PLAYLISTS</RefTableName>
+    </foreign-key>
+    <foreign-key id="251" parent="109" name="SYS_C008370">
+      <ColNames>TRACK_ID</ColNames>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <OnDelete>restrict</OnDelete>
+      <RefKeyName>SYS_C008358</RefKeyName>
+      <RefTableName>TRACKS</RefTableName>
+    </foreign-key>
+    <index id="252" parent="109" name="SYS_C008368">
+      <ColNames>PLAYLIST_ID
+TRACK_ID</ColNames>
+      <CreatedTimestamp>2024-12-28.15:35:36</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>77102</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <key id="253" parent="109" name="SYS_C008368">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C008368</UnderlyingIndexName>
+    </key>
+    <column id="254" parent="110" name="SONG_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="255" parent="110" name="TITLE">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>VARCHAR2(100 byte)|0s</StoredType>
+    </column>
+    <column id="256" parent="110" name="ARTIST_ID">
+      <Position>3</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="257" parent="110" name="GENRE">
+      <Position>4</Position>
+      <StoredType>VARCHAR2(50 byte)|0s</StoredType>
+    </column>
+    <column id="258" parent="110" name="RELEASE_DATE">
+      <Position>5</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <column id="259" parent="110" name="ALBUM">
+      <Position>6</Position>
+      <StoredType>VARCHAR2(100 byte)|0s</StoredType>
+    </column>
+    <column id="260" parent="110" name="SONG_URL">
+      <Position>7</Position>
+      <StoredType>VARCHAR2(500 byte)|0s</StoredType>
+    </column>
+    <index id="261" parent="110" name="SYS_C008226">
+      <ColNames>SONG_ID</ColNames>
+      <CreatedTimestamp>2024-12-02.12:15:45</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-02.12:15:45</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>76041</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <key id="262" parent="110" name="SYS_C008226">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-02.12:15:45</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C008226</UnderlyingIndexName>
+    </key>
+    <column id="263" parent="111" name="TRACK_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <column id="264" parent="111" name="NAME">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>VARCHAR2(255 byte)|0s</StoredType>
+    </column>
+    <column id="265" parent="111" name="ARTISTS">
+      <Position>3</Position>
+      <StoredType>VARCHAR2(1000 byte)|0s</StoredType>
+    </column>
+    <column id="266" parent="111" name="ID_ARTISTS">
+      <Position>4</Position>
+      <StoredType>VARCHAR2(1000 byte)|0s</StoredType>
+    </column>
+    <column id="267" parent="111" name="DURATION_MS">
+      <Position>5</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="268" parent="111" name="EXPLICIT">
+      <Position>6</Position>
+      <StoredType>NUMBER(1)|0s</StoredType>
+    </column>
+    <column id="269" parent="111" name="RELEASE_DATE">
+      <Position>7</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <column id="270" parent="111" name="TIME_SIGNATURE">
+      <Position>8</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="271" parent="111" name="ALBUM_ID">
+      <Position>9</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <column id="272" parent="111" name="CREATED_AT">
+      <DefaultExpression>SYSDATE</DefaultExpression>
+      <Position>10</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <column id="273" parent="111" name="UPDATED_AT">
+      <DefaultExpression>SYSDATE</DefaultExpression>
+      <Position>11</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <foreign-key id="274" parent="111" name="SYS_C008359">
+      <ColNames>ALBUM_ID</ColNames>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <OnDelete>restrict</OnDelete>
+      <RefKeyName>SYS_C008355</RefKeyName>
+      <RefTableName>ALBUMS</RefTableName>
+    </foreign-key>
+    <index id="275" parent="111" name="SYS_C008358">
+      <ColNames>TRACK_ID</ColNames>
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>77089</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <index id="276" parent="111" name="IDX_TRACKS_ID_ARTISTS">
+      <ColNames>ID_ARTISTS</ColNames>
+      <CreatedTimestamp>2024-12-28.15:35:35</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-28.15:35:35</ModifiedTimestamp>
+      <ObjectId>77098</ObjectId>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <index id="277" parent="111" name="IDX_TRACKS_ALBUM_ID">
+      <ColNames>ALBUM_ID</ColNames>
+      <CreatedTimestamp>2024-12-28.15:35:35</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-28.15:35:35</ModifiedTimestamp>
+      <ObjectId>77097</ObjectId>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <key id="278" parent="111" name="SYS_C008358">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C008358</UnderlyingIndexName>
+    </key>
+    <trigger id="279" parent="111" name="TRG_TRACKS_ID">
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <DependsOnIds>76598</DependsOnIds>
+      <Events>I</Events>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <ObjectId>76601</ObjectId>
+      <SourceTextLength>99</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <trigger id="280" parent="111" name="TRG_UPDATE_TRACKS_UPDATED_AT">
+      <CreatedTimestamp>2024-12-28.15:35:36</CreatedTimestamp>
+      <Events>U</Events>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <ObjectId>76625</ObjectId>
+      <SourceTextLength>43</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <column id="281" parent="112" name="TRACK_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>NVARCHAR2(255)|0s</StoredType>
+    </column>
+    <column id="282" parent="112" name="DANCEABILITY">
+      <Position>2</Position>
+      <StoredType>BINARY_FLOAT|0s</StoredType>
+    </column>
+    <column id="283" parent="112" name="ENERGY">
+      <Position>3</Position>
+      <StoredType>BINARY_FLOAT|0s</StoredType>
+    </column>
+    <column id="284" parent="112" name="KEY">
+      <Position>4</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="285" parent="112" name="LOUDNESS">
+      <Position>5</Position>
+      <StoredType>BINARY_FLOAT|0s</StoredType>
+    </column>
+    <column id="286" parent="112" name="MODE">
+      <Position>6</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="287" parent="112" name="SPEECHINESS">
+      <Position>7</Position>
+      <StoredType>BINARY_FLOAT|0s</StoredType>
+    </column>
+    <column id="288" parent="112" name="ACOUSTICNESS">
+      <Position>8</Position>
+      <StoredType>BINARY_FLOAT|0s</StoredType>
+    </column>
+    <column id="289" parent="112" name="INSTRUMENTALNESS">
+      <Position>9</Position>
+      <StoredType>BINARY_FLOAT|0s</StoredType>
+    </column>
+    <column id="290" parent="112" name="LIVENESS">
+      <Position>10</Position>
+      <StoredType>BINARY_FLOAT|0s</StoredType>
+    </column>
+    <column id="291" parent="112" name="VALENCE">
+      <Position>11</Position>
+      <StoredType>BINARY_FLOAT|0s</StoredType>
+    </column>
+    <column id="292" parent="112" name="TEMPO">
+      <Position>12</Position>
+      <StoredType>BINARY_FLOAT|0s</StoredType>
+    </column>
+    <index id="293" parent="112" name="SYS_C008250">
+      <ColNames>TRACK_ID</ColNames>
+      <CreatedTimestamp>2024-12-16.04:12:43</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-16.04:12:43</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>76579</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <key id="294" parent="112" name="SYS_C008250">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-16.04:12:43</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C008250</UnderlyingIndexName>
+    </key>
+    <column id="295" parent="113" name="USER_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <column id="296" parent="113" name="USERNAME">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>VARCHAR2(50 byte)|0s</StoredType>
+    </column>
+    <column id="297" parent="113" name="PASSWORD">
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StoredType>VARCHAR2(256 byte)|0s</StoredType>
+    </column>
+    <column id="298" parent="113" name="EMAIL">
+      <Position>4</Position>
+      <StoredType>VARCHAR2(100 byte)|0s</StoredType>
+    </column>
+    <column id="299" parent="113" name="FULL_NAME">
+      <Position>5</Position>
+      <StoredType>VARCHAR2(100 byte)|0s</StoredType>
+    </column>
+    <column id="300" parent="113" name="IS_ARTIST">
+      <DefaultExpression>&apos;N&apos;</DefaultExpression>
+      <Position>6</Position>
+      <StoredType>CHAR(1 byte)|0s</StoredType>
+    </column>
+    <column id="301" parent="113" name="CREATED_AT">
+      <DefaultExpression>SYSDATE</DefaultExpression>
+      <Position>7</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <column id="302" parent="113" name="UPDATED_AT">
+      <DefaultExpression>SYSDATE</DefaultExpression>
+      <Position>8</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <column id="303" parent="113" name="SALT">
+      <Position>9</Position>
+      <StoredType>VARCHAR2(64 byte)|0s</StoredType>
+    </column>
+    <column id="304" parent="113" name="ACCOUNT_STATUS">
+      <DefaultExpression>&apos;UNVERIFIED&apos;</DefaultExpression>
+      <Position>11</Position>
+      <StoredType>VARCHAR2(20 byte)|0s</StoredType>
+    </column>
+    <index id="305" parent="113" name="SYS_C008362">
+      <ColNames>USER_ID</ColNames>
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>77091</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <index id="306" parent="113" name="SYS_C008363">
+      <ColNames>USERNAME</ColNames>
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>77092</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <index id="307" parent="113" name="SYS_C008364">
+      <ColNames>EMAIL</ColNames>
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>77093</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <key id="308" parent="113" name="SYS_C008362">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C008362</UnderlyingIndexName>
+    </key>
+    <key id="309" parent="113" name="SYS_C008363">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <UnderlyingIndexName>SYS_C008363</UnderlyingIndexName>
+    </key>
+    <key id="310" parent="113" name="SYS_C008364">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-28.15:35:34</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <UnderlyingIndexName>SYS_C008364</UnderlyingIndexName>
+    </key>
+    <trigger id="311" parent="113" name="TRG_USERS_BEFORE_INSERT">
+      <CreatedTimestamp>2024-12-28.15:35:37</CreatedTimestamp>
+      <DependsOnIds>76598</DependsOnIds>
+      <Events>I</Events>
+      <ModifiedTimestamp>2024-12-28.15:38:07</ModifiedTimestamp>
+      <ObjectId>76641</ObjectId>
+      <SourceTextLength>209</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <trigger id="312" parent="113" name="TRG_USERS_ID">
+      <CreatedTimestamp>2024-12-28.15:35:34</CreatedTimestamp>
+      <DependsOnIds>76598</DependsOnIds>
+      <Events>I</Events>
+      <ModifiedTimestamp>2024-12-28.15:38:07</ModifiedTimestamp>
+      <ObjectId>76602</ObjectId>
+      <SourceTextLength>209</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <trigger id="313" parent="113" name="TRG_NEW_USER_ALERT">
+      <CreatedTimestamp>2024-12-28.15:35:36</CreatedTimestamp>
+      <DependsOnIds>76631</DependsOnIds>
+      <Events>I</Events>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <ObjectId>76632</ObjectId>
+      <SourceTextLength>125</SourceTextLength>
+    </trigger>
+    <trigger id="314" parent="113" name="TRG_UPDATE_USERS_UPDATED_AT">
+      <CreatedTimestamp>2024-12-28.15:35:36</CreatedTimestamp>
+      <DependsOnIds>76646</DependsOnIds>
+      <Events>U</Events>
+      <Invalid>1</Invalid>
+      <ModifiedTimestamp>2024-12-28.15:35:37</ModifiedTimestamp>
+      <ObjectId>76626</ObjectId>
+      <SourceTextLength>127</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <trigger id="315" parent="113" name="TRG_USERS_BEFORE_UPDATE">
+      <ColNames>PASSWORD</ColNames>
+      <CreatedTimestamp>2024-12-28.15:35:37</CreatedTimestamp>
+      <DependsOnIds>16248</DependsOnIds>
+      <Events>U</Events>
+      <ModifiedTimestamp>2024-12-28.15:35:37</ModifiedTimestamp>
+      <ObjectId>76642</ObjectId>
+      <SourceTextLength>121</SourceTextLength>
+      <Turn>before-row</Turn>
+    </trigger>
+    <trigger id="316" parent="113" name="TRG_INSERT_ARTIST">
+      <ColNames>IS_ARTIST</ColNames>
+      <CreatedTimestamp>2024-12-28.15:35:36</CreatedTimestamp>
+      <DependsOnIds>76598,77084</DependsOnIds>
+      <Events>U</Events>
+      <ModifiedTimestamp>2024-12-28.15:35:36</ModifiedTimestamp>
+      <ObjectId>76671</ObjectId>
+      <SourceTextLength>262</SourceTextLength>
+    </trigger>
+    <column id="317" parent="114" name="USER_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>NVARCHAR2(255)|0s</StoredType>
+    </column>
+    <column id="318" parent="114" name="TRACK_ID">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>NVARCHAR2(255)|0s</StoredType>
+    </column>
+    <column id="319" parent="114" name="ADDED_AT">
+      <Position>3</Position>
+      <StoredType>TIMESTAMP(6) WITH LOCAL TIME ZONE|0s</StoredType>
+    </column>
+    <index id="320" parent="114" name="SYS_C008254">
+      <ColNames>USER_ID
+TRACK_ID</ColNames>
+      <CreatedTimestamp>2024-12-16.04:12:43</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-16.04:12:43</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>76585</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <index id="321" parent="114" name="IDX_USER_FAVORITE_TRACKS_USER_ID">
+      <ColNames>USER_ID</ColNames>
+      <CreatedTimestamp>2024-12-16.04:23:56</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-16.04:23:56</ModifiedTimestamp>
+      <ObjectId>76617</ObjectId>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <key id="322" parent="114" name="SYS_C008254">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-16.04:12:43</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C008254</UnderlyingIndexName>
+    </key>
+    <column id="323" parent="115" name="USER_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>NVARCHAR2(255)|0s</StoredType>
+    </column>
+    <column id="324" parent="115" name="FOLLOWER_ID">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>NVARCHAR2(255)|0s</StoredType>
+    </column>
+    <column id="325" parent="115" name="CREATED_AT">
+      <Position>3</Position>
+      <StoredType>TIMESTAMP(6) WITH LOCAL TIME ZONE|0s</StoredType>
+    </column>
+    <column id="326" parent="115" name="FOLLOWER_NAME">
+      <Position>4</Position>
+      <StoredType>VARCHAR2(255 byte)|0s</StoredType>
+    </column>
+    <column id="327" parent="115" name="USER_NAME">
+      <Position>5</Position>
+      <StoredType>VARCHAR2(255 byte)|0s</StoredType>
+    </column>
+    <index id="328" parent="115" name="SYS_C008264">
+      <ColNames>USER_ID
+FOLLOWER_ID</ColNames>
+      <CreatedTimestamp>2024-12-16.04:12:57</CreatedTimestamp>
+      <ModifiedTimestamp>2024-12-16.04:12:57</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>76597</ObjectId>
+      <Unique>1</Unique>
+      <TablespaceName>SYSTEM</TablespaceName>
+    </index>
+    <key id="329" parent="115" name="SYS_C008264">
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2024-12-16.04:12:57</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C008264</UnderlyingIndexName>
+    </key>
+    <column id="330" parent="116" name="ARTIST_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <column id="331" parent="116" name="NAME">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>VARCHAR2(255 byte)|0s</StoredType>
+    </column>
+    <column id="332" parent="116" name="FOLLOWERS">
+      <Position>3</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="333" parent="116" name="GENRES">
+      <Position>4</Position>
+      <StoredType>VARCHAR2(1000 byte)|0s</StoredType>
+    </column>
+    <column id="334" parent="116" name="POPULARITY">
+      <Position>5</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="335" parent="117" name="TRACK_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <column id="336" parent="117" name="NAME">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>VARCHAR2(255 byte)|0s</StoredType>
+    </column>
+    <column id="337" parent="117" name="ARTISTS">
+      <Position>3</Position>
+      <StoredType>VARCHAR2(1000 byte)|0s</StoredType>
+    </column>
+    <column id="338" parent="117" name="DURATION_MS">
+      <Position>4</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="339" parent="117" name="EXPLICIT">
+      <Position>5</Position>
+      <StoredType>NUMBER(1)|0s</StoredType>
+    </column>
+    <column id="340" parent="117" name="RELEASE_DATE">
+      <Position>6</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <column id="341" parent="117" name="ID_ARTISTS">
+      <Position>7</Position>
+      <StoredType>VARCHAR2(1000 byte)|0s</StoredType>
+    </column>
+    <column id="342" parent="118" name="USER_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <column id="343" parent="118" name="USERNAME">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>VARCHAR2(50 byte)|0s</StoredType>
+    </column>
+    <column id="344" parent="118" name="FULL_NAME">
+      <Position>3</Position>
+      <StoredType>VARCHAR2(100 byte)|0s</StoredType>
+    </column>
+    <column id="345" parent="118" name="EMAIL">
+      <Position>4</Position>
+      <StoredType>VARCHAR2(100 byte)|0s</StoredType>
+    </column>
+    <column id="346" parent="118" name="IS_ARTIST">
+      <Position>5</Position>
+      <StoredType>CHAR(1 byte)|0s</StoredType>
+    </column>
+    <column id="347" parent="118" name="CREATED_AT">
+      <Position>6</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <column id="348" parent="118" name="UPDATED_AT">
+      <Position>7</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <column id="349" parent="119" name="PLAYLIST_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <column id="350" parent="119" name="NAME">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>VARCHAR2(100 byte)|0s</StoredType>
+    </column>
+    <column id="351" parent="119" name="IS_PUBLIC">
+      <Position>3</Position>
+      <StoredType>CHAR(1 byte)|0s</StoredType>
+    </column>
+    <column id="352" parent="119" name="CREATION_DATE">
+      <Position>4</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <column id="353" parent="119" name="USER_NAME">
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <StoredType>VARCHAR2(50 byte)|0s</StoredType>
+    </column>
+    <column id="354" parent="120" name="TRACK_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <column id="355" parent="120" name="NAME">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>VARCHAR2(255 byte)|0s</StoredType>
+    </column>
+    <column id="356" parent="120" name="ARTISTS">
+      <Position>3</Position>
+      <StoredType>VARCHAR2(1000 byte)|0s</StoredType>
+    </column>
+    <column id="357" parent="120" name="DURATION_MS">
+      <Position>4</Position>
+      <StoredType>NUMBER(*)|0s</StoredType>
+    </column>
+    <column id="358" parent="120" name="RELEASE_DATE">
+      <Position>5</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <column id="359" parent="121" name="PLAYLIST_ID">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StoredType>VARCHAR2(36 byte)|0s</StoredType>
+    </column>
+    <column id="360" parent="121" name="NAME">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StoredType>VARCHAR2(100 byte)|0s</StoredType>
+    </column>
+    <column id="361" parent="121" name="IS_PUBLIC">
+      <Position>3</Position>
+      <StoredType>CHAR(1 byte)|0s</StoredType>
+    </column>
+    <column id="362" parent="121" name="CREATION_DATE">
+      <Position>4</Position>
+      <StoredType>DATE|0s</StoredType>
+    </column>
+    <column id="363" parent="121" name="USER_NAME">
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <StoredType>VARCHAR2(50 byte)|0s</StoredType>
+    </column>
+    <column id="364" parent="121" name="TRACK_NAME">
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+      <StoredType>VARCHAR2(255 byte)|0s</StoredType>
+    </column>
+  </database-model>
+</dataSource>

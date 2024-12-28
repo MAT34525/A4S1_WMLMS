@@ -1,13 +1,50 @@
+// Angular
 import {Component, inject} from '@angular/core';
-import { AngularSplitModule } from 'angular-split';
+import {AngularSplitModule} from 'angular-split';
 import {MatButton} from '@angular/material/button';
-import {AgGridAngular} from 'ag-grid-angular';
-import {NgForOf, NgIf, NgStyle} from '@angular/common';
-import type {ColDef} from 'ag-grid-community';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AdminServiceService} from '../admin-service.service';
+import {NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {PointOptionsObject} from 'highcharts';
+
+// AG Grid
+import { AgGridAngular } from 'ag-grid-angular';
+import {
+  ClientSideRowModelModule,
+  ColDef,
+  GridApi,
+  GridOptions,
+  ModuleRegistry,
+  NumberEditorModule,
+  NumberFilterModule,
+  PaginationModule,
+  RowSelectionModule,
+  TextEditorModule,
+  TextFilterModule,
+} from 'ag-grid-community';
+
+// Project
+import {AdminService} from '../admin-service.service';
+import {Artists} from '../schema';
+
+// AG Grid module registration
+ModuleRegistry.registerModules([
+  NumberEditorModule,
+  TextEditorModule,
+  TextFilterModule,
+  NumberFilterModule,
+  RowSelectionModule,
+  PaginationModule,
+  ClientSideRowModelModule
+]);
+
+// Set up the grid configuration
+const gridOptions : GridOptions<Artists> | undefined = {
+  defaultColDef: {
+    editable: false,
+    filter: true,
+    flex: 1,
+  },
+  pagination: false,
+}
 
 @Component({
   selector: 'app-admin-queries-page',
@@ -16,9 +53,8 @@ import {PointOptionsObject} from 'highcharts';
     MatButton,
     AgGridAngular,
     NgIf,
-    NgStyle,
+    FormsModule,
     NgForOf,
-    FormsModule
   ],
   templateUrl: './admin-queries-page.component.html',
   standalone: true,
@@ -26,15 +62,20 @@ import {PointOptionsObject} from 'highcharts';
 })
 export class AdminQueriesPageComponent {
 
-  loaded : boolean = true;
-  query: string = '';
+  adminService=inject(AdminService);
+
+  // Ag Grid
   rowData : [] = [];
   colDefs  : ColDef[] = [];
+  loaded : boolean = true;
+
+  // Queries
+  query: string = '';
 
   isError : boolean = false;
   errorMessage : string = '';
 
-  customQueries : { name: string, query: string }[] = [
+  protected customQueries : { name: string, query: string }[] = [
     {
       name: "SELECT ALL USERS",
       query: "SELECT * FROM USERS",
@@ -45,15 +86,11 @@ export class AdminQueriesPageComponent {
     },
     {
       name: "INSERT TEMPLATE",
-      query: "INSERT INTO <TABLE> (<col1>, <col2>) VALUES (<val1>, <val2>)"
+      query: "INSERT INTO TABLE_NAME (COL_1, COL_2) VALUES (VAL_1, VAL_2)"
     }
   ]
 
-  adminService=inject(AdminServiceService);
-
-  constructor(private activeRoute : ActivatedRoute, private route : Router) {
-  }
-
+  // Modify the selected query
   onUpdateQuery(query: string){
     this.query = query;
   }
@@ -63,17 +100,18 @@ export class AdminQueriesPageComponent {
 
     let query = this.query
 
-    // Check if the query is non null and not too short
+    // Check if the query is non-null and not too short
     if(query === null || query.length < 5)
     {
       return;
     }
 
+    // Update table data with query result
     this.adminService.customQuery(query).subscribe(ret => this.updateTable(ret));
   }
 
   // Update the ag-grid when the result has been received
-  updateTable(data: any) {
+  updateTable(data: {message : string, code : number} | any) {
 
     let { message } = data;
 
@@ -96,4 +134,5 @@ export class AdminQueriesPageComponent {
     this.rowData = data[0];
   }
 
+  protected readonly gridOptions = gridOptions;
 }
