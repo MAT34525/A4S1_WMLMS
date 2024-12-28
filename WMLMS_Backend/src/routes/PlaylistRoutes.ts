@@ -1,6 +1,7 @@
 import express from 'express';
 import oracledb from 'oracledb';
 import {ReqType, ResType} from "../app";
+import {ORACLE_DB_PARAMS} from "../config";
 
 const router = express.Router();
 
@@ -15,11 +16,7 @@ router.get('/playlists', (req : ReqType, res : ResType) => getTracksForPlaylist(
 async function getPlaylists(req : ReqType, res : ResType) {
     try {
         // Connect to the Oracle database
-        const connection = await oracledb.getConnection({
-            user: "admin",
-            password: "admin",
-            connectString: "localhost:1521/wmlmspdb"
-        });
+        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
         // Query to get all playlists
         const result = await connection.execute(
@@ -93,11 +90,7 @@ async function createPlaylist(req : ReqType, res : ResType) {
 
     try {
         // Connect to the Oracle database
-        const connection = await oracledb.getConnection({
-            user: "admin",
-            password: "admin",
-            connectString: "localhost:1521/wmlmspdb"
-        });
+        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
         // Query to get all songs from an artists
         await connection.execute(
@@ -138,11 +131,7 @@ async function updatePlaylist(req : ReqType, res : ResType) {
     try {
 
         // Connect to the database
-        const connection = await oracledb.getConnection({
-            user: "admin",
-            password: "admin",
-            connectString: "localhost:1521/wmlmspdb"
-        });
+        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
         // Query to update the playlist description
         const result = await connection.execute(
@@ -183,11 +172,7 @@ async function deletePlaylist(req : ReqType, res : ResType) {
 
     try {
         // Connect to the database
-        const connection = await oracledb.getConnection({
-            user: "admin",
-            password: "admin",
-            connectString: "localhost:1521/wmlmspdb"
-        });
+        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
         // Query to delete the select query
         const result = await connection.execute(

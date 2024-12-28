@@ -1,6 +1,7 @@
 import express from 'express';
 import oracledb from 'oracledb';
 import {ReqType, ResType} from "../app";
+import {ORACLE_DB_PARAMS} from "../config";
 
 const router = express.Router();
 
@@ -8,11 +9,7 @@ const router = express.Router();
 router.get('/u/artists', async (req : ReqType, res : ResType) => {
     try {
         // Connect to the Oracle database
-        const connection = await oracledb.getConnection({
-            user: "admin",
-            password: "admin",
-            connectString: "localhost:1521/wmlmspdb"
-        });
+        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
         // Query to get all artists
         const result = await connection.execute(
@@ -43,11 +40,7 @@ router.get('/u/albums/:artistId', async (req : ReqType, res : ResType) => {
 
     try {
         // Connect to the Oracle database
-        const connection = await oracledb.getConnection({
-            user: "admin",
-            password: "admin",
-            connectString: "localhost:1521/wmlmspdb"
-        });
+        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
         // Query to get all albums from an artists
         const result = await connection.execute(
@@ -79,11 +72,7 @@ router.get('/u/tracks/:artistId', async (req : ReqType, res : ResType) => {
 
     try {
         // Connect to the Oracle database
-        const connection = await oracledb.getConnection({
-            user: "admin",
-            password: "admin",
-            connectString: "localhost:1521/wmlmspdb"
-        });
+        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
         // Query to get all songs from an artists
         const result = await connection.execute(

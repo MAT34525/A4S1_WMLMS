@@ -3,6 +3,7 @@ import oracledb from 'oracledb';
 import bcrypt from "bcrypt";
 import {ReqType, ResType} from "../app";
 import {resolve} from "node:dns";
+import {ORACLE_DB_PARAMS} from "../config";
 
 const router = express.Router();
 
@@ -25,11 +26,7 @@ async function login (req : ReqType, res : ResType) {
         console.log('Trying to connect with user:', username);
 
         // Connect to the database
-        const connection = await oracledb.getConnection({
-            user: "admin",
-            password: "admin",
-            connectString: "localhost:1521/wmlmspdb"
-        });
+        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
         console.log('Successfully connected to the database.');
 
@@ -93,11 +90,7 @@ async function register(req : ReqType, res : ResType) {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Connect to the database
-        const connection = await oracledb.getConnection({
-            user: "admin",
-            password: "admin",
-            connectString: "localhost:1521/wmlmspdb"
-        });
+        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
         // Insert the user into the database
         const insertResult = await connection.execute(
