@@ -66,34 +66,45 @@ async function createPlaylist(req : ReqType, res : ResType) {
             { name, description, isPublic }
         );
 
-        await connection.commit();
         console.log('Playlist successfully created');
+
+        // Commit changes
+        await connection.commit();
+
+        // Close the database connection
         await connection.close();
 
+        // Send the creation status
         res.status(201).json({ message: 'Playlist successfully created.' });
+
     } catch (error) {
         console.error('Error with playlist creation:', error);
         res.status(500).json({ errorMessage: 'Error with playlist creation.' });
     }
 }
 
-// Mettre à jour une playlist existante
-async function updatePlaylist(req, res) {
+// Update an existing playlist
+async function updatePlaylist(req : ReqType, res : ResType) {
+
     const playlistId = req.params.id;
     const { name, description, isPublic } = req.body;
 
+    // Check for missing fields
     if (!name || typeof isPublic === 'undefined') {
         res.status(400).json({ errorMessage: 'All fields are mandatory.' });
         return;
     }
 
     try {
+
+        // Connect to the database
         const connection = await oracledb.getConnection({
             user: "admin",
             password: "admin",
             connectString: "localhost:1521/wmlmspdb"
         });
 
+        // Query to update the playlist description
         const result = await connection.execute(
             `UPDATE playlists
              SET NAME = :name, DESCRIPTION = :description, IS_PUBLIC = :isPublic, UPDATED_AT = SYSDATE
@@ -101,50 +112,67 @@ async function updatePlaylist(req, res) {
             { name, description, isPublic, playlistId }
         );
 
+        // Check the playlist update status
         if (result.rowsAffected === 0) {
             console.log('Playlist not found');
             res.status(404).json({ errorMessage: 'Playlist not found.' });
             return;
-
         }
 
-        await connection.commit();
         console.log('Playlist successfully updated');
+
+        // Commit changes
+        await connection.commit();
+
+        // Close database connection
         await connection.close();
 
+        // Send the update status
         res.status(200).json({ message: 'Playlist successfully updated.' });
+
     } catch (error) {
         console.error('Error with playlist update:', error);
         res.status(500).json({ errorMessage: 'Error with playlist update.' });
     }
 }
 
-// Supprimer une playlist
-async function deletePlaylist(req, res) {
+// Delete a playlist
+async function deletePlaylist(req : ReqType, res : ResType) {
+
     const playlistId = req.params.id;
 
     try {
+        // Connect to the database
         const connection = await oracledb.getConnection({
             user: "admin",
             password: "admin",
             connectString: "localhost:1521/wmlmspdb"
         });
 
+        // Query to delete the select query
         const result = await connection.execute(
             `DELETE FROM PLAYLISTS WHERE PLAYLIST_ID = :playlistId`,
             { playlistId }
         );
 
+        // Check the deletion status
         if (result.rowsAffected === 0) {
             console.log('Playlist not found');
-            return res.status(404).json({ errorMessage: 'Playlist not found.' });
+            res.status(404).json({ errorMessage: 'Playlist not found.' });
+            return;
         }
 
-        await connection.commit();
         console.log('Playlist successfully deleted');
+
+        // Commit changes
+        await connection.commit();
+
+        // Close database connection
         await connection.close();
 
+        // Send the deletion status
         res.status(200).json({ message: 'Playlist successfully deleted.' });
+
     } catch (error) {
         console.error('Error with playlist deletion:', error);
         res.status(500).json({ errorMessage: 'Error with playlist deletion.' });

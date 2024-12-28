@@ -1,26 +1,30 @@
 import express from 'express';
 import oracledb from 'oracledb';
 import bcrypt from "bcrypt";
+import {ReqType, ResType} from "../app";
+import {resolve} from "node:dns";
 
 const router = express.Router();
 
-// Route to show the login page
-router.get('/u/login', (_req, _res) => {
-    _res.json({ message: null,  status:404 }).status(404);
-});
+router.post('/u/login',  async (req : ReqType, res : ResType) => login(req, res));
+router.post('/u/register', (req : ReqType, res : ResType) => register(req, res));
+router.get('/u/logout', (req : ReqType, res : ResType) => logout(req, res));
 
-router.post('/u/login',  async (_req, _res) => {
-    const { username, password } = _req.body;
+// Verify and log an user using its credentials
+async function login (req : ReqType, res : ResType) {
 
-    // Check if all fields are filled
+    const { username, password } = req.body;
+
+    // Check for missing fields
     if (!username || !password) {
-        _res.json({ messsage : 'All fields are mandatory.',  status:400 }).status(400);
+        res.json({ message : 'All fields are mandatory.',  status:400 }).status(400);
         return;
     }
 
     try {
         console.log('Trying to connect with user:', username);
 
+        // Connect to the database
         const connection = await oracledb.getConnection({
             user: "admin",
             password: "admin",
@@ -41,7 +45,7 @@ router.post('/u/login',  async (_req, _res) => {
         if (result.rows.length === 0) {
             console.log('No user found');
             await connection.close();
-            _res.json({message: 'Invalid credentials.',  status:400 }).status(400)
+            res.json({message: 'Invalid credentials.',  status:400 }).status(400)
             return;
         }
 
@@ -59,34 +63,29 @@ router.post('/u/login',  async (_req, _res) => {
         if (isPasswordValid) {
             console.log('Correct password. Managed to connect!');
             await connection.close();
-            _res.json({message: 'Loged in!',  status:200}).status(200);
+            res.json({message: 'Logged in!',  status:200}).status(200);
             return;
         } else {
             console.log('Incorrect password');
             await connection.close();
-            _res.json({ message: 'Incorrect credentials.',  status:400 }).status(400);
+            res.json({ message: 'Incorrect credentials.',  status:400 }).status(400);
             return;
         }
     } catch (error) {
         console.error('Error during connection:', error); // Log detailed error
-        _res.json({message: 'An error occurred, please try again.',  status:400 }).status(400);
+        res.json({message: 'An error occurred, please try again.',  status:400 }).status(400);
     }
-});
+}
 
-// Route for account creation page
-router.get('/u/register', (req, res) => {
-    res.send({message: null,  status:404 });
-});
+// Register an user using given credentials
+async function register(req : ReqType, res : ResType) {
 
-// Route to create an account
-router.post('/u/register', (_req, _res) => register(_req, _res));
-
-async function register(_req : any, _res : any) {
-    const { username, password, email} = _req.body;
+    const { username, password, email} = req.body;
 
     // Check that all fields are filled
     if (!username || !password || !email) {
-        return _res.json({message: 'All fields are required.',  status:400 }).status(400);
+        res.json({message: 'All fields are required.',  status:400 }).status(400);
+        return;
     }
 
     try {
@@ -116,27 +115,29 @@ async function register(_req : any, _res : any) {
         await connection.close();
 
         // Redirect or send success message
-        _res.json({message: 'Successful user creation!',  status:200}).status(200);
+        res.json({message: 'Successful user creation!',  status:200}).status(200);
 
     } catch (error) {
         console.error('Error during registration:', error);
-        _res.json({message: 'An error occurred, please try again.',  status:400 }).status(400);
+        res.json({message: 'An error occurred, please try again.',  status:400}).status(400);
     }
 }
 
-
-// Method for the logout button
-router.get('/u/logout', (req, res) => {
+// Logout an user
+function logout(req : ReqType, res : ResType) {
     // Remove session information (e.g., user ID)
     req.session.destroy((err) => {
         if (err) {
-            console.error('Error during session destruction:', err);
-            return res.redirect('/playlists'); // Redirect to the playlists page in case of error
+            console.error('Error during logout :', err);
+            res.json({message: 'An error occurred, please try again.',  status:400})
+                .status(400)
+                .redirect('/playlists'); // Redirect to the playlists page in case of error
+            return;
         }
 
         // Redirect the user to the login page after logging out
         res.redirect('/login');
     });
-});
+}
 
 export default router;
