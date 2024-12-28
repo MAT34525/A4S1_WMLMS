@@ -6,11 +6,45 @@ import {NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 
 // AG Grid
-import {AgGridAngular} from 'ag-grid-angular';
-import type {ColDef} from 'ag-grid-community';
+import { AgGridAngular } from 'ag-grid-angular';
+import {
+  ClientSideRowModelModule,
+  ColDef,
+  GridApi,
+  GridOptions,
+  ModuleRegistry,
+  NumberEditorModule,
+  NumberFilterModule,
+  PaginationModule,
+  RowSelectionModule,
+  TextEditorModule,
+  TextFilterModule,
+} from 'ag-grid-community';
 
 // Project
 import {AdminService} from '../admin-service.service';
+import {Artists} from '../schema';
+
+// AG Grid module registration
+ModuleRegistry.registerModules([
+  NumberEditorModule,
+  TextEditorModule,
+  TextFilterModule,
+  NumberFilterModule,
+  RowSelectionModule,
+  PaginationModule,
+  ClientSideRowModelModule
+]);
+
+// Set up the grid configuration
+const gridOptions : GridOptions<Artists> | undefined = {
+  defaultColDef: {
+    editable: false,
+    filter: true,
+    flex: 1,
+  },
+  pagination: false,
+}
 
 @Component({
   selector: 'app-admin-queries-page',
@@ -99,4 +133,6 @@ export class AdminQueriesPageComponent {
     this.colDefs = data[1];
     this.rowData = data[0];
   }
+
+  protected readonly gridOptions = gridOptions;
 }

@@ -43,7 +43,7 @@ ModuleRegistry.registerModules([
 ]);
 
 // Set up the grid configuration
-const gridOptions : GridOptions<Users> | undefined = {
+const gridOptions : GridOptions | undefined = {
   defaultColDef: {
     editable: false,
     filter:true,

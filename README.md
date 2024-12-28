@@ -96,4 +96,45 @@ Hopefully, if you didn't managed to run or build the project, you have a present
 
 ## User guide
 
+### User : **Home**
+
+You can access the home page by browsing to http://localhost:4200 on this page wou will be able to register as a new user, log in using an existing user credentials, browse to the user home page using the `Home` navbar entry and reach the Admin panel using the `Admin` button in the navbar.
+
 ![alt text](NodeJS_React/Readme_Ressources/UG_Home.png)
+
+
+### Admin : **Login**
+
+Once you click on the `Admin` button in the navbar, you will be redirected to the admin login page. The default credentials are admin/admin and depends on the database user (not the table)
+
+![alt text](NodeJS_React/Readme_Ressources/UG_Admin_Login.png)
+
+### Admin : **Home page**
+
+There is nothing important to display here, it is quie similar to Webapp home page, without login/register buttons and with a custom navbar for the administration tools.
+
+### Admin : **Users page**
+
+The first tool the adminitrator has is the one to lock / unlock or update user data. 
+
+![alt text](NodeJS_React/Readme_Ressources/UG_Admin_Users.png)
+
+For each user, you have access to two simple pages to do this.
+
+![alt text](NodeJS_React/Readme_Ressources/UG_Admin_User_Edit.png)
+
+![alt text](NodeJS_React/Readme_Ressources/UG_Admin_User_View.png)
+
+### Admin : **Artists page**
+
+The second tool, the artist page, only allow the administratr to verify or not the artist. It has a custom pagination tool to limit the loading time and we are fully aware that it will greately reduce the functionality brought by ag grid modules top operate filters and selection since only 20 artists are loaded at the same time.
+
+![alt text](NodeJS_React/Readme_Ressources/UG_Admin_Artist.png)
+
+### Admin : **Tables page**
+
+
+![alt text](image.png)
+
+### Admin : **Queries page**
+### Admin : **Statistics page**
