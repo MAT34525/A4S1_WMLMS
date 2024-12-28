@@ -12,7 +12,7 @@ import {Albums, Artists, ForumPosts, ForumReplies, Playlists, Tracks, Users} fro
 
 export class AdminService {
 
-  private readonly httpClient = inject(HttpClient);
+  private readonly httpClient : HttpClient = inject(HttpClient);
 
   // GET ==========================================================================================
 

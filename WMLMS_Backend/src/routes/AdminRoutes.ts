@@ -1,8 +1,10 @@
 import {Database} from "../database";
-import express from 'express';
+import express, {Router} from 'express';
+import {ReqType, ResType} from "../app";
 
-const router = express.Router();
+const router : Router = express.Router();
 
+// Handle multiple connexion (not used)
 let databaseConnexions = [];
 
 /**
@@ -22,18 +24,19 @@ let databaseConnexions = [];
  *       404:
  *         description: An error occurred, please try again.
  */
-router.post('/u/admin-login', (_req, _res) => adminLogin(_req, _res));
+router.post('/u/admin-login', (req : ReqType ,res : ResType) => adminLogin(req, res));
 
-async function adminLogin(_req : any, _res : any) {
+async function adminLogin(req : ReqType, res : ResType) {
 
-    const { username, password }  = _req.body as {username? : string, password? : string} ;
+    const { username, password }  = req.body as {username? : string, password? : string} ;
 
-    // check if username and password have been filled
+    // Check for missing fields
     if (!username || !password) {
-        return _res.json({ errorMessage: 'all fields are mandatory' }).status(400);
+        res.json({ errorMessage: 'All fields are mandatory.' }).status(400);
     }
     try {
-        console.log('trying to connect as admin', username);
+        // Connection status
+        console.log('Trying to connect administrator :', username);
 
         // Create a new database connection
         databaseConnexions.push(new Database(router, username, password));
@@ -49,20 +52,20 @@ async function adminLogin(_req : any, _res : any) {
         if (status)
         {
             console.log("Admin successfully connected, admin panel available !");
-            _res.json({message : "Admin successfully connected !",  status:200}).status(200);
+            res.json({message : "Admin successfully connected !",  status:200}).status(200);
             return;
         } else {
             console.log("Admin credentials are invalid !");
-            _res.json({message : "Admin credentials are invalid!",  status:400}).status(400);
+            res.json({message : "Admin credentials are invalid!",  status:400}).status(400);
 
             databaseConnexions.pop();
 
         }
 
-        // Inform the user for any other issues
+    // Inform the user for any other issues
     } catch (error) {
         console.error('Error when connecting :', error);
-        _res.json({ message: 'An error occurred, please try again.', status:400 }).status(400);
+        res.json({ message: 'An error occurred, please try again.', status:400 }).status(400);
     }
 }
 

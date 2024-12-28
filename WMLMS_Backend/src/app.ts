@@ -1,13 +1,6 @@
-import express from 'express';
+import express, {Express} from 'express';
 import bodyParser from 'body-parser';
-import bcrypt from 'bcrypt';
 import oracledb from 'oracledb';
-
-
-// Swagger
-
-import swaggerJsdoc from 'swagger-jsdoc'; // * as swaggerJsdoc from 'swagger-jsdoc'
-import swaggerUi from 'swagger-ui-express';
 import session from 'express-session';
 
 // Import des routes
@@ -16,10 +9,18 @@ import userRoutes from './routes/UserRoutes';
 import playlistRoutes from './routes/PlaylistRoutes';
 import MusicRoutes from "./routes/MusicRoutes";
 
+// Swagger
+import swaggerJsdoc, {SwaggerDefinition} from 'swagger-jsdoc';
+import swaggerUi, {SwaggerOptions} from 'swagger-ui-express';
 
-const jsDocOptions = {
+// Default shorten types for express
+export type ReqType = express.Request;
+export type ResType = express.Response;
+
+// Swagger configuration (initial tables created by an LLM using the SQL queries for table creation)
+const jsDocOptions : SwaggerOptions  = {
   definition: {
-    openapi: '3.0.0', // Specify the OpenAPI version
+    openapi: '3.0.0',
     info: {
       title: 'Express API with Swagger',
       version: '1.0.0',
@@ -231,16 +232,16 @@ const jsDocOptions = {
   apis: ['.//src/admin_database.ts', './/src/routes/*.ts'],
 };
 
-const apiDoc = swaggerJsdoc(jsDocOptions);
-console.log('api-doc json:', JSON.stringify(apiDoc, null,2));
+const apiDoc : SwaggerOptions = swaggerJsdoc(jsDocOptions);
 
-const app = express();
+// Run the API
+const app : Express = express();
 app.use(express.json());
 
-
+// Link swagger component
 app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(apiDoc));
 
-//gestion des sessions de chaque user
+// Session handling for users
 app.use(session({
   secret: 'session_secrete',
   resave: false,
@@ -248,21 +249,19 @@ app.use(session({
   cookie: { secure: false }
 }));
 
-// Connexion BDD
-
+// BDD connection
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-
-// Utilisation des routes
+// Activate routes
 app.use(adminRoutes);
 app.use(userRoutes);
 app.use(playlistRoutes);
 app.use(MusicRoutes);
 
-// Démarrer le serveur
+// API startup
 app.listen(3000, () => {
   console.log('Server running on : http://localhost:3000');
 });

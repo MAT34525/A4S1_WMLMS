@@ -1,52 +1,65 @@
 import express from 'express';
 import oracledb from 'oracledb';
+import {ReqType, ResType} from "../app";
 
 const router = express.Router();
 
 // Routes
-router.get('/playlists', (_req, _res) => getPlaylists(_req, _res));
-router.post('/playlists', (_req, _res) => createPlaylist(_req, _res));
-router.put('/playlists/:id', (_req, _res) => updatePlaylist(_req, _res));
-router.delete('/playlists/:id', (_req, _res) => deletePlaylist(_req, _res));
+router.get('/playlists', (req : ReqType, res : ResType) => getPlaylists(req, res));
+router.post('/playlists', (req : ReqType, res : ResType) => createPlaylist(req, res));
+router.put('/playlists/:id', (req : ReqType, res : ResType) => updatePlaylist(req, res));
+router.delete('/playlists/:id', (req : ReqType, res : ResType) => deletePlaylist(req, res));
 
-// Récupérer toutes les playlists
-async function getPlaylists(_req, _res) {
+// Retrieve all playlists
+async function getPlaylists(req : ReqType, res : ResType) {
     try {
+        // Connect to the Oracle database
         const connection = await oracledb.getConnection({
             user: "admin",
             password: "admin",
             connectString: "localhost:1521/wmlmspdb"
         });
 
+        // Query to get all playlists
         const result = await connection.execute(
             `SELECT PLAYLIST_ID, NAME, DESCRIPTION, IS_PUBLIC, CREATED_AT, UPDATED_AT FROM playlists`
         );
 
-        console.log('Playlists collected :', result.rows);
+        console.log('Retrieved playlists :', result.rows);
+
+        // Close database connection
         await connection.close();
 
-        _res.status(200).json({ playlists: result.rows });
+        // Send the retrieved playlists list
+        res.status(200).json({ playlists: result.rows });
+
     } catch (error) {
-        console.error('error with playlists collection:', error);
-        _res.status(500).json({ errorMessage: 'Error with playlists collection.' });
+
+        console.error('Error when retrieving playlists :', error);
+        res.status(500).json({ errorMessage: 'Error when retrieving artists.' });
     }
 }
 
-// Créer une nouvelle playlist
-async function createPlaylist(_req, _res) {
-    const { name, description, isPublic } = _req.body;
+// Create a new playlist
+async function createPlaylist(req : ReqType, res : ResType) {
 
+    const { name, description, isPublic } = req.body;
+
+    // Check missing values
     if (!name || typeof isPublic === 'undefined') {
-        return _res.status(400).json({ errorMessage: 'all fields are mandatory.' });
+        res.status(400).json({ errorMessage: 'All fields are mandatory.' });
+        return;
     }
 
     try {
+        // Connect to the Oracle database
         const connection = await oracledb.getConnection({
             user: "admin",
             password: "admin",
             connectString: "localhost:1521/wmlmspdb"
         });
 
+        // Query to get all songs from an artists
         await connection.execute(
             `INSERT INTO playlists (NAME, DESCRIPTION, IS_PUBLIC, CREATED_AT, UPDATED_AT)
              VALUES (:name, :description, :isPublic, SYSDATE, SYSDATE)`,
@@ -57,20 +70,21 @@ async function createPlaylist(_req, _res) {
         console.log('Playlist successfully created');
         await connection.close();
 
-        _res.status(201).json({ message: 'Playlist successfully created.' });
+        res.status(201).json({ message: 'Playlist successfully created.' });
     } catch (error) {
         console.error('Error with playlist creation:', error);
-        _res.status(500).json({ errorMessage: 'Error with playlist creation.' });
+        res.status(500).json({ errorMessage: 'Error with playlist creation.' });
     }
 }
 
 // Mettre à jour une playlist existante
-async function updatePlaylist(_req, _res) {
-    const playlistId = _req.params.id;
-    const { name, description, isPublic } = _req.body;
+async function updatePlaylist(req, res) {
+    const playlistId = req.params.id;
+    const { name, description, isPublic } = req.body;
 
     if (!name || typeof isPublic === 'undefined') {
-        return _res.status(400).json({ errorMessage: 'All fields are mandatory.' });
+        res.status(400).json({ errorMessage: 'All fields are mandatory.' });
+        return;
     }
 
     try {
@@ -89,23 +103,25 @@ async function updatePlaylist(_req, _res) {
 
         if (result.rowsAffected === 0) {
             console.log('Playlist not found');
-            return _res.status(404).json({ errorMessage: 'Playlist not found.' });
+            res.status(404).json({ errorMessage: 'Playlist not found.' });
+            return;
+
         }
 
         await connection.commit();
         console.log('Playlist successfully updated');
         await connection.close();
 
-        _res.status(200).json({ message: 'Playlist successfully updated.' });
+        res.status(200).json({ message: 'Playlist successfully updated.' });
     } catch (error) {
         console.error('Error with playlist update:', error);
-        _res.status(500).json({ errorMessage: 'Error with playlist update.' });
+        res.status(500).json({ errorMessage: 'Error with playlist update.' });
     }
 }
 
 // Supprimer une playlist
-async function deletePlaylist(_req, _res) {
-    const playlistId = _req.params.id;
+async function deletePlaylist(req, res) {
+    const playlistId = req.params.id;
 
     try {
         const connection = await oracledb.getConnection({
@@ -115,23 +131,23 @@ async function deletePlaylist(_req, _res) {
         });
 
         const result = await connection.execute(
-            `DELETE FROM playlists WHERE PLAYLIST_ID = :playlistId`,
+            `DELETE FROM PLAYLISTS WHERE PLAYLIST_ID = :playlistId`,
             { playlistId }
         );
 
         if (result.rowsAffected === 0) {
             console.log('Playlist not found');
-            return _res.status(404).json({ errorMessage: 'Playlist not found.' });
+            return res.status(404).json({ errorMessage: 'Playlist not found.' });
         }
 
         await connection.commit();
         console.log('Playlist successfully deleted');
         await connection.close();
 
-        _res.status(200).json({ message: 'Playlist successfully deleted.' });
+        res.status(200).json({ message: 'Playlist successfully deleted.' });
     } catch (error) {
         console.error('Error with playlist deletion:', error);
-        _res.status(500).json({ errorMessage: 'Error with playlist deletion.' });
+        res.status(500).json({ errorMessage: 'Error with playlist deletion.' });
     }
 }
 

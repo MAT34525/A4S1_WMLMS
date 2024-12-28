@@ -153,7 +153,7 @@ export class AdminArtistPageComponent implements OnInit{
 
     // Check page validity, positive
     if (this.page + increment < 0) {
-      return;
+      this.page = 0;
     }
 
     // Check page validity, maximum

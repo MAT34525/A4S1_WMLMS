@@ -1,22 +1,30 @@
 /*
-This class is used by the Database class to handle admin CRUD commands
- */
+    This class is used by the Database class to handle admin CRUD commands
+    It is only activated when an admin logs in.
+*/
+import express, {Router} from "express";
+import {Sequelize} from "sequelize";
+import {Schema} from "./database";
+import {ReqType, ResType} from "./app";
+
 export class AdminDatabase {
 
-    #app;
-    #connection;
-    #schema;
+    private app : Router;
+    private connection : Sequelize;
+    private schema : Schema;
 
-    constructor(app, connection, schema) {
+    constructor(app : Router, connection : Sequelize, schema : Schema) {
 
         // Initiate admin CRUD commands
-        this.#app = app;
-        this.#connection = connection;
-        this.#schema = schema;
+        this.app = app;
+        this.connection = connection;
+        this.schema = schema;
 
+        // Initialise the admin routes and API features
         this.initAdminCRUD();
     }
 
+    // Associate admin routes to their corresponding functions
     initAdminCRUD()
     {
         // User CRUD
@@ -36,11 +44,11 @@ export class AdminDatabase {
          *       200:
          *         description: The user matching the UUID
          *         schema:
-         *             $ref: '#/components/schemas/Users'
+         *             $ref: '/components/schemas/Users'
          *       404:
          *         description: User not found
          */
-        this.#app.get('/s/admin/users/:id', (req, res) => this.getUser(req, res));
+        this.app.get('/s/admin/users/:id', (req : ReqType, res : ResType) => this.getUser(req, res));
 
         /**
          * @openapi
@@ -51,13 +59,13 @@ export class AdminDatabase {
          *       200:
          *         description: All users in the DB
          *         schema:
-         *           $ref: '#/components/schemas/Users'
+         *           $ref: '/components/schemas/Users'
          *       404:
          *         description: Table not found !
          *       400 :
          *         description : Bad request !
          */
-        this.#app.get('/s/admin/users', (req, res) => this.getUserList(req, res));
+        this.app.get('/s/admin/users', (req : ReqType, res : ResType) => this.getUserList(req, res));
 
         /**
          * @openapi
@@ -76,14 +84,14 @@ export class AdminDatabase {
          *       content:
          *         application/json:
          *           schema:
-         *             $ref: '#/components/schemas/Users'
+         *             $ref: '/components/schemas/Users'
          *     responses:
          *       200:
          *         description: Success response
          *       404:
          *         description: Not found response
          */
-        this.#app.put('/s/admin/users/:id', (req, res) => this.putUser(req, res));
+        this.app.put('/s/admin/users/:id', (req : ReqType, res : ResType) => this.putUser(req, res));
 
         /**
          * @openapi
@@ -102,14 +110,14 @@ export class AdminDatabase {
          *       content:
          *         application/json:
          *           schema:
-         *             $ref: '#/components/schemas/Users'
+         *             $ref: '/components/schemas/Users'
          *     responses:
          *       200:
          *         description: Success response
          *       404:
          *         description: Not found response
          */
-        this.#app.put('/s/admin/users/lock/:id', (req, res) => this.putUserLock(req, res));
+        this.app.put('/s/admin/users/lock/:id', (req : ReqType, res : ResType) => this.putUserLock(req, res));
 
         /**
          * @openapi
@@ -128,14 +136,14 @@ export class AdminDatabase {
          *       content:
          *         application/json:
          *           schema:
-         *             $ref: '#/components/schemas/Users'
+         *             $ref: '/components/schemas/Users'
          *     responses:
          *       200:
          *         description: Success reponse
          *       404:
          *         description: Not found reponse
          */
-        this.#app.delete('/s/admin/users/:id', (req, res) => this.deleteUser(req, res));
+        this.app.delete('/s/admin/users/:id', (req : ReqType, res : ResType) => this.deleteUser(req, res));
 
         // Artists CRUD
         /**
@@ -154,11 +162,11 @@ export class AdminDatabase {
          *       200:
          *         description: The user matching the UUID
          *         schema:
-         *             $ref: '#/components/schemas/Users'
+         *             $ref: '/components/schemas/Users'
          *       404:
          *         description: User not found
          */
-        this.#app.get('/s/admin/artists/:id', (req, res) => this.getArtist(req, res));
+        this.app.get('/s/admin/artists/:id', (req : ReqType, res : ResType) => this.getArtist(req, res));
 
         /**
          * @openapi
@@ -169,13 +177,13 @@ export class AdminDatabase {
          *       200:
          *         description: All artists in the DB
          *         schema:
-         *           $ref: '#/components/schemas/Artists'
+         *           $ref: '/components/schemas/Artists'
          *       404:
          *         description: Table not found !
          *       400 :
          *         description : Bad request !
          */
-        this.#app.get('/s/admin/artists', (req, res) => this.getArtistList(req, res));
+        this.app.get('/s/admin/artists', (req : ReqType, res : ResType) => this.getArtistList(req, res));
 
         /**
          * @openapi
@@ -190,7 +198,7 @@ export class AdminDatabase {
          *       400 :
          *         description : Bad request !
          */
-        this.#app.get('/s/admin/count/artists', (req, res) => this.getArtistCount(req, res));
+        this.app.get('/s/admin/count/artists', (req : ReqType, res : ResType) => this.getArtistCount(req, res));
 
         /**
          * @openapi
@@ -202,7 +210,7 @@ export class AdminDatabase {
          *       content:
          *         application/json:
          *           schema:
-         *             $ref: '#/components/schemas/ArtistPage'
+         *             $ref: '/components/schemas/ArtistPage'
          *     responses:
          *       200:
          *         description: List of artists of the selected page
@@ -211,7 +219,7 @@ export class AdminDatabase {
          *       400 :
          *         description : Bad request !
          */
-        this.#app.post('/s/admin/artists/delayed', (req, res) => this.getArtistListDelayed(req, res));
+        this.app.post('/s/admin/artists/delayed', (req : ReqType, res : ResType) => this.getArtistListDelayed(req, res));
 
         /**
          * @openapi
@@ -230,14 +238,14 @@ export class AdminDatabase {
          *       content:
          *         application/json:
          *           schema:
-         *             $ref: '#/components/schemas/Artists'
+         *             $ref: '/components/schemas/Artists'
          *     responses:
          *       200:
          *         description: Success response
          *       404:
          *         description: Not found response
          */
-        this.#app.put('/s/admin/artists/verification/:id', (req, res) => this.putArtistVerification(req, res));
+        this.app.put('/s/admin/artists/verification/:id', (req : ReqType, res : ResType) => this.putArtistVerification(req, res));
 
         // Table visualisation
         /**
@@ -249,13 +257,13 @@ export class AdminDatabase {
          *       200:
          *         description: All albums in the DB
          *         schema:
-         *           $ref: '#/components/schemas/Albums'
+         *           $ref: '/components/schemas/Albums'
          *       404:
          *         description: Table not found !
          *       400 :
          *         description : Bad request !
          */
-        this.#app.get('/s/admin/albums', (req, res) => this.getAlbumList(req, res));
+        this.app.get('/s/admin/albums', (req : ReqType, res : ResType) => this.getAlbumList(req, res));
 
         /**
          * @openapi
@@ -266,13 +274,13 @@ export class AdminDatabase {
          *       200:
          *         description: All playlists in the DB
          *         schema:
-         *           $ref: '#/components/schemas/Playlists'
+         *           $ref: '/components/schemas/Playlists'
          *       404:
          *         description: Table not found !
          *       400 :
          *         description : Bad request !
          */
-        this.#app.get('/s/admin/playlists', (req, res) => this.getPlaylistList(req, res));
+        this.app.get('/s/admin/playlists', (req : ReqType, res : ResType) => this.getPlaylistList(req, res));
 
         /**
          * @openapi
@@ -283,13 +291,13 @@ export class AdminDatabase {
          *       200:
          *         description: All forums replies in the DB
          *         schema:
-         *           $ref: '#/components/schemas/ForumReplies'
+         *           $ref: '/components/schemas/ForumReplies'
          *       404:
          *         description: Table not found !
          *       400 :
          *         description : Bad request !
          */
-        this.#app.get('/s/admin/forums-replies', (req, res) => this.getForumRepliesList(req, res));
+        this.app.get('/s/admin/forums-replies', (req : ReqType, res : ResType) => this.getForumRepliesList(req, res));
 
         /**
          * @openapi
@@ -300,13 +308,13 @@ export class AdminDatabase {
          *       200:
          *         description: All forums posts in the DB
          *         schema:
-         *           $ref: '#/components/schemas/ForumPosts'
+         *           $ref: '/components/schemas/ForumPosts'
          *       404:
          *         description: Table not found !
          *       400 :
          *         description : Bad request !
          */
-        this.#app.get('/s/admin/forums-posts', (req, res) => this.getForumPostsList(req, res));
+        this.app.get('/s/admin/forums-posts', (req : ReqType, res : ResType) => this.getForumPostsList(req, res));
 
         /**
          * @openapi
@@ -317,13 +325,13 @@ export class AdminDatabase {
          *       200:
          *         description: All tracks in the DB
          *         schema:
-         *           $ref: '#/components/schemas/tracks'
+         *           $ref: '/components/schemas/tracks'
          *       404:
          *         description: Table not found !
          *       400 :
          *         description : Bad request !
          */
-        this.#app.get('/s/admin/tracks', (req, res) => this.getTracksList(req, res));
+        this.app.get('/s/admin/tracks', (req : ReqType, res : ResType) => this.getTracksList(req, res));
 
         // Query
         /**
@@ -336,7 +344,7 @@ export class AdminDatabase {
          *       content:
          *         application/json:
          *           schema:
-         *             $ref: '#/components/schemas/Query'
+         *             $ref: '/components/schemas/Query'
          *     responses:
          *       200:
          *         description: Result of the operation or status of the reuqest
@@ -345,7 +353,7 @@ export class AdminDatabase {
          *       400 :
          *         description : Bad request !
          */
-        this.#app.post('/s/admin/query', (req, res) => this.customQuery(req, res))
+        this.app.post('/s/admin/query', (req : ReqType, res : ResType) => this.customQuery(req, res))
 
         /**
          * @openapi
@@ -357,7 +365,7 @@ export class AdminDatabase {
          *       content:
          *         application/json:
          *           schema:
-         *             $ref: '#/components/schemas/Query'
+         *             $ref: '/components/schemas/Query'
          *     responses:
          *       200:
          *         description: Result of the operation or status of the request
@@ -366,11 +374,11 @@ export class AdminDatabase {
          *       400 :
          *         description : Bad request !
          */
-        this.#app.post('/s/admin/query-count', (req, res) => this.customCount(req, res))
+        this.app.post('/s/admin/query-count', (req : ReqType, res : ResType) => this.customCount(req, res))
     }
 
     // Standard function to get the list of any tables
-    async getList(tableName : string, req, res) {
+    async getList(tableName : string, req: ReqType, res: ResType) {
 
         // Display the command name
         console.log("Admin GET " + tableName + " List");
@@ -378,8 +386,8 @@ export class AdminDatabase {
         // Convert table name in uppercase to standardize the input
         tableName = String(tableName).toUpperCase();
 
-        if(!/^[A-Za-z\_]*$/.test(tableName)) {
-            console.log("SQL Injection detected, query aborded !");
+        if(!/^[A-Za-z_]*$/.test(tableName)) {
+            console.log("SQL Injection detected, query aborted !");
             res.json({message: "Bad request !"}).status(400);
             return;
         }
@@ -388,7 +396,7 @@ export class AdminDatabase {
         try {
 
             // Execute the query and send result
-            const result = await this.#connection.query(`SELECT * FROM ${tableName}`);
+            const result = await this.connection.query(`SELECT * FROM ${tableName}`);
             res.json(result[0]).status(200);
 
         } catch (error) {
@@ -402,27 +410,26 @@ export class AdminDatabase {
 
     // GET ========================================================================================
 
-
     // Admin Get User List function
-    async getUserList(req, res) {
+    async getUserList(req : ReqType , res : ResType) {
 
-        this.getList('Users', req, res);
+        await this.getList('Users', req, res);
     }
 
     // Admin Get Artist List function
-    async getArtistList(req, res) {
+    async getArtistList(req : ReqType, res : ResType) {
 
-        this.getList('Artists', req, res);
+        await this.getList('Artists', req, res);
     }
 
     // Admin Get Artist Count function
-    async getArtistCount(req, res) {
+    async getArtistCount(req : ReqType, res : ResType) {
 
         // Try to execute the query and handle the Table Not Found error.
         try {
 
             // Execute the query and send result
-            const result = await this.#connection.query(`SELECT COUNT(ARTIST_ID) FROM ARTISTS;`);
+            const result = await this.connection.query(`SELECT COUNT(ARTIST_ID) FROM ARTISTS;`);
             res.json({ result : result[0][0]["COUNT(ARTIST_ID)"]}).status(200);
 
         } catch (error) {
@@ -435,11 +442,10 @@ export class AdminDatabase {
     }
 
     // Admin Get Artist List  function
-    async getArtistListDelayed(req, res) {
+    async getArtistListDelayed(req : ReqType, res : ResType) {
 
         // Display the command name
         console.log("Admin GET Artists List by page");
-
 
         // Checking parameters values
         const { page, size } = req.body;
@@ -462,7 +468,7 @@ export class AdminDatabase {
             let limit : number = size;
 
             // Execute the query and send result
-            const result = await this.#connection.query(`SELECT * FROM ARTISTS OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY;`,
+            const result = await this.connection.query(`SELECT * FROM ARTISTS OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY;`,
                 {
                     bind: [offset, limit],
                 });
@@ -478,31 +484,31 @@ export class AdminDatabase {
     }
 
     // Admin Get Tracks List  function
-    async getTracksList(req, res) {
+    async getTracksList(req : ReqType, res : ResType) {
 
         this.getList('Tracks', req, res);
     }
 
     // Admin Get Album List function
-    async getAlbumList(req, res) {
+    async getAlbumList(req : ReqType, res : ResType) {
 
         this.getList('Albums', req, res);
     }
 
     // Admin Get Playlist List function
-    async getPlaylistList(req, res) {
+    async getPlaylistList(req : ReqType, res : ResType) {
 
         this.getList('Playlists', req, res);
     }
 
     // Admin Get Forums Replies List function
-    async getForumRepliesList(req, res) {
+    async getForumRepliesList(req : ReqType, res : ResType) {
 
         this.getList('Forum_Replies', req, res);
     }
 
     // Admin Get Forum Posts List function
-    async getForumPostsList(req, res) {
+    async getForumPostsList(req : ReqType, res : ResType) {
 
         this.getList('Forum_Posts', req, res);
     }
@@ -510,18 +516,17 @@ export class AdminDatabase {
     // GET BY ID ==================================================================================
 
     // Admin Get USER ID function
-    async getUser(req, res) {
+    async getUser(req : ReqType, res : ResType) {
+
         // Display the command name
         console.log("Admin GET User By ID");
 
         const { id } = req.params;
 
-        const users = await this.#connection.query('SELECT * FROM USERS WHERE user_id=:id',
+        const users = await this.connection.query('SELECT * FROM USERS WHERE user_id=:id',
         {
             bind : [id]
         });
-
-        console.log(users[0][0]);
 
         if (users[0].length == 0)
         {
@@ -533,13 +538,14 @@ export class AdminDatabase {
     }
 
     // Admin Get USER ID function
-    async getArtist(req, res) {
+    async getArtist(req : ReqType, res : ResType) {
+
         // Display the command name
         console.log("Admin GET Artist By ID");
 
         const { id } = req.params;
 
-        const artist = await this.#connection.query('SELECT * FROM ARTISTS WHERE ARTIST_ID=:id',
+        const artist = await this.connection.query('SELECT * FROM ARTISTS WHERE ARTIST_ID=:id',
             {
                 bind : [id]
             });
@@ -556,7 +562,7 @@ export class AdminDatabase {
     // DELETE BY ID ===============================================================================
 
     // Admin DELETE USER ID function
-    async deleteUser(req, res) {
+    async deleteUser(req : ReqType, res : ResType) {
 
         // Display the command name
         console.log("Admin DELETE User By ID");
@@ -567,7 +573,7 @@ export class AdminDatabase {
         const { id } = req.params;
 
         // We get look for the user id in the table
-        const userLookup = await this.#connection.query('SELECT USER_ID FROM USERS WHERE user_id=:id',
+        const userLookup = await this.connection.query('SELECT USER_ID FROM USERS WHERE user_id=:id',
         {
             bind : [id]
         });
@@ -579,7 +585,7 @@ export class AdminDatabase {
             return;
         }
 
-        await this.#connection.query('DELETE FROM USERS WHERE USER_ID=:id',
+        await this.connection.query('DELETE FROM USERS WHERE USER_ID=:id',
         {
             bind : [id]
         });
@@ -590,7 +596,7 @@ export class AdminDatabase {
     // PUT BY ID ==================================================================================
 
     // Admin PUT USER Lock By ID function
-    async putUserLock(req, res) {
+    async putUserLock(req : ReqType, res : ResType) {
 
         // Display the command name
         console.log("Admin PUT User Lock By ID");
@@ -601,7 +607,7 @@ export class AdminDatabase {
         const { id } = req.params;
 
         // We get look for the user id in the table
-        const userLookup = await this.#connection.query('SELECT USER_ID FROM USERS WHERE user_id=:id',
+        const userLookup = await this.connection.query('SELECT USER_ID FROM USERS WHERE user_id=:id',
         {
             bind : [id]
         });
@@ -613,14 +619,14 @@ export class AdminDatabase {
             return;
         }
 
-        // We modify the user depending on the existance of the given parameters
+        // We modify the user depending on the existence of the given parameters
         if(item["IS_LOCKED"] !== undefined && (item["IS_LOCKED"].length === 1))
         {
             let newLock = (item["IS_LOCKED"] === 'N') ? 'Y' : 'N';
 
             console.log("[+] Locked toggled from ", item["IS_LOCKED"], ' to ', newLock )
 
-            await this.#connection.query('UPDATE USERS SET IS_LOCKED=:newLock WHERE USER_ID=:id',
+            await this.connection.query('UPDATE USERS SET IS_LOCKED=:newLock WHERE USER_ID=:id',
             {
                 bind : [newLock, id]
             });
@@ -630,7 +636,7 @@ export class AdminDatabase {
     }
 
     // Admin PUT ARTIST Verification By ID function
-    async putArtistVerification(req, res) {
+    async putArtistVerification(req : ReqType, res : ResType) {
 
         // Display the command name
         console.log("Admin PUT Artist Verification By ID");
@@ -641,7 +647,7 @@ export class AdminDatabase {
         const { id } = req.params;
 
         // We get look for the artist id in the table
-        const artistLookup = await this.#connection.query('SELECT ARTIST_ID FROM ARTISTS WHERE artist_id=:id',
+        const artistLookup = await this.connection.query('SELECT ARTIST_ID FROM ARTISTS WHERE artist_id=:id',
             {
                 bind : [id]
             });
@@ -660,7 +666,7 @@ export class AdminDatabase {
 
             console.log("[+] Verification toggled from ", item["IS_VERIFIED"], ' to ', newLock )
 
-            await this.#connection.query('UPDATE ARTISTS SET IS_VERIFIED=:newLock WHERE ARTIST_ID=:id',
+            await this.connection.query('UPDATE ARTISTS SET IS_VERIFIED=:newLock WHERE ARTIST_ID=:id',
                 {
                     bind : [newLock, id]
                 });
@@ -670,7 +676,7 @@ export class AdminDatabase {
     }
 
     // Admin PUT USER By ID function
-    async putUser(req, res) {
+    async putUser(req : ReqType, res : ResType) {
 
         // Display the command name
         console.log("Admin PUT User By ID");
@@ -681,7 +687,7 @@ export class AdminDatabase {
         const { id } = req.params;
 
         // We get look for the user id in the table
-        const userLookup = await this.#connection.query('SELECT USER_ID FROM USERS WHERE user_id=:id',
+        const userLookup = await this.connection.query('SELECT USER_ID FROM USERS WHERE user_id=:id',
             {
                 bind : [id]
             });
@@ -693,13 +699,13 @@ export class AdminDatabase {
             return;
         }
 
-        // We modify the user depending on the existance of the given parameters
+        // We modify the user depending on the existence of the given parameters
         if(item["USERNAME"] !== undefined)
         {
             console.log("[+] USERNAME Modified !")
 
             let username = item["USERNAME"]
-            await this.#connection.query('UPDATE USERS SET USERNAME=:username WHERE USER_ID=:id',
+            await this.connection.query('UPDATE USERS SET USERNAME=:username WHERE USER_ID=:id',
                 {
                     bind : [username, id]
                 });
@@ -710,7 +716,7 @@ export class AdminDatabase {
             console.log("[+] EMAIL Modified !")
 
             let email = item["EMAIL"]
-            await this.#connection.query('UPDATE USERS SET EMAIL=:email WHERE USER_ID=:id',
+            await this.connection.query('UPDATE USERS SET EMAIL=:email WHERE USER_ID=:id',
                 {
                     bind : [email, id]
                 });
@@ -721,7 +727,7 @@ export class AdminDatabase {
             console.log("[+] FULL_NAME Modified !")
 
             let fullName = item["FULL_NAME"]
-            await this.#connection.query('UPDATE USERS SET FULL_NAME=:fullName WHERE USER_ID=:id',
+            await this.connection.query('UPDATE USERS SET FULL_NAME=:fullName WHERE USER_ID=:id',
                 {
                     bind : [fullName, id]
                 });
@@ -733,7 +739,7 @@ export class AdminDatabase {
     // OTHER ======================================================================================
 
     // Admin POST Custom count
-    async customCount(req, res) {
+    async customCount(req : ReqType, res : ResType) {
 
         // Display the command name
         console.log("Admin POST Custom count");
@@ -751,7 +757,7 @@ export class AdminDatabase {
 
         try {
             // We execute the query
-            const queryResult = await this.#connection.query(query);
+            const queryResult : {} = await this.connection.query(query);
 
             // We will trim the second part of the response to only keep the output column name
             queryResult[1] = queryResult[1].map(item => ({
@@ -777,7 +783,7 @@ export class AdminDatabase {
     }
 
     // Admin POST Custom query
-    async customQuery(req, res) {
+    async customQuery(req : ReqType, res : ResType) {
 
         // Display the command name
         console.log("Admin POST Custom query");
@@ -795,7 +801,7 @@ export class AdminDatabase {
 
         try {
             // We execute the query
-            const queryResult = await this.#connection.query(query);
+            const queryResult : {} = await this.connection.query(query);
 
             // We will trim the second part of the response to only keep the output column name
             queryResult[1] = queryResult[1].map(item => ({
