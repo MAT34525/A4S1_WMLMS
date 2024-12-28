@@ -26,7 +26,7 @@ export class PlaylistsComponent implements OnInit {
     this.loadPlaylists();
   }
 
-  // Charger toutes les playlists
+  // Load all playlists
   loadPlaylists() {
     this.playlistService.getPlaylists().subscribe({
       next: (data) => {
