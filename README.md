@@ -34,9 +34,7 @@ The main requirements of all three courses are distributed as following :
 ├─ WMLMS_Backend    : The back end (node / typescript) code of the tool
 |                     This is used to link the database to the front end
 |
-├─ Advanced Database Management : Final reports, presentation video, installation video
-|
-├─ NodeJS & React : Presentation video, installation video
+├─ NodeJS_React     : Presentation video, installation video
 
 ```
 
@@ -76,7 +74,7 @@ Make sure you have installed Node.js and that it is in your PATH
 
 ### Build the project and run
 
-To bypass the following steps, you can open individually WMLMS_Backend or WMLMS_Frontend in IntelliJ and used predefined configurations :
+To bypass the following steps, you can open individually WMLMS_Backend or WMLMS_Frontend in IntelliJ and use predefined configurations :
 
 <p align="center">
  <img src="Advanced Database Management/Readme_Assets/IntelliJ_Backend_Run.png" />
@@ -127,14 +125,48 @@ For each user, you have access to two simple pages to do this.
 
 ### Admin : **Artists page**
 
-The second tool, the artist page, only allow the administratr to verify or not the artist. It has a custom pagination tool to limit the loading time and we are fully aware that it will greately reduce the functionality brought by ag grid modules top operate filters and selection since only 20 artists are loaded at the same time.
+The second tool, the artist page, only allow the administrator to verify or not the artist. It has a custom pagination tool to limit the loading time and we are fully aware that it will greatly reduce the functionality brought by ag grid modules top operate filters and selection since only 20 artists are loaded at the same time.
 
 ![alt text](NodeJS_React/Readme_Ressources/UG_Admin_Artist.png)
 
 ### Admin : **Tables page**
 
+The third tool only allow you to monitor the content of various tables once they are selected. You can use the base functionalities of Ag grid to do more advanced filtering and sorting of the tables.
 
-![alt text](image.png)
+![alt text](NodeJS_React/Readme_Ressources/UG_Admin_Tables.png)
+
 
 ### Admin : **Queries page**
+
+The fourth tool is the query page. This will allow you to run custom SQL queries, you can load predefined queries using the bottom left panel and show the result of the query in the bottom right panel. You can also enhance your query result using AG Grid default tools.  
+
+![alt text](NodeJS_React/Readme_Ressources//UG_Admin_Queries.png)
+
 ### Admin : **Statistics page**
+
+The fifth and last page is the statistic page whe you can find some KPI on the number of rows and tables into the database and also some charts to display additional statistics such as the explicit repartition of songs or the top artists.
+
+![alt text](NodeJS_React/Readme_Ressources/UG_Admin_Statistics.png)
+
+## Tasks distribution 
+
+For more precision, don't hesitate to check the activity report on GitHub :wink:
+
+### Database :
+- Tables creation :  Kylie
+- Triggers, functions, procedures creation : Kylie
+- Queries, Advanced Queries : Kylie
+- Pluggable database creation / guide : Mathys
+- Database connection with backend : Mathys
+
+### Backend :
+- Login API : Léandre
+- User API (Tracks, Albums, Playlists) : Léandre
+- Admin API (Users, Artists, Tables, Queries, Statistics) : Mathys
+  
+
+### Frontend :
+- Login and register pages (User, Admin, Home) : Benoit
+- User pages (Playlist, Songs) : Léandre 
+- User pages (Song searches) : Benoit
+- Admin pages (Users, Artists, Playlists, Statistics, Queries) : Mathys
