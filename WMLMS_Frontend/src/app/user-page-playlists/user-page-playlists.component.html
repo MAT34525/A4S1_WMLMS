@@ -1,2 +1,40 @@
-<p>Playlists</p>
+<h1>Playlists</h1>
 
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Public</th>
+    <th>Created At</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let playlist of playlists" (click)="loadTracks(playlist[0], playlist[1])">
+    <td>{{ playlist[1] }}</td> <!-- playlist_id -->
+    <td>{{ playlist[2] }}</td> <!-- name -->
+    <td>{{ playlist[3] === 'Y' ? 'Yes' : 'No' }}</td> <!-- is_public -->
+    <td>{{ playlist[4] }}</td> <!-- created_at -->
+  </tr>
+  </tbody>
+</table>
+
+<h2 *ngIf="selectedPlaylistName">Tracks for: {{ selectedPlaylistName }}</h2>
+<table *ngIf="selectedPlaylistTracks.length > 0">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Artists</th>
+    <th>Duration (ms)</th>
+    <th>Explicit</th>
+    <th>Release Date</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let track of selectedPlaylistTracks">
+    <td>{{ track[1] }}</td> <!-- track name -->
+    <td>{{ track[2] }}</td> <!-- artists -->
+    <td>{{ track[3] }}</td> <!-- duration -->
+  </tr>
+  </tbody>
+</table>

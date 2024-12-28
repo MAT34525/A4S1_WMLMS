@@ -9,6 +9,7 @@ router.get('/playlists', (req : ReqType, res : ResType) => getPlaylists(req, res
 router.post('/playlists', (req : ReqType, res : ResType) => createPlaylist(req, res));
 router.put('/playlists/:id', (req : ReqType, res : ResType) => updatePlaylist(req, res));
 router.delete('/playlists/:id', (req : ReqType, res : ResType) => deletePlaylist(req, res));
+router.get('/playlists', (req : ReqType, res : ResType) => getTracksForPlaylist(req, res));
 
 // Retrieve all playlists
 async function getPlaylists(req : ReqType, res : ResType) {
@@ -37,6 +38,45 @@ async function getPlaylists(req : ReqType, res : ResType) {
 
         console.error('Error when retrieving playlists :', error);
         res.status(500).json({ errorMessage: 'Error when retrieving artists.' });
+    }
+}
+
+async function getTracksForPlaylist(req, res) {
+    const { id } = req.params;
+
+    try {
+        // Connect to the Oracle database
+        const connection = await oracledb.getConnection({
+            user: "admin",
+            password: "admin",
+            connectString: "localhost:1521/wmlmspdb"
+        });
+
+        // Query to get tracks for a given playlist
+        const result = await connection.execute(
+            `
+            SELECT t.track_id, t.name, t.artists, t.duration_ms, t.explicit, t.release_date
+            FROM tracks t
+            JOIN playlist_tracks pt ON t.track_id = pt.track_id
+            WHERE pt.playlist_id = :playlistId
+            `,
+            { playlistId: id }
+        );
+
+        // Close the database connection
+        await connection.close();
+
+        if (result.rows.length === 0) {
+            // No tracks found for the playlist
+            return res.status(404).json({ message: 'No tracks found for this playlist.' });
+        }
+
+        // Send the list of tracks as a response
+        res.status(200).json(result.rows);
+
+    } catch (error) {
+        console.error('Error fetching tracks for playlist:', error);
+        res.status(500).json({ errorMessage: 'Error fetching tracks for playlist.' });
     }
 }
 

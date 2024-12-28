@@ -15,7 +15,7 @@ import {AdminLoginPageComponent} from './admin-login-page/admin-login-page.compo
 import {UserPageComponent} from './user-page/user-page.component';
 import {UserPageHomeComponent} from './user-page-home/user-page-home.component';
 import {UserPageArtistsComponent} from './user-page-artists/user-page-artists.component';
-import {UserPagePlaylistsComponent} from './user-page-playlists/user-page-playlists.component';
+import {PlaylistsComponent} from './user-page-playlists/user-page-playlists.component';
 import {UserPageSongsComponent} from './user-page-songs/user-page-songs.component';
 import {UserQueriesPageComponent} from './user-queries-page/user-queries-page.component';
 
@@ -58,7 +58,7 @@ export const routes: Routes = [
       },
       {
         path:'playlists',
-        component:UserPagePlaylistsComponent,
+        component:PlaylistsComponent,
       },
       {
         path:'songs',
