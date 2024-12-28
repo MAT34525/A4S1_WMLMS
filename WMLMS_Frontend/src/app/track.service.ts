@@ -15,6 +15,7 @@ export class TrackService {
   constructor(private http: HttpClient) {}
 
   searchTracks(query: string): Observable<Track[]> {
+    console.log("SEARCH TACKS RAN");
     const url = `${this.baseUrl}/searchTracks`;
     return this.http.post<Track[]>(url, { query });
   }
