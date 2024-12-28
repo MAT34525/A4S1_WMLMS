@@ -6,11 +6,11 @@ import {ORACLE_DB_PARAMS} from "../config";
 const router = express.Router();
 
 // Routes
-router.get('/playlists', (req : ReqType, res : ResType) => getPlaylists(req, res));
-router.post('/playlists', (req : ReqType, res : ResType) => createPlaylist(req, res));
-router.put('/playlists/:id', (req : ReqType, res : ResType) => updatePlaylist(req, res));
-router.delete('/playlists/:id', (req : ReqType, res : ResType) => deletePlaylist(req, res));
-router.get('/playlists', (req : ReqType, res : ResType) => getTracksForPlaylist(req, res));
+router.get('/u/playlists', (req : ReqType, res : ResType) => getPlaylists(req, res));
+router.post('/u/playlists', (req : ReqType, res : ResType) => createPlaylist(req, res));
+router.put('/u/playlists/:id', (req : ReqType, res : ResType) => updatePlaylist(req, res));
+router.delete('/u/playlists/:id', (req : ReqType, res : ResType) => deletePlaylist(req, res));
+router.get('/u/playlists', (req : ReqType, res : ResType) => getTracksForPlaylist(req, res));
 
 // Retrieve all playlists
 async function getPlaylists(req : ReqType, res : ResType) {

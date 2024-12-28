@@ -1,9 +1,9 @@
 {
-  "/s": {
+  "/s/": {
     "target": "http://localhost:3000",
     "secure": false
   },
-  "/u": {
+  "/u/": {
     "target": "http://localhost:3000",
     "secure": false
   }

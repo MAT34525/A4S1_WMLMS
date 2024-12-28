@@ -22,6 +22,10 @@ import {UserQueriesPageComponent} from './user-queries-page/user-queries-page.co
 
 export const routes: Routes = [
   {
+    path:"",
+    component:MainPageComponent,
+  },
+  {
     path:"login",
     component:LoginPageComponent
   },
@@ -33,12 +37,6 @@ export const routes: Routes = [
     path:"signup",
     component:SignupPageComponent
   },
-  {
-    path:"",
-    component:MainPageComponent,
-    pathMatch: 'full',
-  },
-
   {
     path: "user",
     component: UserPageComponent,
