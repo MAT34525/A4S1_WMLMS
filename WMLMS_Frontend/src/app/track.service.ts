@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {Tracks} from './schema';
+import {Artists, Tracks} from './schema';
 
 export interface Track {
   TRACK_ID: string;  // Track ID
@@ -14,11 +14,15 @@ export class TrackService {
 
   private readonly httpClient : HttpClient = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
-  searchTracks(query: string): Observable<[]> {
-    console.log("SEARCH TACKS RAN");
+  searchTracks(query: string): Observable<Tracks[]> {
+    console.log("User Service Get : Track Search");
+    return this.httpClient.post<Tracks[]>('u/queries/tracks', { query : query });
+  }
 
-    return this.httpClient.post<[]>('u/queries/tracks', { query : query });
+  searchArtists(query: string): Observable<Artists[]> {
+    console.log("User Service Get : Artist Search");
+    return this.httpClient.post<Artists[]>('u/queries/artists', { query : query });
   }
 }

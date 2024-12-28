@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TrackService, Track } from '../track.service';  // Import TrackService
 import { FormsModule } from '@angular/forms';
 import { NgForOf, NgIf } from '@angular/common';
+import {Artists} from '../schema';
 
 @Component({
   selector: 'app-user-queries-page',
@@ -12,7 +13,8 @@ import { NgForOf, NgIf } from '@angular/common';
 })
 export class UserQueriesPageComponent {
   query: string = '';  // The search query
-  searchResults: Track[] = [];  // Store the search results
+  trackSearchResults: Track[] = [];  // Store the search results
+  artistSearchResults: Artists[] = [];
   searchType: 'tracks' | 'artists' = 'tracks';  // Toggle between tracks and artists
   errorMessage: string | null = null;
   selectedTrackId: string | null = null;  // Store selected track ID for the Spotify player
@@ -28,25 +30,34 @@ export class UserQueriesPageComponent {
       return;
     }
 
-    let sqlQuery = '';
-    if (this.searchType === 'tracks') {
-      // SQL query for tracks
-      sqlQuery = `SELECT TRACK_ID FROM TRACKS WHERE NAME LIKE '%${this.query}%'`;
-    } else if (this.searchType === 'artists') {
-      // SQL query for artists
-      sqlQuery = `SELECT ARTIST_ID FROM ARTISTS WHERE NAME LIKE '%${this.query}%'`;
-    }
+    let sqlQuery = this.query;
 
-    this.trackService.searchTracks(sqlQuery).subscribe({
-      next: results => {
-        this.searchResults = results;
-        this.errorMessage = null;
-      },
-      error: (err: any) => {
-        console.error('Error fetching tracks:', err);
-        this.errorMessage = 'Failed to fetch tracks. Please try again later.';
-      }
-    });
+    if (this.searchType === 'tracks') {
+
+      this.trackService.searchTracks(sqlQuery).subscribe({
+        next: results => {
+          this.trackSearchResults = results;
+          this.errorMessage = null;
+        },
+        error: (err: any) => {
+          console.error('Error fetching tracks:', err);
+          this.errorMessage = 'Failed to fetch tracks. Please try again later.';
+        }
+      });
+
+    } else if (this.searchType === 'artists') {
+
+      this.trackService.searchArtists(sqlQuery).subscribe({
+        next: results => {
+          this.artistSearchResults = results;
+          this.errorMessage = null;
+        },
+        error: (err: any) => {
+          console.error('Error fetching artists:', err);
+          this.errorMessage = 'Failed to fetch artists. Please try again later.';
+        }
+      });
+    }
   }
 
   /**

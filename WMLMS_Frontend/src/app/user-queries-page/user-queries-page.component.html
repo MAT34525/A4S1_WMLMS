@@ -36,13 +36,13 @@
   </div>
 
   <!-- Search Results (dynamically displays search results based on type) -->
-  <div *ngIf="searchResults.length === 0 && query">
+  <div *ngIf="trackSearchResults.length === 0 && query">
     <p>No results found for "{{ query }}"</p>
   </div>
 
   <!-- Display search results -->
-  <ul *ngIf="searchResults.length > 0">
-    <li *ngFor="let track of searchResults">
+  <ul *ngIf="trackSearchResults.length > 0">
+    <li *ngFor="let track of trackSearchResults">
       <button (click)="playTrack(track.TRACK_ID)">
         Play Track {{ track.TRACK_ID }}
       </button>

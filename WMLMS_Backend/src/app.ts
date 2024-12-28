@@ -260,12 +260,7 @@ app.post('/u/queries/tracks', (req : ReqType, res : ResType ) => searchTracks(re
 
 async function searchTracks(req: ReqType, res : ResType) {
 
-  console.log("HELLO FROM SEARCH TRACKS");
-
   const query = req.body.query.toString().toLowerCase();
-
-
-  console.log(query);
 
   if (!query || query.trim().length === 0) {
     res.status(400).send({message: 'Query parameter is required'});
@@ -274,19 +269,15 @@ async function searchTracks(req: ReqType, res : ResType) {
 
   try {
     const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
-    const sql : string = `
-      SELECT *
-      FROM TRACKS
-      WHERE NAME LIKE '%E%'`;
+
+    const sql : string = "SELECT * FROM TRACKS WHERE NAME LIKE '%" + query + "%'";
 
     const result = await connection.execute(sql);
 
-    console.log("Results :", result.rows);
-
     res.status(200).send(result.rows);
   } catch (err) {
-    console.error(err);
     res.status(500).send({message: 'Internal server error'});
+    console.log("Internal server error :", err);
   }
 }
 
@@ -295,8 +286,7 @@ app.post('/u/queries/artists', (req : ReqType, res : ResType) => searchArtist(re
 
 async function searchArtist(req : ReqType, res : ResType) {
 
-  console.log("HELLO FROM SEARCH ARTISTS");
-  const query = req.query.query?.toString().toLowerCase();
+  const query = req.body.toString().toLowerCase();
 
   if (!query || query.trim().length === 0) {
     res.status(400).send({message: 'Query parameter is required'});
@@ -305,16 +295,14 @@ async function searchArtist(req : ReqType, res : ResType) {
 
   try {
     const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
-    const sql = `
-      SELECT *
-      FROM ARTISTS
-      WHERE LOWER(NAME) LIKE '%' || :query || '%'
-    `;
-    const result = await connection.execute(sql, [query]);
+
+    const sql : string = "SELECT * FROM ARTISTS WHERE NAME LIKE '%" + query + "%'";
+
+    const result = await connection.execute(sql);
     res.status(200).send(result.rows);
   } catch (err) {
-    console.error(err);
     res.status(500).send({message: 'Internal server error'});
+    console.log("Internal server error :", err);
   }
 }
 
