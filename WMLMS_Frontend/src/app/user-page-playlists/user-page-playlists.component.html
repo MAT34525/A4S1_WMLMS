@@ -11,8 +11,8 @@
   </thead>
   <tbody>
     <tr *ngFor="let playlist of playlists"  (click)="loadTracks(playlist.PLAYLIST_ID, playlist.NAME)">
-      <td>{{ playlist.PLAYLIST_ID }}</td> <!-- playlist_id -->
       <td>{{ playlist.NAME }}</td> <!-- name -->
+      <td>{{ playlist.DESCRIPTION }}</td> <!-- description -->
       <td>{{ playlist.IS_PUBLIC === 'Y' ? 'Yes' : 'No' }}</td> <!-- is_public -->
       <td>{{ playlist.CREATED_AT}}</td> <!-- created_at -->
     </tr>
