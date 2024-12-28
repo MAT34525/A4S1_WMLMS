@@ -4,15 +4,15 @@ import bcrypt from "bcrypt";
 
 const router = express.Router();
 
-// Route pour afficher la page de login
+// Route to show the login page
 router.get('/u/login', (_req, _res) => {
-    _res.json({ message: null,  status:404 }).status(404); // Pas d'erreur initialement
+    _res.json({ message: null,  status:404 }).status(404);
 });
 
 router.post('/u/login',  async (_req, _res) => {
     const { username, password } = _req.body;
 
-    // Vérifier si l'utilisateur et le mot de passe ont été fournis
+    // Check if all fields are filled
     if (!username || !password) {
         _res.json({ messsage : 'All fields are mandatory.',  status:400 }).status(400);
         return;
@@ -46,13 +46,15 @@ router.post('/u/login',  async (_req, _res) => {
         }
 
 
+        // Get stored hashed password
         const user = result.rows[0];
         const storedPassword = user.PASSWORD;
 
-        console.log('Mot de passe stocké:', storedPassword);
+        console.log('stored password:', storedPassword)
+        console.log('verification:', await bcrypt.compare(password, storedPassword))
 
-        // Check if password matches
-        const isPasswordValid = (password === storedPassword);
+        // Verify the password using bcrypt
+        const isPasswordValid = await bcrypt.compare(password, storedPassword);
 
         if (isPasswordValid) {
             console.log('Correct password. Managed to connect!');
