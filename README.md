@@ -94,6 +94,7 @@ To bypass the following steps, you can open individually WMLMS_Backend or WMLMS_
 Once both front-end and back-end instances ar running, you can open your browser and navigate to : http://localhost:4200/
 
 Hopefully, if you didn't managed to run or build the project, you have a presentation video in `NodeJS_React` as well !
+**This presentation only include a previous version of the administration panel with deprecated features**
 
 ## User guide
 
@@ -103,6 +104,35 @@ You can access the home page by browsing to http://localhost:4200 on this page w
 
 ![alt text](NodeJS_React/Readme_Resources/UG_Home.png)
 
+### User : **Register**
+
+On the home page, users can register a new account using the registration forms :
+
+![alt text](NodeJS_React/Readme_Resources/UG_User_Register.png)
+
+### User : **Login**
+
+Once an user is registered, he can log into the app :
+
+![alt text](NodeJS_React/Readme_Resources/UG_User_Login.png)
+
+### User : **Song Search**
+
+The logged user is directly redirected to the song and artist searching page. On this page, he can search for music using the Track radio button, type his searched song (no SQLI protection here...) and search for it using the dedicated button. Once the list is loaded from the database, the user can click on a song and a small player will appear so he can listen to it (no XSS protection here also...).
+
+![alt text](NodeJS_React/Readme_Resources/UG_User_Track_Search.png)
+
+### User : **Artist Search**
+
+On the same page, if the user want to look for an artist, he can toggle the dedicated radio button and redo his research, but this will only give him a list without further actions.
+
+![alt text](NodeJS_React/Readme_Resources/UG_User_Artist_Search.png)
+
+### User : **Playlists**
+
+The last user panel is dedicated to the playlist browsing he will be able to look to the playlist and list it's content once he clicked on it. (playlist are empty by default)
+
+![alt text](NodeJS_React/Readme_Resources/UG_User_Playlist.png)
 
 ### Admin : **Login**
 
@@ -112,11 +142,11 @@ Once you click on the `Admin` button in the navbar, you will be redirected to th
 
 ### Admin : **Home page**
 
-There is nothing important to display here, it is quie similar to Webapp home page, without login/register buttons and with a custom navbar for the administration tools.
+There is nothing important to display here, it is quite similar to Webapp home page, without login/register buttons and with a custom navbar for the administration tools.
 
 ### Admin : **Users page**
 
-The first tool the adminitrator has is the one to lock / unlock or update user data. 
+The first tool the administrator has is the one to lock / unlock or update user data. 
 
 ![alt text](NodeJS_React/Readme_Resources/UG_Admin_Users.png)
 
