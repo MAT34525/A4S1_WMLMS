@@ -1,6 +1,10 @@
 # Node JS & React Project : Web Music Library Managment System (WMLMS)
 
-**Authors (ESILV A4 CDOF3) :** Léandre BROSSIER, Mathys DECKER, Benoît HUA, Kylie WU (Kylie is not registered as a NodeJS & React student)
+**Authors (ESILV A4 CDOF3) :**
+- Léandre BROSSIER
+- Mathys DECKER
+- Benoît HUA
+- Kylie WU (Kylie is not registered as a NodeJS & React student)
 
 ## Summary
 
@@ -39,7 +43,7 @@ The main requirements of all three courses are distributed as following :
 
 ## Installation guide
 
-You have a video tutorial for the installation steps in the `Advanced Database Management` folder !
+You have a video tutorial for the installation steps in the `NodeJS_React` folder !
 
 ### Requirements
 
@@ -76,8 +80,8 @@ Make sure you have installed Node.js and that it is in your PATH
 To bypass the following steps, you can open individually WMLMS_Backend or WMLMS_Frontend in IntelliJ and use predefined configurations :
 
 <p align="center">
- <img src="Advanced Database Management/Readme_Assets/IntelliJ_Backend_Run.png" />
- <img src="Advanced Database Management/Readme_Assets//IntelliJ_Frontend_Run.png" />
+ <img src="NodeJS_React/Readme_Resources/IntelliJ_Backend_Run.png" />
+ <img src="Advanced Database Management/Readme_Resources//IntelliJ_Frontend_Run.png" />
 </p>
 
 
@@ -89,7 +93,7 @@ To bypass the following steps, you can open individually WMLMS_Backend or WMLMS_
 
 Once both front-end and back-end instances ar running, you can open your browser and navigate to : http://localhost:4200/
 
-Hopefully, if you didn't managed to run or build the project, you have a presentation video in `Advanced Database Management` as well !
+Hopefully, if you didn't managed to run or build the project, you have a presentation video in `NodeJS_React` as well !
 
 ## User guide
 
@@ -97,14 +101,14 @@ Hopefully, if you didn't managed to run or build the project, you have a present
 
 You can access the home page by browsing to http://localhost:4200 on this page wou will be able to register as a new user, log in using an existing user credentials, browse to the user home page using the `Home` navbar entry and reach the Admin panel using the `Admin` button in the navbar.
 
-![alt text](NodeJS_React/Readme_Ressources/UG_Home.png)
+![alt text](NodeJS_React/Readme_Resources/UG_Home.png)
 
 
 ### Admin : **Login**
 
 Once you click on the `Admin` button in the navbar, you will be redirected to the admin login page. The default credentials are admin/admin and depends on the database user (not the table)
 
-![alt text](NodeJS_React/Readme_Ressources/UG_Admin_Login.png)
+![alt text](NodeJS_React/Readme_Resources/UG_Admin_Login.png)
 
 ### Admin : **Home page**
 
@@ -114,38 +118,38 @@ There is nothing important to display here, it is quie similar to Webapp home pa
 
 The first tool the adminitrator has is the one to lock / unlock or update user data. 
 
-![alt text](NodeJS_React/Readme_Ressources/UG_Admin_Users.png)
+![alt text](NodeJS_React/Readme_Resources/UG_Admin_Users.png)
 
 For each user, you have access to two simple pages to do this.
 
-![alt text](NodeJS_React/Readme_Ressources/UG_Admin_User_Edit.png)
+![alt text](NodeJS_React/Readme_Resources/UG_Admin_User_Edit.png)
 
-![alt text](NodeJS_React/Readme_Ressources/UG_Admin_User_View.png)
+![alt text](NodeJS_React/Readme_Resources/UG_Admin_User_View.png)
 
 ### Admin : **Artists page**
 
 The second tool, the artist page, only allow the administrator to verify or not the artist. It has a custom pagination tool to limit the loading time and we are fully aware that it will greatly reduce the functionality brought by ag grid modules top operate filters and selection since only 20 artists are loaded at the same time.
 
-![alt text](NodeJS_React/Readme_Ressources/UG_Admin_Artist.png)
+![alt text](NodeJS_React/Readme_Resources/UG_Admin_Artist.png)
 
 ### Admin : **Tables page**
 
 The third tool only allow you to monitor the content of various tables once they are selected. You can use the base functionalities of Ag grid to do more advanced filtering and sorting of the tables.
 
-![alt text](NodeJS_React/Readme_Ressources/UG_Admin_Tables.png)
+![alt text](NodeJS_React/Readme_Resources/UG_Admin_Tables.png)
 
 
 ### Admin : **Queries page**
 
 The fourth tool is the query page. This will allow you to run custom SQL queries, you can load predefined queries using the bottom left panel and show the result of the query in the bottom right panel. You can also enhance your query result using AG Grid default tools.  
 
-![alt text](NodeJS_React/Readme_Ressources//UG_Admin_Queries.png)
+![alt text](NodeJS_React/Readme_Resources//UG_Admin_Queries.png)
 
 ### Admin : **Statistics page**
 
 The fifth and last page is the statistic page whe you can find some KPI on the number of rows and tables into the database and also some charts to display additional statistics such as the explicit repartition of songs or the top artists.
 
-![alt text](NodeJS_React/Readme_Ressources/UG_Admin_Statistics.png)
+![alt text](NodeJS_React/Readme_Resources/UG_Admin_Statistics.png)
 
 ## Tasks distribution 
 
