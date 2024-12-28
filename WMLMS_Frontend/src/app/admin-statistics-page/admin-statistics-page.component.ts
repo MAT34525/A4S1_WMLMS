@@ -9,7 +9,7 @@ import Highcharts, {PointOptionsObject} from 'highcharts';
 import {HighchartsChartModule} from 'highcharts-angular';
 
 // Project
-import {AdminServiceService} from '../admin-service.service';
+import {AdminService} from '../admin-service.service';
 
 @Component({
   selector: 'app-admin-statistics-page',
@@ -24,7 +24,7 @@ import {AdminServiceService} from '../admin-service.service';
 })
 export class AdminStatisticsPageComponent {
 
-  adminService: AdminServiceService = inject(AdminServiceService);
+  adminService: AdminService = inject(AdminService);
 
   isError : boolean = false;
 

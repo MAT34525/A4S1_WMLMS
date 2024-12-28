@@ -10,7 +10,7 @@ import {AgGridAngular} from 'ag-grid-angular';
 import type {ColDef} from 'ag-grid-community';
 
 // Project
-import {AdminServiceService} from '../admin-service.service';
+import {AdminService} from '../admin-service.service';
 
 @Component({
   selector: 'app-admin-queries-page',
@@ -28,7 +28,7 @@ import {AdminServiceService} from '../admin-service.service';
 })
 export class AdminQueriesPageComponent {
 
-  adminService=inject(AdminServiceService);
+  adminService=inject(AdminService);
 
   // Ag Grid
   rowData : [] = [];

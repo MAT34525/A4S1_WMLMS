@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+// Angular
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-admin-home-page',
@@ -7,6 +8,4 @@ import { Component } from '@angular/core';
   standalone: true,
   styleUrl: './admin-home-page.component.css'
 })
-export class AdminHomePageComponent {
-
-}
+export class AdminHomePageComponent {}

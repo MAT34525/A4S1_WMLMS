@@ -1,6 +1,6 @@
 // Angular
 import {Component , inject, OnInit} from '@angular/core';
-import {AdminServiceService} from '../admin-service.service';
+import {AdminService} from '../admin-service.service';
 import {MatButton} from '@angular/material/button';
 import {NgIf} from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
@@ -90,7 +90,7 @@ const gridOptions : GridOptions<Artists> | undefined = {
 })
 export class AdminArtistPageComponent implements OnInit{
 
-  private readonly adminService = inject(AdminServiceService);
+  private readonly adminService = inject(AdminService);
 
   // AG Grid
   private gridApi!: GridApi<Artists>;

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+// Angular
+import {Component} from '@angular/core';
 import {RouterLink, RouterOutlet} from '@angular/router';
 import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
 
@@ -15,6 +16,4 @@ import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-to
   standalone: true,
   styleUrl: './admin-page-navbar.component.css'
 })
-export class AdminPageNavbarComponent {
-
-}
+export class AdminPageNavbarComponent {}

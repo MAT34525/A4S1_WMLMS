@@ -1,7 +1,6 @@
 // Angular
 import {Component, inject} from '@angular/core';
 import {MatButton} from '@angular/material/button';
-import {AdminServiceService} from '../admin-service.service';
 import {MatSlideToggle} from '@angular/material/slide-toggle';
 
 // AG Grid
@@ -9,6 +8,7 @@ import type { ICellRendererAngularComp } from 'ag-grid-angular';
 import type { ICellRendererParams } from 'ag-grid-community';
 
 // Project
+import {AdminService} from '../admin-service.service';
 import {Artists} from '../schema';
 
 @Component({
@@ -23,7 +23,7 @@ import {Artists} from '../schema';
 })
 export class AdminArtistPageButtonsComponent implements ICellRendererAngularComp {
 
-  adminService = inject(AdminServiceService);
+  adminService = inject(AdminService);
 
   // Angular component
   params : ICellRendererParams | undefined;
@@ -48,7 +48,7 @@ export class AdminArtistPageButtonsComponent implements ICellRendererAngularComp
     // Get additional values of the selected artist
     this.adminService.getArtist(this.artist_id).subscribe(data => this.artist = data);
 
-    // Update additional components depending on the toggle status
+    // Update messages using toggle status
     this.updateLock();
   }
 
@@ -71,7 +71,7 @@ export class AdminArtistPageButtonsComponent implements ICellRendererAngularComp
   // Actions to run when toggling the verification button
   onToggleVerificationClick()
   {
-    console.log("Admin user lock toggle triggered for artist  : ", this.artist_id);
+    console.log("Admin artist verification toggle triggered for : ", this.artist_id);
 
     // Invert the verification status
     this.is_verified = (this.is_verified === 'N')? "Y": "N" ;
@@ -81,7 +81,7 @@ export class AdminArtistPageButtonsComponent implements ICellRendererAngularComp
 
     // Update the new artist status in the database
     if(this.artist){
-      this.adminService.toogleArtistVerification(this.artist_id, this.artist)
+      this.adminService.toggleArtistVerification(this.artist_id, this.artist)
         .subscribe(artists => this.artist = artists);
     }
   }

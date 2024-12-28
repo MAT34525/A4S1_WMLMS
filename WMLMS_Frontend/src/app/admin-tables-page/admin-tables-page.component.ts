@@ -29,7 +29,7 @@ import {
   Tracks,
   Users
 } from '../schema';
-import {AdminServiceService} from '../admin-service.service';
+import {AdminService} from '../admin-service.service';
 
 // AG Grid module registration
 ModuleRegistry.registerModules([
@@ -65,7 +65,7 @@ const gridOptions : GridOptions<Users> | undefined = {
 })
 export class AdminTablesPageComponent {
 
-  private readonly adminService= inject(AdminServiceService);
+  private readonly adminService : AdminService = inject(AdminService);
 
   // AG Grid
   protected readonly gridOptions = gridOptions;

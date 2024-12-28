@@ -1,19 +1,20 @@
+// Angular
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Albums, Artists, ForumPosts, ForumReplies, Playlists, Tracks, Users} from './schema';
 
+// Project
+import {Albums, Artists, ForumPosts, ForumReplies, Playlists, Tracks, Users} from './schema';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class AdminServiceService {
+export class AdminService {
 
+  private readonly httpClient = inject(HttpClient);
 
-  httpClient = inject(HttpClient);
-
-  constructor() {}
+  // GET ==========================================================================================
 
   // Get request for the Users list
   getUsers() : Observable<Users[]>
@@ -42,7 +43,6 @@ export class AdminServiceService {
     console.log("Admin Service Get : Users By ID");
     return this.httpClient.get<Artists>(`/s/admin/artists/${artist_id}`);
   }
-
 
   getAlbums() : Observable<Albums[]>
   {
@@ -84,14 +84,14 @@ export class AdminServiceService {
   }
 
   // Put request for a specific Users using ID and body
-  toogleUserLock(users_id : string, user : Users) : Observable<Users>
+  toggleUserLock(users_id : string, user : Users) : Observable<Users>
   {
     console.log("Admin Service Put : User Lock By ID", user);
     return this.httpClient.put<Users>(`/s/admin/users/lock/${users_id}`, user);
   }
 
   // Put request for a specific Users using ID and body
-  toogleArtistVerification(artist_id : string, artist : Artists) : Observable<Artists>
+  toggleArtistVerification(artist_id : string, artist : Artists) : Observable<Artists>
   {
     console.log("Admin Service Put : Artist Verifiaction By ID", artist);
     return this.httpClient.put<Artists>(`/s/admin/artists/verification/${artist_id}`, artist);
@@ -129,6 +129,5 @@ export class AdminServiceService {
     console.log("Admin Service Get : Artists List");
     return this.httpClient.post<Artists[]>('/s/admin/artists/delayed', {page : pageNumber , size : pageSize});
   }
-
 }
 

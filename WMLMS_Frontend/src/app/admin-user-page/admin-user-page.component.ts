@@ -1,15 +1,15 @@
-import {Component, inject, OnInit, ViewChild} from '@angular/core';
-import {Router} from '@angular/router'
-import {AdminServiceService} from '../admin-service.service';
-import {MatButton, MatButtonModule} from '@angular/material/button';
+// Angular
+import {Component, inject, OnInit} from '@angular/core';
+import {MatButton} from '@angular/material/button';
 import {NgIf} from '@angular/common';
-import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
-import { MatIconModule } from '@angular/material/icon';
+import {MatIconModule} from '@angular/material/icon';
 
+// AG Grid
+import {AgGridAngular} from 'ag-grid-angular';
+import {ITextFilterParams} from '@ag-grid-community/core';
 import {
   ClientSideRowModelModule,
   ColDef,
-  ColGroupDef,
   GridApi,
   GridOptions,
   ModuleRegistry,
@@ -17,16 +17,16 @@ import {
   NumberFilterModule,
   PaginationModule,
   RowSelectionModule,
-  RowSelectionOptions,
   TextEditorModule,
   TextFilterModule,
-  ValidationModule,
-  createGrid,
 } from 'ag-grid-community';
+
+// Project
+import {AdminService} from '../admin-service.service';
 import {AdminUserPageButtonsComponent} from '../admin-user-page-buttons/admin-user-page-buttons.component';
 import {Users} from '../schema';
-import {ITextFilterParams} from '@ag-grid-community/core';
 
+// AG Grid module registration
 ModuleRegistry.registerModules([
   NumberEditorModule,
   TextEditorModule,
@@ -39,6 +39,7 @@ ModuleRegistry.registerModules([
 
 // Filters and searches tutorial : https://www.ag-grid.com/angular-data-grid/filter-text/#text-filter-options
 
+// Filter for the user locked flag
 const lockFilterParams: ITextFilterParams = {
   filterOptions: ["equals"],
   maxNumConditions: 1,
@@ -48,6 +49,7 @@ const lockFilterParams: ITextFilterParams = {
   }
 };
 
+// Filter for the username lookup
 const userFilterParams: ITextFilterParams = {
   filterOptions: ["contains"],
   maxNumConditions: 1,
@@ -57,12 +59,12 @@ const userFilterParams: ITextFilterParams = {
   }
 };
 
+// Function used byt the filters to mach values
 function contains(target: string, lookingFor: string) {
   return target && target.indexOf(lookingFor) >= 0;
 }
 
-
-// Column Definitions: Defines the columns to be displayed.
+// Set up the columns displayed
 const columnDefs: (ColDef<Users, any>)[] = [
   { field: "USER_ID" },
   {
@@ -86,6 +88,7 @@ const columnDefs: (ColDef<Users, any>)[] = [
   },
 ];
 
+// Set up the grid configuration
 const gridOptions : GridOptions<Users> | undefined = {
   defaultColDef: {
     editable: false,
@@ -113,57 +116,52 @@ const gridOptions : GridOptions<Users> | undefined = {
 
 export class AdminUserPageComponent implements OnInit{
 
+  private readonly adminService : AdminService = inject(AdminService);
+
+  // AG Grid
   private gridApi!: GridApi<Users>;
-
-  loaded : boolean = false;
-
-  private readonly adminService = inject(AdminServiceService);
-
-  public components: {
-    [p: string]: any;
-  } = {
+  protected readonly columnDefs = columnDefs;
+  protected readonly gridOptions = gridOptions;
+  public components: {[p: string]: any;} = {
     AdminUserPageButtonsComponent: AdminUserPageButtonsComponent,
   };
 
-  rowData : Users[] ;
+  rowData : Users[] = [];
+  loaded : boolean = false;
 
-  constructor(private route : Router) {
-    this.rowData = [];
-
-  }
-
+  // Load users at init
   ngOnInit() {
     this.getUsers();
-    // this.dataSource.paginator = this.paginator;
   }
 
+  // Load all users
   getUsers()
   {
     this.adminService.getUsers().subscribe({
       next: data => {
-        this.loaded = true;
+        this.loaded = false;
         this.rowData = data;
+        this.loaded = true;
       }, error:err=> {
         this.loaded=false;
-        console.log("Failed to load User List");
+        console.log("Failed to load User List :", err);
       }
     });
   }
 
+  // Reload user list
   onReloadClick()
   {
     this.getUsers();
   }
 
+  // Load grid
   onGridReady(params : any) {
     this.gridApi = params.api;
   }
 
-
+  // Export grid
   onBtExport() {
     this.gridApi.exportDataAsCsv();
   }
-
-  protected readonly columnDefs = columnDefs;
-  protected readonly gridOptions = gridOptions;
 }
