@@ -43,12 +43,13 @@ export const routes: Routes = [
     children: [
       {
         path:'',
-        redirectTo: 'home',
+        redirectTo: 'queries',
         pathMatch: 'full',
       },
       {
         path:'home',
-        component:UserPageHomeComponent,
+        redirectTo: 'queries',
+        pathMatch: 'full'
       },
       {
         path:'artists',
