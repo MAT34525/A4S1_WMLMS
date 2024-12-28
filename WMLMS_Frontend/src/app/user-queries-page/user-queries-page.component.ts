@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { UserService } from '../user.service';
-import {FormsModule} from '@angular/forms';
-import {NgForOf, NgIf} from '@angular/common';
+import { TrackService, Track } from '../track.service';  // Import TrackService
+import { FormsModule } from '@angular/forms';
+import { NgForOf, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-user-queries-page',
@@ -11,47 +11,48 @@ import {NgForOf, NgIf} from '@angular/common';
   styleUrls: ['./user-queries-page.component.css']
 })
 export class UserQueriesPageComponent {
-  query: string = '';
-  searchResults: any[] = []; // Stores API results
-  searchType: 'tracks' | 'artists' = 'tracks'; // Tracks or Artists selection
-  errorMessage: string | null = null; // Error message if the query fails
+  query: string = '';  // The search query
+  searchResults: Track[] = [];  // Store the search results
+  searchType: 'tracks' | 'artists' = 'tracks';  // Toggle between tracks and artists
+  errorMessage: string | null = null;
+  selectedTrackId: string | null = null;  // Store selected track ID for the Spotify player
 
-  constructor(private userService: UserService) {}
+  constructor(private trackService: TrackService) {}
 
-  // Search based on the selected type
+  /**
+   * Perform search based on query and selected search type (tracks or artists)
+   */
   performSearch(): void {
-    // Define SQL queries based on searchType
+    if (!this.query) {
+      this.errorMessage = 'Please enter a search query';
+      return;
+    }
+
     let sqlQuery = '';
-
     if (this.searchType === 'tracks') {
-      sqlQuery = `SELECT NAME FROM TRACKS WHERE NAME LIKE '%${this.query}%'`;
+      // SQL query for tracks
+      sqlQuery = `SELECT TRACK_ID FROM TRACKS WHERE NAME LIKE '%${this.query}%'`;
     } else if (this.searchType === 'artists') {
-      sqlQuery = `SELECT NAME FROM ARTISTS WHERE NAME LIKE '%${this.query}%'`;
+      // SQL query for artists
+      sqlQuery = `SELECT ARTIST_ID FROM ARTISTS WHERE NAME LIKE '%${this.query}%'`;
     }
 
-    // Execute SQL query
-    if (this.searchType === 'tracks') {
-      this.userService.searchTracks(sqlQuery).subscribe({
-        next: (results: any[]) => {
-          this.searchResults = results;
-          this.errorMessage = null;
-        },
-        error: (err: any) => {
-          console.error('Error fetching tracks:', err);
-          this.errorMessage = 'Failed to fetch tracks. Please try again later.';
-        }
-      });
-    } else {
-      this.userService.searchArtists(sqlQuery).subscribe({
-        next: (results: any[]) => {
-          this.searchResults = results;
-          this.errorMessage = null;
-        },
-        error: (err: any) => {
-          console.error('Error fetching artists:', err);
-          this.errorMessage = 'Failed to fetch artists. Please try again later.';
-        }
-      });
-    }
+    this.trackService.searchTracks(sqlQuery).subscribe({
+      next: (results: Track[]) => {
+        this.searchResults = results;
+        this.errorMessage = null;
+      },
+      error: (err: any) => {
+        console.error('Error fetching tracks:', err);
+        this.errorMessage = 'Failed to fetch tracks. Please try again later.';
+      }
+    });
+  }
+
+  /**
+   * Set the selected track ID to show the Spotify player
+   */
+  playTrack(trackId: string): void {
+    this.selectedTrackId = trackId;
   }
 }
