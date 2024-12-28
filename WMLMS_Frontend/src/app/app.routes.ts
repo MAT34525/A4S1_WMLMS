@@ -17,6 +17,7 @@ import {UserPageHomeComponent} from './user-page-home/user-page-home.component';
 import {UserPageArtistsComponent} from './user-page-artists/user-page-artists.component';
 import {UserPagePlaylistsComponent} from './user-page-playlists/user-page-playlists.component';
 import {UserPageSongsComponent} from './user-page-songs/user-page-songs.component';
+import {UserQueriesPageComponent} from './user-queries-page/user-queries-page.component';
 
 
 export const routes: Routes = [
@@ -62,6 +63,10 @@ export const routes: Routes = [
       {
         path:'songs',
         component:UserPageSongsComponent,
+      },
+      {
+        path:'queries',
+        component:UserQueriesPageComponent,
       }
     ]
   },

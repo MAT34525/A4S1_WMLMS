@@ -1,0 +1,61 @@
+<div class="container">
+  <h1>Search Tracks or Artists</h1>
+
+  <!-- Search Input -->
+  <div class="input-group mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Enter a search query"
+      [(ngModel)]="query"
+    />
+    <button class="btn btn-primary" (click)="performSearch()">Search</button>
+  </div>
+
+  <!-- Search Type Toggle -->
+  <div class="mb-3">
+    <label>
+      <input
+        type="radio"
+        name="searchType"
+        value="tracks"
+        [(ngModel)]="searchType"
+        checked
+      />
+      Tracks
+    </label>
+    <label>
+      <input
+        type="radio"
+        name="searchType"
+        value="artists"
+        [(ngModel)]="searchType"
+      />
+      Artists
+    </label>
+  </div>
+
+  <!-- Search Results -->
+  <div *ngIf="searchResults.length === 0 && query">
+    <p>No results found for "{{ query }}"</p>
+  </div>
+
+  <table *ngIf="searchResults.length > 0" class="table">
+    <thead>
+    <tr>
+      <th *ngIf="searchType === 'tracks'">Track Name</th>
+      <th *ngIf="searchType === 'tracks'">Artist</th>
+      <th *ngIf="searchType === 'artists'">Artist Name</th>
+      <th *ngIf="searchType === 'artists'">Genres</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let result of searchResults">
+      <td *ngIf="searchType === 'tracks'">{{ result.NAME }}</td>
+      <td *ngIf="searchType === 'tracks'">{{ result.ARTISTS }}</td>
+      <td *ngIf="searchType === 'artists'">{{ result.NAME }}</td>
+      <td *ngIf="searchType === 'artists'">{{ result.GENRES }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
