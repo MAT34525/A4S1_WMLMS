@@ -43,11 +43,7 @@ async function getTracksForPlaylist(req, res) {
 
     try {
         // Connect to the Oracle database
-        const connection = await oracledb.getConnection({
-            user: "admin",
-            password: "admin",
-            connectString: "localhost:1521/wmlmspdb"
-        });
+        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
         // Query to get tracks for a given playlist
         const result = await connection.execute(

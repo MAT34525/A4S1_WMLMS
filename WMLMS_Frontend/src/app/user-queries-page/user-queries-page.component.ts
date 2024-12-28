@@ -38,7 +38,7 @@ export class UserQueriesPageComponent {
     }
 
     this.trackService.searchTracks(sqlQuery).subscribe({
-      next: (results: Track[]) => {
+      next: results => {
         this.searchResults = results;
         this.errorMessage = null;
       },

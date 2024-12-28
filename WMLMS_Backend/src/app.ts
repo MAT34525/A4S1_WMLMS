@@ -12,6 +12,8 @@ import MusicRoutes from "./routes/MusicRoutes";
 // Swagger
 import swaggerJsdoc, {SwaggerDefinition} from 'swagger-jsdoc';
 import swaggerUi, {SwaggerOptions} from 'swagger-ui-express';
+import * as sea from "node:sea";
+import {ORACLE_DB_PARAMS} from "./config";
 
 // Default shorten types for express
 export type ReqType = express.Request;
@@ -254,39 +256,55 @@ app.use(session({
 app.use(express.json());
 
 // Search tracks endpoint
-app.get('/user/queries', async (req, res) => {
-  const query = req.query.query?.toString().toLowerCase();
+app.post('/u/queries/tracks', (req : ReqType, res : ResType ) => searchTracks(req, res));
+
+async function searchTracks(req: ReqType, res : ResType) {
+
+  console.log("HELLO FROM SEARCH TRACKS");
+
+  const query = req.body.query.toString().toLowerCase();
+
+
+  console.log(query);
 
   if (!query || query.trim().length === 0) {
-    return res.status(400).send({ message: 'Query parameter is required' });
+    res.status(400).send({message: 'Query parameter is required'});
+    return;
   }
 
   try {
-    const connection = await oracledb.getConnection();
-    const sql = `
+    const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
+    const sql : string = `
       SELECT *
       FROM TRACKS
-      WHERE LOWER(NAME) LIKE '%' || :query || '%'
-         OR LOWER(ARTISTS) LIKE '%' || :query || '%'
-    `;
-    const result = await connection.execute(sql, [query]);
+      WHERE NAME LIKE '%E%'`;
+
+    const result = await connection.execute(sql);
+
+    console.log("Results :", result.rows);
+
     res.status(200).send(result.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).send({ message: 'Internal server error' });
+    res.status(500).send({message: 'Internal server error'});
   }
-});
+}
 
 // Search artists endpoint
-app.get('/user/queries', async (req, res) => {
+app.post('/u/queries/artists', (req : ReqType, res : ResType) => searchArtist(req, res));
+
+async function searchArtist(req : ReqType, res : ResType) {
+
+  console.log("HELLO FROM SEARCH ARTISTS");
   const query = req.query.query?.toString().toLowerCase();
 
   if (!query || query.trim().length === 0) {
-    return res.status(400).send({ message: 'Query parameter is required' });
+    res.status(400).send({message: 'Query parameter is required'});
+    return;
   }
 
   try {
-    const connection = await oracledb.getConnection();
+    const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
     const sql = `
       SELECT *
       FROM ARTISTS
@@ -296,12 +314,9 @@ app.get('/user/queries', async (req, res) => {
     res.status(200).send(result.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).send({ message: 'Internal server error' });
+    res.status(500).send({message: 'Internal server error'});
   }
-});
-
-export default app;
-
+}
 
 // BDD connection
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
