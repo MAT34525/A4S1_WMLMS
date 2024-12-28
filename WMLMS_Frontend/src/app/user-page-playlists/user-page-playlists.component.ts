@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PlaylistService } from '../playlist.service';
 import {NgForOf, NgIf} from '@angular/common';
+import {Playlists, Tracks} from '../schema';
 
 @Component({
   selector: 'app-playlists',
@@ -15,8 +16,8 @@ import {NgForOf, NgIf} from '@angular/common';
 export class PlaylistsComponent implements OnInit {
 
   loaded : boolean = false;
-  playlists: any[] = [];
-  selectedPlaylistTracks: any[] = [];
+  playlists: Playlists[] = [];
+  selectedPlaylistTracks: Tracks[] = [];
   selectedPlaylistName: string = '';
 
   constructor(private playlistService: PlaylistService) {}

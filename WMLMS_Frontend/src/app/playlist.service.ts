@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {Playlists, Tracks} from './schema';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlaylistService {
-  private readonly apiUrl = 'http://localhost:3000';
 
   constructor(private http: HttpClient) {}
 
   // get all playlists
-  getPlaylists(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/playlists`);
+  getPlaylists(): Observable<Playlists[]> {
+    return this.http.get<Playlists[]>(`u/playlists`);
   }
 
   // get musics from a playlist
-  getTracksForPlaylist(playlistId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/playlists/${playlistId}/tracks`);
+  getTracksForPlaylist(playlistId: string): Observable<Tracks[]> {
+    return this.http.get<Tracks[]>(`u/playlists-tracks/${playlistId}`);
   }
 }
