@@ -232,6 +232,8 @@ const jsDocOptions : SwaggerOptions  = {
   apis: ['.//src/admin_database.ts', './/src/routes/*.ts'],
 };
 
+
+
 const apiDoc : SwaggerOptions = swaggerJsdoc(jsDocOptions);
 
 // Run the API
@@ -248,6 +250,58 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false }
 }));
+
+app.use(express.json());
+
+// Search tracks endpoint
+app.get('/api/tracks/search', async (req, res) => {
+  const query = req.query.query?.toString().toLowerCase();
+
+  if (!query || query.trim().length === 0) {
+    return res.status(400).send({ message: 'Query parameter is required' });
+  }
+
+  try {
+    const connection = await oracledb.getConnection();
+    const sql = `
+      SELECT *
+      FROM TRACKS
+      WHERE LOWER(NAME) LIKE '%' || :query || '%'
+         OR LOWER(ARTISTS) LIKE '%' || :query || '%'
+    `;
+    const result = await connection.execute(sql, [query]);
+    res.status(200).send(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Internal server error' });
+  }
+});
+
+// Search artists endpoint
+app.get('/api/artists/search', async (req, res) => {
+  const query = req.query.query?.toString().toLowerCase();
+
+  if (!query || query.trim().length === 0) {
+    return res.status(400).send({ message: 'Query parameter is required' });
+  }
+
+  try {
+    const connection = await oracledb.getConnection();
+    const sql = `
+      SELECT *
+      FROM ARTISTS
+      WHERE LOWER(NAME) LIKE '%' || :query || '%'
+    `;
+    const result = await connection.execute(sql, [query]);
+    res.status(200).send(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Internal server error' });
+  }
+});
+
+export default app;
+
 
 // BDD connection
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
