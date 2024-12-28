@@ -254,7 +254,7 @@ app.use(session({
 app.use(express.json());
 
 // Search tracks endpoint
-app.get('/api/tracks/search', async (req, res) => {
+app.get('/user/queries', async (req, res) => {
   const query = req.query.query?.toString().toLowerCase();
 
   if (!query || query.trim().length === 0) {
@@ -278,7 +278,7 @@ app.get('/api/tracks/search', async (req, res) => {
 });
 
 // Search artists endpoint
-app.get('/api/artists/search', async (req, res) => {
+app.get('/user/queries', async (req, res) => {
   const query = req.query.query?.toString().toLowerCase();
 
   if (!query || query.trim().length === 0) {
