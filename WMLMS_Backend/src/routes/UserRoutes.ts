@@ -14,93 +14,91 @@ router.post('/u/login',  async (_req, _res) => {
 
     // Vérifier si l'utilisateur et le mot de passe ont été fournis
     if (!username || !password) {
-        _res.json({ messsage : 'Tous les champs sont obligatoires.',  status:400 }).status(400);
+        _res.json({ messsage : 'All fields are mandatory.',  status:400 }).status(400);
         return;
     }
 
     try {
-        console.log('Tentative de connexion pour l\'utilisateur:', username); // Log pour suivre la tentative de connexion
+        console.log('Trying to connect with user:', username);
 
-        // Connexion à la base de données Oracle
         const connection = await oracledb.getConnection({
             user: "admin",
             password: "admin",
             connectString: "localhost:1521/wmlmspdb"
         });
 
-        console.log('Connexion à la base de données réussie.'); // Log pour vérifier que la connexion fonctionne
+        console.log('Successfully connected to the database.');
 
-        // Recherche de l'utilisateur dans la base de données
+        // Searching for user in the database
         const result = await connection.execute(
             `SELECT user_id, username, password FROM users WHERE username = :username`,
             [username]
         );
 
-        console.log('Résultat de la recherche utilisateur:', result.rows); // Log du résultat de la recherche
+        console.log('User search result:', result.rows);
 
-        // Vérifier si l'utilisateur existe
+        // Check if user exists
         if (result.rows.length === 0) {
-            console.log('Aucun utilisateur trouvé avec ce nom d\'utilisateur');
+            console.log('No user found');
             await connection.close();
-            _res.json({message: 'Identifiants incorrects.',  status:400 }).status(400)
+            _res.json({message: 'Invalid credentials.',  status:400 }).status(400)
             return;
         }
 
-        // Récupérer l'utilisateur de la réponse
+
         const user = result.rows[0];
-        const storedPassword = user.PASSWORD;  // Le mot de passe stocké est dans le champ PASSWORD de la base de données
+        const storedPassword = user.PASSWORD;
 
-        console.log('Mot de passe stocké:', storedPassword); // Log pour vérifier que le mot de passe est récupéré correctement
+        console.log('Mot de passe stocké:', storedPassword);
 
-        // Vérifier si le mot de passe correspond
+        // Check if password matches
         const isPasswordValid = (password === storedPassword);
 
         if (isPasswordValid) {
-            console.log('Mot de passe valide. Connexion réussie!');
+            console.log('Correct password. Managed to connect!');
             await connection.close();
-            _res.json({message: 'Login réussi!',  status:200}).status(200);
+            _res.json({message: 'Loged in!',  status:200}).status(200);
             return;
         } else {
-            console.log('Mot de passe incorrect');
+            console.log('Incorrect password');
             await connection.close();
-            _res.json({ message: 'Identifiants incorrects.',  status:400 }).status(400);
+            _res.json({ message: 'Incorrect credentials.',  status:400 }).status(400);
             return;
         }
-
     } catch (error) {
-        console.error('Erreur lors de la connexion:', error); // Log de l'erreur détaillée
-        _res.json({message: 'Une erreur est survenue, veuillez réessayer.',  status:400 }).status(400);
+        console.error('Error during connection:', error); // Log detailed error
+        _res.json({message: 'An error occurred, please try again.',  status:400 }).status(400);
     }
 });
 
-//Route pour la création de compte
+// Route for account creation page
 router.get('/u/register', (req, res) => {
     res.send({message: null,  status:404 });
 });
 
-//Route pour créer un compte
+// Route to create an account
 router.post('/u/register', (_req, _res) => register(_req, _res));
 
 async function register(_req : any, _res : any) {
     const { username, password, email} = _req.body;
 
-    // Vérification que tous les champs sont remplis
+    // Check that all fields are filled
     if (!username || !password || !email) {
-        return _res.json({message: 'Tous les champs sont obligatoires.',  status:400 }).status(400);
+        return _res.json({message: 'All fields are required.',  status:400 }).status(400);
     }
 
     try {
-        // Hachage du mot de passe
+        // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Connexion à la base de données
+        // Connect to the database
         const connection = await oracledb.getConnection({
             user: "admin",
             password: "admin",
             connectString: "localhost:1521/wmlmspdb"
         });
 
-        // Insertion de l'utilisateur dans la base de données
+        // Insert the user into the database
         const insertResult = await connection.execute(
             `INSERT INTO users (username, password, email)
              VALUES (:username, :password, :email)`,
@@ -109,35 +107,34 @@ async function register(_req : any, _res : any) {
                 password: hashedPassword,
                 email: email
             },
-            { autoCommit: true }  // Assurez-vous que les modifications sont validées dans la base de données
+            { autoCommit: true }  // Ensure changes are committed to the database
         );
 
         console.log(insertResult);
         await connection.close();
 
-        // Redirection ou message de succès
-        _res.json({message: 'Successfull user creation !',  status:200}).status(200);
+        // Redirect or send success message
+        _res.json({message: 'Successful user creation!',  status:200}).status(200);
 
     } catch (error) {
-        console.error('Erreur lors de l\'inscription:', error);
-        _res.json({message: 'An error occured, please try again.',  status:400 }).status(400);
+        console.error('Error during registration:', error);
+        _res.json({message: 'An error occurred, please try again.',  status:400 }).status(400);
     }
 }
 
 
-//méthode du bouton pour se déconnecter
+// Method for the logout button
 router.get('/u/logout', (req, res) => {
-    // Supprimer les informations de session (ici, l'ID de l'utilisateur)
+    // Remove session information (e.g., user ID)
     req.session.destroy((err) => {
         if (err) {
-            console.error('Erreur lors de la destruction de la session:', err);
-            return res.redirect('/playlists'); // Rediriger vers la page des playlists en cas d'erreur
+            console.error('Error during session destruction:', err);
+            return res.redirect('/playlists'); // Redirect to the playlists page in case of error
         }
 
-        // Rediriger l'utilisateur vers la page de login après la déconnexion
+        // Redirect the user to the login page after logging out
         res.redirect('/login');
     });
 });
-
 
 export default router;

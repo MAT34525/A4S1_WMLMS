@@ -22,13 +22,13 @@ async function getPlaylists(_req, _res) {
             `SELECT PLAYLIST_ID, NAME, DESCRIPTION, IS_PUBLIC, CREATED_AT, UPDATED_AT FROM playlists`
         );
 
-        console.log('Playlists récupérées :', result.rows);
+        console.log('Playlists collected :', result.rows);
         await connection.close();
 
         _res.status(200).json({ playlists: result.rows });
     } catch (error) {
-        console.error('Erreur lors de la récupération des playlists:', error);
-        _res.status(500).json({ errorMessage: 'Erreur lors de la récupération des playlists.' });
+        console.error('error with playlists collection:', error);
+        _res.status(500).json({ errorMessage: 'Error with playlists collection.' });
     }
 }
 
@@ -37,7 +37,7 @@ async function createPlaylist(_req, _res) {
     const { name, description, isPublic } = _req.body;
 
     if (!name || typeof isPublic === 'undefined') {
-        return _res.status(400).json({ errorMessage: 'Les champs "name" et "isPublic" sont obligatoires.' });
+        return _res.status(400).json({ errorMessage: 'all fields are mandatory.' });
     }
 
     try {
@@ -54,13 +54,13 @@ async function createPlaylist(_req, _res) {
         );
 
         await connection.commit();
-        console.log('Playlist créée avec succès');
+        console.log('Playlist successfully created');
         await connection.close();
 
-        _res.status(201).json({ message: 'Playlist créée avec succès.' });
+        _res.status(201).json({ message: 'Playlist successfully created.' });
     } catch (error) {
-        console.error('Erreur lors de la création de la playlist:', error);
-        _res.status(500).json({ errorMessage: 'Erreur lors de la création de la playlist.' });
+        console.error('Error with playlist creation:', error);
+        _res.status(500).json({ errorMessage: 'Error with playlist creation.' });
     }
 }
 
@@ -70,7 +70,7 @@ async function updatePlaylist(_req, _res) {
     const { name, description, isPublic } = _req.body;
 
     if (!name || typeof isPublic === 'undefined') {
-        return _res.status(400).json({ errorMessage: 'Les champs "name" et "isPublic" sont obligatoires.' });
+        return _res.status(400).json({ errorMessage: 'All fields are mandatory.' });
     }
 
     try {
@@ -88,18 +88,18 @@ async function updatePlaylist(_req, _res) {
         );
 
         if (result.rowsAffected === 0) {
-            console.log('Playlist non trouvée');
-            return _res.status(404).json({ errorMessage: 'Playlist non trouvée.' });
+            console.log('Playlist not found');
+            return _res.status(404).json({ errorMessage: 'Playlist not found.' });
         }
 
         await connection.commit();
-        console.log('Playlist mise à jour avec succès');
+        console.log('Playlist successfully updated');
         await connection.close();
 
-        _res.status(200).json({ message: 'Playlist mise à jour avec succès.' });
+        _res.status(200).json({ message: 'Playlist successfully updated.' });
     } catch (error) {
-        console.error('Erreur lors de la mise à jour de la playlist:', error);
-        _res.status(500).json({ errorMessage: 'Erreur lors de la mise à jour de la playlist.' });
+        console.error('Error with playlist update:', error);
+        _res.status(500).json({ errorMessage: 'Error with playlist update.' });
     }
 }
 
@@ -120,18 +120,18 @@ async function deletePlaylist(_req, _res) {
         );
 
         if (result.rowsAffected === 0) {
-            console.log('Playlist non trouvée');
-            return _res.status(404).json({ errorMessage: 'Playlist non trouvée.' });
+            console.log('Playlist not found');
+            return _res.status(404).json({ errorMessage: 'Playlist not found.' });
         }
 
         await connection.commit();
-        console.log('Playlist supprimée avec succès');
+        console.log('Playlist successfully deleted');
         await connection.close();
 
-        _res.status(200).json({ message: 'Playlist supprimée avec succès.' });
+        _res.status(200).json({ message: 'Playlist successfully deleted.' });
     } catch (error) {
-        console.error('Erreur lors de la suppression de la playlist:', error);
-        _res.status(500).json({ errorMessage: 'Erreur lors de la suppression de la playlist.' });
+        console.error('Error with playlist deletion:', error);
+        _res.status(500).json({ errorMessage: 'Error with playlist deletion.' });
     }
 }
 

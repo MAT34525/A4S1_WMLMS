@@ -28,12 +28,12 @@ async function adminLogin(_req : any, _res : any) {
 
     const { username, password }  = _req.body as {username? : string, password? : string} ;
 
-    // Vérifier si l'utilisateur et le mot de passe ont été fournis
+    // check if username and password have been filled
     if (!username || !password) {
-        return _res.json({ errorMessage: 'Tous les champs sont obligatoires.' }).status(400);
+        return _res.json({ errorMessage: 'all fields are mandatory' }).status(400);
     }
     try {
-        console.log('Tentative de connexion pour l\'administrateur:', username); // Log pour suivre la tentative de connexion
+        console.log('trying to connect as admin', username);
 
         // Create a new database connection
         databaseConnexions.push(new Database(router, username, password));
@@ -45,7 +45,7 @@ async function adminLogin(_req : any, _res : any) {
         let status = databaseConnexions[databaseConnexions.length - 1].getConnectionStatus();
         console.log("Admin connection status : ", status);
 
-        // Depending on the status, proceed or abord the login
+        // Depending on the status, proceed or abort the login
         if (status)
         {
             console.log("Admin successfully connected, admin panel available !");
@@ -61,7 +61,7 @@ async function adminLogin(_req : any, _res : any) {
 
         // Inform the user for any other issues
     } catch (error) {
-        console.error('Error when connecting :', error); // Log de l'erreur détaillée
+        console.error('Error when connecting :', error);
         _res.json({ message: 'An error occurred, please try again.', status:400 }).status(400);
     }
 }

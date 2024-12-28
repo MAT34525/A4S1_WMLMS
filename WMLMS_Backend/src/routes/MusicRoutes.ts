@@ -88,7 +88,7 @@ router.get('/u/tracks/:artistId', async (_req, _res) => {
             [artistId] // Passer l'ID de l'artiste comme paramètre
         );
 
-        console.log('Musiques récupérées pour l\'artiste:', result.rows); // Log pour débogage
+        console.log('music collected for artist', result.rows); // Log pour débogage
 
         // Fermer la connexion à la base de données
         await connection.close();
@@ -96,8 +96,8 @@ router.get('/u/tracks/:artistId', async (_req, _res) => {
         // Répondre avec la liste des tracks de l'artiste
         _res.status(200).json({ tracks: result.rows });
     } catch (error) {
-        console.error('Erreur lors de la récupération des musiques:', error);
-        _res.status(500).json({ message: 'Erreur lors de la récupération des musiques.' });
+        console.error('Error when music collection', error);
+        _res.status(500).json({ message: 'Error when music collection.' });
     }
 });
 
