@@ -260,6 +260,8 @@ app.post('/u/queries/tracks', (req : ReqType, res : ResType ) => searchTracks(re
 
 async function searchTracks(req: ReqType, res : ResType) {
 
+  console.log("User POST Search for tracks");
+
   const query = req.body.query.toString().toLowerCase();
 
   if (!query || query.trim().length === 0) {
@@ -286,7 +288,9 @@ app.post('/u/queries/artists', (req : ReqType, res : ResType) => searchArtist(re
 
 async function searchArtist(req : ReqType, res : ResType) {
 
-  const query = req.body.toString().toLowerCase();
+  console.log("User POST Search for artists");
+
+  const query = req.body.query.toString().toLowerCase();
 
   if (!query || query.trim().length === 0) {
     res.status(400).send({message: 'Query parameter is required'});
@@ -297,6 +301,7 @@ async function searchArtist(req : ReqType, res : ResType) {
     const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
     const sql : string = "SELECT * FROM ARTISTS WHERE NAME LIKE '%" + query + "%'";
+    console.log(sql);
 
     const result = await connection.execute(sql);
     res.status(200).send(result.rows);

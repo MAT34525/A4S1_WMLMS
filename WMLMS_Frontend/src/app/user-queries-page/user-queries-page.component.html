@@ -40,21 +40,22 @@
     <p>Press 'Search' to look for : {{ query }}</p>
   </div>
 
-  <span style="display: flex" class="container">
+  <span *ngIf="searchType === 'tracks'" style="display: flex" class="container">
 
     <div style="flex: 1">
       <!-- Display search results -->
-      <ul *ngIf="trackSearchResults.length > 0">
-        <li *ngFor="let track of trackSearchResults">
-          <button (click)="playTrack(track.TRACK_ID)">
-            Play Track {{ track.TRACK_ID }}
-          </button>
-        </li>
-      </ul>
-    </div>
-    <div style="flex : 1">
+      <div *ngIf="trackSearchResults.length > 0">
+        <div *ngFor="let track of trackSearchResults" (click)="playTrack(track.TRACK_ID)">
+           <mat-chip style="margin-top: 5px">
+             {{track.NAME}}
+           </mat-chip>
 
-      <label>Hello there</label>
+        </div>
+      </div>
+    </div>
+    <div style="flex : 1; margin-left: 30px">
+
+      <label>Click on one of the songs to play it here !</label>
 
       <!-- Spotify Music Player (shows only if a track is selected) -->
       <div *ngIf="selectedTrackId" class="spotifywrapper">
@@ -67,6 +68,26 @@
           loading="lazy">
         </iframe>
       </div>
+
+    </div>
+  </span>
+
+  <span *ngIf="searchType === 'artists'" style="display: flex" class="container">
+
+    <div style="flex: 1">
+      <!-- Display search results -->
+      <div *ngIf="artistSearchResults.length > 0">
+        <div *ngFor="let artists of artistSearchResults">
+           <mat-chip style="margin-top: 5px">
+             {{artists.NAME}}
+           </mat-chip>
+
+        </div>
+      </div>
+    </div>
+    <div style="flex : 1; margin-left: 30px">
+
+      <label>Here are the artists you searched for !</label>
 
     </div>
   </span>

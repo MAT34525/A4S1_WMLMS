@@ -1,9 +1,10 @@
 import {Component, Pipe, PipeTransform} from '@angular/core';
-import { TrackService, Track } from '../track.service';  // Import TrackService
+import { TrackService} from '../track.service';  // Import TrackService
 import { FormsModule } from '@angular/forms';
 import { NgForOf, NgIf } from '@angular/common';
-import {Artists} from '../schema';
+import {Artists, Tracks} from '../schema';
 import { DomSanitizer} from '@angular/platform-browser';
+import {MatChip} from '@angular/material/chips';
 
 @Pipe({standalone: true, name: 'safe'})
 export class SafePipe implements PipeTransform {
@@ -18,13 +19,13 @@ export class SafePipe implements PipeTransform {
   selector: 'app-user-queries-page',
   templateUrl: './user-queries-page.component.html',
   standalone: true,
-  imports: [FormsModule, NgIf, NgForOf, SafePipe],
+  imports: [FormsModule, NgIf, NgForOf, SafePipe, MatChip],
   styleUrls: ['./user-queries-page.component.css']
 })
 export class UserQueriesPageComponent {
   protected songURL : string = '';
   query: string = '';  // The search query
-  trackSearchResults: Track[] = [];  // Store the search results
+  trackSearchResults: Tracks[] = [];  // Store the search results
   artistSearchResults: Artists[] = [];
   searchType: 'tracks' | 'artists' = 'tracks';  // Toggle between tracks and artists
   errorMessage: string | null = null;

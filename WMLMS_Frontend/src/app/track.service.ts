@@ -3,10 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {Artists, Tracks} from './schema';
 
-export interface Track {
-  TRACK_ID: string;  // Track ID
-}
-
 @Injectable({
   providedIn: 'root'
 })
