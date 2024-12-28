@@ -37,27 +37,38 @@
 
   <!-- Search Results (dynamically displays search results based on type) -->
   <div *ngIf="trackSearchResults.length === 0 && query">
-    <p>No results found for "{{ query }}"</p>
+    <p>Press 'Search' to look for : {{ query }}</p>
   </div>
 
-  <!-- Display search results -->
-  <ul *ngIf="trackSearchResults.length > 0">
-    <li *ngFor="let track of trackSearchResults">
-      <button (click)="playTrack(track.TRACK_ID)">
-        Play Track {{ track.TRACK_ID }}
-      </button>
-    </li>
-  </ul>
+  <span style="display: flex" class="container">
 
-  <!-- Spotify Music Player (shows only if a track is selected) -->
-  <div *ngIf="selectedTrackId" class="spotifywrapper">
-    <iframe
-      style="border-radius:12px"
-      [attr.src]="'https://open.spotify.com/embed/track/' + selectedTrackId + '?utm_source=generator&theme=0'"
-      width="300"
-      height="380"
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy">
-    </iframe>
-  </div>
+    <div style="flex: 1">
+      <!-- Display search results -->
+      <ul *ngIf="trackSearchResults.length > 0">
+        <li *ngFor="let track of trackSearchResults">
+          <button (click)="playTrack(track.TRACK_ID)">
+            Play Track {{ track.TRACK_ID }}
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div style="flex : 1">
+
+      <label>Hello there</label>
+
+      <!-- Spotify Music Player (shows only if a track is selected) -->
+      <div *ngIf="selectedTrackId" class="spotifywrapper">
+        <iframe
+          style="border-radius:12px"
+          [attr.src]="songURL | safe"
+          width="300"
+          height="380"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy">
+        </iframe>
+      </div>
+
+    </div>
+  </span>
+
 </div>
