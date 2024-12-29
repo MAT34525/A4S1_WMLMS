@@ -13,7 +13,10 @@ import MusicRoutes from "./routes/MusicRoutes";
 import swaggerJsdoc, {SwaggerDefinition} from 'swagger-jsdoc';
 import swaggerUi, {SwaggerOptions} from 'swagger-ui-express';
 import * as sea from "node:sea";
-import {ORACLE_DB_PARAMS} from "./config";
+import {databaseConnect, databaseInit, ORACLE_DB_PARAMS} from "./config";
+import {Database} from "./database";
+import {Sequelize} from "sequelize";
+import {Schema} from "./schema";
 
 // Default shorten types for express
 export type ReqType = express.Request;
@@ -245,6 +248,7 @@ app.use(express.json());
 // Link swagger component
 app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(apiDoc));
 
+/*
 // Session handling for users
 app.use(session({
   secret: 'session_secrete',
@@ -254,6 +258,7 @@ app.use(session({
 }));
 
 app.use(express.json());
+
 
 // Search tracks endpoint
 app.post('/u/queries/tracks', (req : ReqType, res : ResType ) => searchTracks(req, res));
@@ -312,7 +317,7 @@ async function searchArtist(req : ReqType, res : ResType) {
 }
 
 // BDD connection
-oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
+// oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -322,6 +327,41 @@ app.use(adminRoutes);
 app.use(userRoutes);
 app.use(playlistRoutes);
 app.use(MusicRoutes);
+*/
+let db = new Database(app, 'usr', 'pwd')
+db.connect();
+
+connect().then(_ => test_insert());
+
+
+async function connect() :  Promise<void> {
+  let dbnew = new Database(app, 'usr', 'pwd')
+
+  return dbnew.connect()
+}
+async function test_select() {
+    Schema.Artists.findAll({
+
+      attributes: ['ARTIST_ID', 'NAME', 'FOLLOWERS', 'GENRES', 'POPULARITY', 'CREATED_AT', 'UPDATED_AT']
+    }).then(e => { console.warn('result :')
+      console.log(e)});
+}
+
+async function test_insert() {
+
+  const newArtist = await Schema.Artists.create({
+    ARTIST_ID: 1, // Optional if auto-incremented
+    NAME: 'Taylor Swift',
+    FOLLOWERS: 50000000,
+    GENRES: 'Pop',
+    POPULARITY: 95,
+    CREATED_AT: new Date(),
+    UPDATED_AT: new Date()
+  });
+
+  console.log('Inserted Artist:', newArtist.toJSON());
+}
+
 
 // API startup
 app.listen(3000, () => {

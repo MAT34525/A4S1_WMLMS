@@ -3,7 +3,8 @@ import oracledb from 'oracledb';
 import bcrypt from "bcrypt";
 import {ReqType, ResType} from "../app";
 import {resolve} from "node:dns";
-import {ORACLE_DB_PARAMS} from "../config";
+import {DB_NAME, ORACLE_DB_PARAMS, SEQUELIZE_DB_PARAMS} from "../config";
+import {Sequelize} from "sequelize";
 
 const router = express.Router();
 
@@ -26,6 +27,7 @@ async function login (req : ReqType, res : ResType) {
         console.log('Trying to connect with user:', username);
 
         // Connect to the database
+
         const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
         console.log('Successfully connected to the database.');
