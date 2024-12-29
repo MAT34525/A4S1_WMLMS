@@ -93,6 +93,8 @@ To bypass the following steps, you can open individually WMLMS_Backend or WMLMS_
 
 Once both front-end and back-end instances ar running, you can open your browser and navigate to : http://localhost:4200/
 
+The swagger ui is also available at http://localhost:300/swagger-ui/
+
 Hopefully, if you didn't managed to run or build the project, you have a presentation video in `NodeJS_React` as well !
 **This presentation only include a previous version of the administration panel with deprecated features**
 
@@ -203,3 +205,13 @@ For more precision, don't hesitate to check the activity report on GitHub :wink:
 - User pages (Playlist, Songs) : Léandre 
 - User pages (Song searches) : Benoit
 - Admin pages (Users, Artists, Playlists, Statistics, Queries) : Mathys
+
+## What could we have improved ?
+
+First of all, I am almost sure that you won't be able to test our this app live, on your side. In fact, the use of oracledb and the extensive configuration steps required to setup and load the data into the database are not user friendly at all and would have required a total refactoring using only Sequelize (not oracledb) and PostgreSQL. We are sorry for the inconvenience.
+
+Then, the project would have required a further cleanup for comments and user interface. We also could have further reduced the duplicated code as well, especially for the backend. 
+
+The swagger-ui components isn't complete, none of the user CRUD for login, music, artist and playlist are available and we have multiple Resolver Errors and some admin CRUD commands have mismatch between their errors name and the actual error message.
+
+Some types are still missing in the backend, we defined most of them but some are still vacant.
