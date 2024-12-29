@@ -81,7 +81,7 @@ To bypass the following steps, you can open individually WMLMS_Backend or WMLMS_
 
 <p align="center">
  <img src="NodeJS_React/Readme_Resources/IntelliJ_Backend_Run.png" />
- <img src="Advanced Database Management/Readme_Resources//IntelliJ_Frontend_Run.png" />
+ <img src="NodeJS_React/Readme_Resources/IntelliJ_Frontend_Run.png" />
 </p>
 
 
