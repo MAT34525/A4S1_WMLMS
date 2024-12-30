@@ -23,6 +23,7 @@ async function searchTracks(req: ReqType, res : ResType) {
 
     const query : string | undefined = req.body.query.toString().toLowerCase();
 
+    // Check that all fields are filled
     if (!query || query.trim().length === 0) {
         res.status(400).send({message: 'Query parameter is required'});
         return;
@@ -30,7 +31,8 @@ async function searchTracks(req: ReqType, res : ResType) {
 
     try {
 
-        const result : Tracks[]= await Schema.getTracks().findAll({
+        // Lookup for the tracks in the database
+        const result : Tracks[] = await Schema.getTracks().findAll({
             where : {
                 NAME : {
                     [Op.like] : `%${query}%`,
@@ -39,6 +41,7 @@ async function searchTracks(req: ReqType, res : ResType) {
             raw : true
         });
 
+        // Send the result
         res.status(200).send(result);
     } catch (err) {
         res.status(500).send({message: 'Internal server error'});
@@ -58,12 +61,14 @@ async function searchArtist(req : ReqType, res : ResType) {
 
     const query : string | undefined = req.body.query.toString().toLowerCase();
 
+    // Check that all fields are filled
     if (!query || query.trim().length === 0) {
         res.status(400).send({message: 'Query parameter is required'});
         return;
     }
 
     try {
+        // Lookup for the artists in the database
         const result : Artists[] = await Schema.getArtists().findAll({
             where : {
                 NAME : {
@@ -73,6 +78,7 @@ async function searchArtist(req : ReqType, res : ResType) {
             raw : true
         });
 
+        // Send the result
         res.status(200).send(result);
     } catch (err) {
         res.status(500).send({message: 'Internal server error'});

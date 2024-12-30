@@ -256,7 +256,6 @@ app.use(express.json());
 // Instantiate the database connection and the models
 let _ : Schema = new Schema(new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, SEQUELIZE_DB_PARAMS));
 
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 

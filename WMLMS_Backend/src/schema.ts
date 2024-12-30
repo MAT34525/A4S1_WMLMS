@@ -19,10 +19,12 @@ export class Schema {
 
     // Getters ====================================================================================
 
+    // Get connection flag
     public static getConnectionStatus() : boolean {
         return this.connected;
     }
 
+    // Get connection object
     public static getConnection() : Sequelize | undefined {
         return this.connection;
     }
@@ -125,6 +127,7 @@ export class Schema {
         });
     }
 
+    // Update the connection and reload the schema
     private static async  reloadConnectionAndSchema(connection : Sequelize) {
 
         if(Schema.connected) {
@@ -341,15 +344,18 @@ export class Schema {
 
     // Error handling =============================================================================
 
+    // Try to create the database if an error occurs when trying to connect to the database using the postgres dialect
     private static postgresErrorHandling(error : any) {
         console.warn("Running postgres error handling...");
 
+        // Invalid credentials
         if(error.name === 'SequelizeConnectionError' && error.message.startsWith('password')) {
             console.warn(`Invalid credentials ${DB_USER}/${DB_PASSWORD} to log in the database, check the config.ts file !`);
             console.error('No fixes available, reboot the project and try again !')
             return;
         }
 
+        // Invalid database name
         if(error.name === 'SequelizeConnectionError' && error.message.startsWith('database')) {
             console.warn(`Invalid database name ${DB_NAME}, check the config.ts file !`);
             Schema.postgresDatabaseCreation();
@@ -357,6 +363,7 @@ export class Schema {
         }
     }
 
+    // Inform the user of the errors encountered while trying to connect to the database using the oracle dialect
     private static oracleErrorHandling(error : any) {
         console.warn("Running oracle error handling...");
 
@@ -373,6 +380,7 @@ export class Schema {
         }
     }
 
+    // Create a new database and schema if necessary for the postgres dialect
     private static async postgresDatabaseCreation() {
         console.warn("Creating database ...");
 
@@ -417,11 +425,14 @@ export class Schema {
         }
     }
 
+    // Load tuples in the database (after creating a new database)
     public static async populateSchema()  {
+
         console.warn("Inserting data ...");
 
         let t : Transaction = await Schema.connection.transaction();
 
+        // Load each rows in the ./data folder into the datbase
         await Schema.Artists.bulkCreate(ARTISTS_DATA, { ignoreDuplicates: true });
         await Schema.Tracks.bulkCreate(TRACKS_DATA, { ignoreDuplicates: true });
         await Schema.Users.bulkCreate(USERS_DATA, { ignoreDuplicates: true });

@@ -15,6 +15,8 @@ router.get('/u/logout', (req : ReqType, res : ResType) => logout(req, res));
 // Verify and log an user using its credentials
 async function login (req : ReqType, res : ResType) {
 
+    console.log("User POST Login");
+
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
@@ -78,6 +80,8 @@ async function login (req : ReqType, res : ResType) {
 // Register an user using given credentials
 async function register(req : ReqType, res : ResType) {
 
+    console.log('User POST Register')
+
     const { username, password, email} : { username? : string, password? : string, email? : string}  = req.body;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
@@ -114,6 +118,9 @@ async function register(req : ReqType, res : ResType) {
 
 // Logout an user
 function logout(req : ReqType, res : ResType) {
+
+    console.log("User GET Logout")
+
     // Remove session information (e.g., user ID)
     req.session.destroy((err) => {
         if (err) {
