@@ -15,7 +15,7 @@ async function searchTracks(req: ReqType, res : ResType) {
 
     console.log("User POST Search for tracks");
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
@@ -49,7 +49,7 @@ async function searchArtist(req : ReqType, res : ResType) {
 
     console.log("User POST Search for artists");
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }

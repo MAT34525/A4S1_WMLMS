@@ -347,7 +347,7 @@ async function adminLogin(req : ReqType, res : ResType) {
 
     const { username, password }  = req.body as {username? : string, password? : string} ;
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
@@ -390,7 +390,7 @@ async function getList(tableName : string, model : ModelStatic<any> , req: ReqTy
     // Convert table name in uppercase to standardize the input
     tableName = String(tableName).toUpperCase();
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
@@ -453,7 +453,7 @@ async function getPlaylistList(req : ReqType, res : ResType) {
 // Admin Get Artist Count function
 async function getArtistCount(req : ReqType, res : ResType) {
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
@@ -483,7 +483,7 @@ async function getArtistListDelayed(req : ReqType, res : ResType) {
     // Checking parameters values
     const { page, size } = req.body;
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
@@ -531,7 +531,7 @@ async function getUser(req : ReqType, res : ResType) {
 
     const { id } = req.params;
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
@@ -559,7 +559,7 @@ async function getArtist(req : ReqType, res : ResType) {
 
     const { id } = req.params;
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
@@ -590,7 +590,7 @@ async function deleteUser(req : ReqType, res : ResType) {
     // We check that the user exists
     const { id } = req.params;
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
@@ -625,7 +625,7 @@ async function putUserLock(req : ReqType, res : ResType) {
     // We check that the user exists
     const { id } = req.params;
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
@@ -675,7 +675,7 @@ async function putArtistVerification(req : ReqType, res : ResType) {
     // We check that the user exists
     const { id } = req.params;
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
@@ -726,7 +726,7 @@ async function putUser(req : ReqType, res : ResType) {
     // We check that the user exists
     const { id } = req.params;
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
@@ -811,7 +811,7 @@ async function customCount(req : ReqType, res : ResType) {
     // Get and check the query
     let { query } = req.body;
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
@@ -860,7 +860,7 @@ async function customQuery(req : ReqType, res : ResType) {
     // Get and check the query
     let { query } = req.body;
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }

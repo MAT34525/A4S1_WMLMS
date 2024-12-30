@@ -14,7 +14,7 @@ router.get('/u/logout', (req : ReqType, res : ResType) => logout(req, res));
 // Verify and log an user using its credentials
 async function login (req : ReqType, res : ResType) {
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
@@ -79,7 +79,7 @@ async function register(req : ReqType, res : ResType) {
 
     const { username, password, email} = req.body;
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }

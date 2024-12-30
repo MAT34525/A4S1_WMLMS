@@ -15,7 +15,7 @@ router.get('/u/playlists-tracks/:id', (req : ReqType, res : ResType) => getTrack
 // Retrieve all playlists
 async function getPlaylists(req : ReqType, res : ResType) {
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
@@ -42,7 +42,7 @@ async function getTracksForPlaylist(req, res) {
 
     const { id } = req.params;
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
@@ -81,7 +81,7 @@ async function createPlaylist(req : ReqType, res : ResType) {
 
     const { name, description, isPublic } = req.body;
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
@@ -119,7 +119,7 @@ async function updatePlaylist(req : ReqType, res : ResType) {
     const playlistId = req.params.id;
     const { name, description, isPublic } = req.body;
 
-    if(Schema.getConnection() === undefined) {
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }

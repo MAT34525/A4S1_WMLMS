@@ -18,6 +18,10 @@ export class Schema {
 
     // Getters ====================================================================================
 
+    public static getConnectionStatus() : boolean {
+        return this.connected;
+    }
+
     public static getConnection() : Sequelize | undefined {
         return this.connection;
     }
