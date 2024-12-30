@@ -9,7 +9,7 @@ import playlistRoutes from './routes/PlaylistRoutes';
 import searchRoutes from './routes/SearchRoutes';
 
 // Swagger
-import swaggerJsdoc, {SwaggerDefinition} from 'swagger-jsdoc';
+import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi, {SwaggerOptions} from 'swagger-ui-express';
 import {DB_NAME, DB_PASSWORD, DB_USER, SEQUELIZE_DB_PARAMS} from "./config";
 import {Sequelize} from "sequelize";
@@ -253,9 +253,10 @@ app.use(session({
 
 app.use(express.json());
 
-let schema : Schema = new Schema(new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, SEQUELIZE_DB_PARAMS));
+// Instantiate the database connection and the models
+let _ : Schema = new Schema(new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, SEQUELIZE_DB_PARAMS));
 
-// BDD connection
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
@@ -268,4 +269,5 @@ app.use(searchRoutes);
 // API startup
 app.listen(3000, () => {
   console.log('Server running on : http://localhost:3000');
+  console.log('The swagger API is also available at : http://localhost:3000/swagger-ui/')
 });

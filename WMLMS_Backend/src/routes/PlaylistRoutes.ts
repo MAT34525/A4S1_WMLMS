@@ -1,7 +1,7 @@
 import express from 'express';
 import {ReqType, ResType} from "../app";
 import {Schema} from "../schema";
-import {Op} from "sequelize";
+import {Playlists, Tracks} from "../tables";
 
 const router = express.Router();
 
@@ -22,7 +22,7 @@ async function getPlaylists(req : ReqType, res : ResType) {
 
     try {
         // Query to get all playlists
-        const result = await Schema.getPlaylists().findAll({
+        const result : Playlists[] = await Schema.getPlaylists().findAll({
             attributes : ["PLAYLIST_ID", "NAME", "DESCRIPTION", "IS_PUBLIC", "CREATED_AT", "UPDATED_AT"],
         });
 
@@ -38,9 +38,9 @@ async function getPlaylists(req : ReqType, res : ResType) {
     }
 }
 
-async function getTracksForPlaylist(req, res) {
+async function getTracksForPlaylist(req : ReqType, res : ResType) {
 
-    const { id } = req.params;
+    const { id } : {id? : string} = req.params;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
@@ -49,7 +49,7 @@ async function getTracksForPlaylist(req, res) {
 
     try {
         // Query to get tracks for a given playlist
-        const result = await Schema.getTracks().findAndCountAll({
+        const result  : Tracks[] = await Schema.getTracks().findAll({
             include : [
                 {
                     model: Schema.getPlaylistsTracks(),
@@ -58,13 +58,15 @@ async function getTracksForPlaylist(req, res) {
                     }
                 }
             ],
-            attributes : ['TRACK_ID', 'NAME', 'DURATION_MS', 'EXPLICIT', 'RELEASE_DATE']
+            attributes : ['TRACK_ID', 'NAME', 'DURATION_MS', 'EXPLICIT', 'RELEASE_DATE'],
+            raw : true
         });
 
 
-        if (result.rows.length === 0) {
+        if (result.length === 0) {
             // No tracks found for the playlist
-            return res.status(404).json({ message: 'No tracks found for this playlist.' });
+            res.status(404).json({ message: 'No tracks found for this playlist.' });
+            return;
         }
 
         // Send the list of tracks as a response
@@ -116,8 +118,8 @@ async function createPlaylist(req : ReqType, res : ResType) {
 // Update an existing playlist
 async function updatePlaylist(req : ReqType, res : ResType) {
 
-    const playlistId = req.params.id;
-    const { name, description, isPublic } = req.body;
+    const playlistId  : string | undefined= req.params.id;
+    const { name, description, isPublic }  :  {name? : string , description? : string, isPublic?: string } = req.body;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
@@ -133,7 +135,7 @@ async function updatePlaylist(req : ReqType, res : ResType) {
     try {
 
         // Query to update the playlist description
-        const result = await Schema.getPlaylists().update(
+        const result : [affectedCount: number] = await Schema.getPlaylists().update(
             {
                 NAME : name,
                 DESCRIPTION : description,
@@ -168,11 +170,11 @@ async function updatePlaylist(req : ReqType, res : ResType) {
 // Delete a playlist
 async function deletePlaylist(req : ReqType, res : ResType) {
 
-    const playlistId = req.params.id;
+    const playlistId : string | undefined = req.params.id;
 
     try {
         // Query to delete the select query
-        const result = await Schema.getPlaylists().destroy({
+        const result : number = await Schema.getPlaylists().destroy({
             where : {
                 PLAYLIST_ID : playlistId,
             }

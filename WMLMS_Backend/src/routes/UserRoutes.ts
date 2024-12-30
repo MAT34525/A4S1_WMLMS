@@ -20,7 +20,7 @@ async function login (req : ReqType, res : ResType) {
         return;
     }
 
-    const { username, password } = req.body;
+    const { username, password } : {username? : string, password? : string } = req.body;
 
     // Check for missing fields
     if (!username || !password) {
@@ -32,27 +32,27 @@ async function login (req : ReqType, res : ResType) {
         console.log('Trying to connect with user:', username);
 
         // Searching for user in the database
-        const result = await Schema.getUsers().findAndCountAll({
+        const result : Users[] = await Schema.getUsers().findAll({
             attributes: ["USER_ID", "USERNAME", "PASSWORD"],
             where : {
                 USERNAME : {
                     [Op.like] : username,
                 }
-            }
+            },
+            raw : true
         });
 
-        console.log('User search result:', result.rows);
+        console.log('User search result:', result);
 
         // Check if user exists
-        if (result.rows.length === 0) {
+        if (result.length === 0) {
             console.log('No user found');
             res.json({message: 'Invalid credentials.',  status:400 }).status(400)
             return;
         }
 
         // Get stored hashed password
-        const user : Users[] = result.rows;
-        const storedPassword = user[0].PASSWORD;
+        const storedPassword : string = result[0].PASSWORD;
 
         console.log('stored password:', storedPassword)
         console.log('verification:', await bcrypt.compare(password, storedPassword))
@@ -78,7 +78,7 @@ async function login (req : ReqType, res : ResType) {
 // Register an user using given credentials
 async function register(req : ReqType, res : ResType) {
 
-    const { username, password, email} = req.body;
+    const { username, password, email} : { username? : string, password? : string, email? : string}  = req.body;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
@@ -93,17 +93,15 @@ async function register(req : ReqType, res : ResType) {
 
     try {
         // Hash the password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword : string = await bcrypt.hash(password, 10);
 
         // Insert the user into the database
-        const insertResult = await Schema.getUsers().create({
+        await Schema.getUsers().create({
             USER_ID : uuid(),
             USERNAME : username,
             PASSWORD : hashedPassword,
             EMAIL : email,
-        });
-
-        console.log(insertResult);
+        }, {raw : true});
 
         // Redirect or send success message
         res.json({message: 'Successful user creation!',  status:200}).status(200);

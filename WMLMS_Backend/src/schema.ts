@@ -408,7 +408,7 @@ export class Schema {
 
             console.warn("Temporary server connection closed properly !");
 
-            let finished: boolean = await Schema.syncTables();
+            await Schema.syncTables();
 
             await Schema.populateSchema();
 

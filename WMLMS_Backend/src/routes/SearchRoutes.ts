@@ -3,6 +3,7 @@ import {Schema} from "../schema";
 import {ReqType, ResType} from "../app";
 import express from "express";
 import {Op} from "sequelize";
+import {Artists, Tracks} from "../tables";
 
 
 const router = express.Router();
@@ -20,7 +21,7 @@ async function searchTracks(req: ReqType, res : ResType) {
         return;
     }
 
-    const query = req.body.query.toString().toLowerCase();
+    const query : string | undefined = req.body.query.toString().toLowerCase();
 
     if (!query || query.trim().length === 0) {
         res.status(400).send({message: 'Query parameter is required'});
@@ -29,15 +30,16 @@ async function searchTracks(req: ReqType, res : ResType) {
 
     try {
 
-        const result = await Schema.getTracks().findAndCountAll({
+        const result : Tracks[]= await Schema.getTracks().findAll({
             where : {
                 NAME : {
                     [Op.like] : `%${query}%`,
                 },
             },
+            raw : true
         });
 
-        res.status(200).send(result.rows);
+        res.status(200).send(result);
     } catch (err) {
         res.status(500).send({message: 'Internal server error'});
         console.log("Internal server error :", err);
@@ -54,7 +56,7 @@ async function searchArtist(req : ReqType, res : ResType) {
         return;
     }
 
-    const query = req.body.query.toString().toLowerCase();
+    const query : string | undefined = req.body.query.toString().toLowerCase();
 
     if (!query || query.trim().length === 0) {
         res.status(400).send({message: 'Query parameter is required'});
@@ -62,15 +64,16 @@ async function searchArtist(req : ReqType, res : ResType) {
     }
 
     try {
-        const result = await Schema.getArtists().findAndCountAll({
+        const result : Artists[] = await Schema.getArtists().findAll({
             where : {
                 NAME : {
                     [Op.like] : `%${query}%`,
                 },
             },
+            raw : true
         });
 
-        res.status(200).send(result.rows);
+        res.status(200).send(result);
     } catch (err) {
         res.status(500).send({message: 'Internal server error'});
         console.log("Internal server error :", err);

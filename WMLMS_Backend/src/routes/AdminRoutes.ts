@@ -2,8 +2,8 @@ import express, {Router} from 'express';
 import {ReqType, ResType} from "../app";
 import {Schema} from "../schema";
 import {ModelStatic, Sequelize} from "sequelize";
-import {DB_NAME, DB_PASSWORD, DB_USER, SEQUELIZE_DB_PARAMS} from "../config";
-import {Users} from "../tables";
+import {DB_NAME, SEQUELIZE_DB_PARAMS} from "../config";
+import {Artists, Users} from "../tables";
 
 const router : Router = express.Router();
 
@@ -350,7 +350,7 @@ router.get('/s/admin/statistics/explicit', (req : ReqType, res : ResType) => get
 
 async function adminLogin(req : ReqType, res : ResType) {
 
-    const { username, password }  = req.body as {username? : string, password? : string} ;
+    const { username, password } : {username? : string, password? : string} = req.body as {username? : string, password? : string} ;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
@@ -410,7 +410,7 @@ async function getList(tableName : string, model : ModelStatic<any> , req: ReqTy
     try {
 
         // Execute the query and send result
-        const result = await model.findAll();
+        const result : {}[]= await model.findAll();
 
         res.json(result).status(200);
 
@@ -486,7 +486,7 @@ async function getArtistListDelayed(req : ReqType, res : ResType) {
     console.log("Admin GET Artists List by page");
 
     // Checking parameters values
-    const { page, size } = req.body;
+    const { page, size } : {page? : number, size? : number} = req.body;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
@@ -510,12 +510,13 @@ async function getArtistListDelayed(req : ReqType, res : ResType) {
         let offset : number = page * size;
 
         // Execute the query and send result
-        const result = await Schema.getArtists().findAndCountAll({
+        const result : {}[] = await Schema.getArtists().findAll({
             offset : offset,
             limit : size,
+            raw : true
         })
 
-        res.json(result.rows).status(200);
+        res.json(result).status(200);
 
     } catch (error) {
 
@@ -547,7 +548,6 @@ async function getArtistsTopTen(req: ReqType, res: ResType) {
             raw: true
         })
 
-        console.log(result)
         res.json(result).status(200);
 
     } catch (error) {
@@ -582,7 +582,6 @@ async function getTracksExplicitRepartition(req: ReqType, res: ResType) {
             raw: true
         })
 
-        console.log(result)
         res.json(result).status(200);
 
     } catch (error) {
@@ -590,7 +589,6 @@ async function getTracksExplicitRepartition(req: ReqType, res: ResType) {
         // Send message and 404 result
         console.log('Table doesn"t exists !');
         res.json({message : "Table not found !"}).status(404);
-
     }
 }
 
@@ -602,14 +600,14 @@ async function getUser(req : ReqType, res : ResType) {
     // Display the command name
     console.log("Admin GET User By ID");
 
-    const { id } = req.params;
+    const { id } : {id? :string} = req.params;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
 
-    const users = await Schema.getUsers().findOne({
+    const users : Users | null = await Schema.getUsers().findOne({
         where : {
             USER_ID : id
         }
@@ -630,14 +628,14 @@ async function getArtist(req : ReqType, res : ResType) {
     // Display the command name
     console.log("Admin GET Artist By ID");
 
-    const { id } = req.params;
+    const { id } : {id? : string} = req.params;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
 
-    const artist = await Schema.getArtists().findOne({
+    const artist : Artists | null = await Schema.getArtists().findOne({
         where : {
             ARTIST_ID : id
         }
@@ -661,7 +659,7 @@ async function deleteUser(req : ReqType, res : ResType) {
     console.log("Admin DELETE User By ID");
 
     // We check that the user exists
-    const { id } = req.params;
+    const { id } : {id? : string} = req.params;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
@@ -669,7 +667,7 @@ async function deleteUser(req : ReqType, res : ResType) {
     }
 
     // We get look for the user id in the table
-    const userLookup = await Schema.getUsers().destroy({
+    const userLookup : number = await Schema.getUsers().destroy({
         where : {
             USER_ID : id
         }
@@ -693,10 +691,10 @@ async function putUserLock(req : ReqType, res : ResType) {
     // Display the command name
     console.log("Admin PUT User Lock By ID");
 
-    let item = req.body;
+    let {item} : {item? : Users} = req.body;
 
     // We check that the user exists
-    const { id } = req.params;
+    const { id } : {id? : string} = req.params;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
@@ -704,7 +702,7 @@ async function putUserLock(req : ReqType, res : ResType) {
     }
 
     // We get look for the user id in the table
-    const userLookup = await Schema.getUsers().findOne({
+    const userLookup : Users | null = await Schema.getUsers().findOne({
         where: {
             USER_ID: id
         }
@@ -720,7 +718,7 @@ async function putUserLock(req : ReqType, res : ResType) {
     // We modify the user depending on the existence of the given parameters
     if(item["IS_LOCKED"] !== undefined && (item["IS_LOCKED"].length === 1))
     {
-        let newLock = (item["IS_LOCKED"] === 'N') ? 'Y' : 'N';
+        let newLock : string = (item["IS_LOCKED"] === 'N') ? 'Y' : 'N';
 
         console.log("[+] Locked toggled from ", item["IS_LOCKED"], ' to ', newLock )
 
@@ -743,10 +741,10 @@ async function putArtistVerification(req : ReqType, res : ResType) {
     // Display the command name
     console.log("Admin PUT Artist Verification By ID");
 
-    let item = req.body;
+    let {item} : {item? : Artists} = req.body;
 
     // We check that the user exists
-    const { id } = req.params;
+    const { id } : {id? : string} = req.params;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
@@ -754,7 +752,7 @@ async function putArtistVerification(req : ReqType, res : ResType) {
     }
 
     // We get look for the artist id in the table
-    const artistLookup = await Schema.getArtists().findOne({
+    const artistLookup : Artists | null = await Schema.getArtists().findOne({
         where : {
             ARTIST_ID : id
         }
@@ -767,9 +765,9 @@ async function putArtistVerification(req : ReqType, res : ResType) {
         return;
     }
 
-    // We modify the user depending on the existance of the given parameters
+    // We modify the user depending on the existence of the given parameters
     if(item["IS_VERIFIED"] !== undefined && (item["IS_VERIFIED"].length === 1)) {
-        let newLock = (item["IS_VERIFIED"] === 'N') ? 'Y' : 'N';
+        let newLock : string = (item["IS_VERIFIED"] === 'N') ? 'Y' : 'N';
 
         console.log("[+] Verification toggled from ", item["IS_VERIFIED"], ' to ', newLock)
 
@@ -794,10 +792,10 @@ async function putUser(req : ReqType, res : ResType) {
     // Display the command name
     console.log("Admin PUT User By ID");
 
-    let item = req.body;
+    let {item} : {item? : Users} = req.body;
 
     // We check that the user exists
-    const { id } = req.params;
+    const { id } : {id? : string} = req.params;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
@@ -805,7 +803,7 @@ async function putUser(req : ReqType, res : ResType) {
     }
 
     // We get look for the user id in the table
-    const userLookup = await Schema.getUsers().findOne({
+    const userLookup : Users | null = await Schema.getUsers().findOne({
         where : {
             USER_ID : id
         }
@@ -823,7 +821,7 @@ async function putUser(req : ReqType, res : ResType) {
     {
         console.log("[+] USERNAME Modified !")
 
-        let username = item["USERNAME"]
+        let username : string = item["USERNAME"]
         await Schema.getUsers().update(
             {
                 USERNAME : username
@@ -840,7 +838,7 @@ async function putUser(req : ReqType, res : ResType) {
     {
         console.log("[+] EMAIL Modified !")
 
-        let email = item["EMAIL"]
+        let email : string = item["EMAIL"]
         await Schema.getUsers().update(
             {
                 EMAIL : email
@@ -857,7 +855,7 @@ async function putUser(req : ReqType, res : ResType) {
     {
         console.log("[+] FULL_NAME Modified !")
 
-        let fullName = item["FULL_NAME"]
+        let fullName : string = item["FULL_NAME"]
         await Schema.getUsers().update(
             {
                 FULL_NAME : fullName
@@ -882,7 +880,7 @@ async function customCount(req : ReqType, res : ResType) {
     console.log("Admin POST Custom count");
 
     // Get and check the query
-    let { table } = req.body;
+    let { table } : {table? : string} = req.body;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
@@ -945,7 +943,7 @@ async function customQuery(req : ReqType, res : ResType) {
     console.log("Admin POST Custom query");
 
     // Get and check the query
-    let { query } = req.body;
+    let { query } : {query? : string} = req.body;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
@@ -963,9 +961,6 @@ async function customQuery(req : ReqType, res : ResType) {
     try {
         // We execute the query
         const queryResult : {} = await Schema.getConnection().query(query);
-
-        console.log(queryResult)
-        console.log(queryResult[0][0]);
 
         // We will trim the second part of the response to only keep the output column name
         let keysList : {}[] = [];
