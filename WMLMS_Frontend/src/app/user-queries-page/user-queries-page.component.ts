@@ -62,6 +62,7 @@ export class UserQueriesPageComponent {
 
       this.trackService.searchArtists(sqlQuery).subscribe({
         next: results => {
+          console.log(results)
           this.artistSearchResults = results;
           this.errorMessage = null;
         },

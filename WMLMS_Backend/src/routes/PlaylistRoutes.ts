@@ -1,6 +1,7 @@
 import express from 'express';
 import {ReqType, ResType} from "../app";
 import {Schema} from "../schema";
+import {Op} from "sequelize";
 
 const router = express.Router();
 
@@ -21,14 +22,14 @@ async function getPlaylists(req : ReqType, res : ResType) {
 
     try {
         // Query to get all playlists
-        const result = await Schema.getConnection().query(
-            `SELECT PLAYLIST_ID, NAME, DESCRIPTION, IS_PUBLIC, CREATED_AT, UPDATED_AT FROM playlists`
-        );
+        const result = await Schema.getPlaylists().findAll({
+            attributes : ["PLAYLIST_ID", "NAME", "DESCRIPTION", "IS_PUBLIC", "CREATED_AT", "UPDATED_AT"],
+        });
 
-        console.log('Retrieved playlists :', result[0]);
+        console.log('Retrieved playlists :', result);
 
         // Send the retrieved playlists list
-        res.status(200).json(result[0]);
+        res.status(200).json(result);
 
     } catch (error) {
 
@@ -38,6 +39,7 @@ async function getPlaylists(req : ReqType, res : ResType) {
 }
 
 async function getTracksForPlaylist(req, res) {
+
     const { id } = req.params;
 
     if(Schema.getConnection() === undefined) {
@@ -47,17 +49,20 @@ async function getTracksForPlaylist(req, res) {
 
     try {
         // Query to get tracks for a given playlist
-        const result = await Schema.getConnection().query(
-            `
-            SELECT t.track_id, t.name, t.artists, t.duration_ms, t.explicit, t.release_date
-            FROM tracks t
-            JOIN playlist_tracks pt ON t.track_id = pt.track_id
-            WHERE pt.playlist_id = :playlistId
-            `,
-            { bind : [id]}
-        );
+        const result = await Schema.getTracks().findAndCountAll({
+            include : [
+                {
+                    model: Schema.getPlaylistsTracks(),
+                    where: {
+                        PLAYLIST_ID : id,
+                    }
+                }
+            ],
+            attributes : ['TRACK_ID', 'NAME', 'DURATION_MS', 'EXPLICIT', 'RELEASE_DATE']
+        });
 
-        if (result[0].length === 0) {
+
+        if (result.rows.length === 0) {
             // No tracks found for the playlist
             return res.status(404).json({ message: 'No tracks found for this playlist.' });
         }
@@ -89,11 +94,13 @@ async function createPlaylist(req : ReqType, res : ResType) {
 
     try {
         // Query to get all songs from an artists
-        await Schema.getConnection().query(
-            `INSERT INTO playlists (NAME, DESCRIPTION, IS_PUBLIC, CREATED_AT, UPDATED_AT)
-             VALUES (:name, :description, :isPublic, SYSDATE, SYSDATE)`,
-            { bind: [name, description, isPublic] }
-        );
+        await Schema.getPlaylists().create({
+            NAME : name,
+            DESCRIPTION : description,
+            IS_PUBLIC : isPublic,
+            CREATED_AT : new Date(),
+            UPDATED_AT : new Date(),
+        })
 
         console.log('Playlist successfully created');
 
@@ -126,15 +133,22 @@ async function updatePlaylist(req : ReqType, res : ResType) {
     try {
 
         // Query to update the playlist description
-        const result = await Schema.getConnection().query(
-            `UPDATE playlists
-             SET NAME = :name, DESCRIPTION = :description, IS_PUBLIC = :isPublic, UPDATED_AT = SYSDATE
-             WHERE PLAYLIST_ID = :playlistId`,
-            { bind : [name, description, isPublic, playlistId] }
+        const result = await Schema.getPlaylists().update(
+            {
+                NAME : name,
+                DESCRIPTION : description,
+                IS_PUBLIC : isPublic,
+                UPDATED_AT : new Date()
+            },
+            {
+                where : {
+                    PLAYLIST_ID : playlistId
+                }
+            }
         );
 
         // Check the playlist update status
-        if (result[0].length === 0) {
+        if (result[0] === 0) {
             console.log('Playlist not found');
             res.status(404).json({ errorMessage: 'Playlist not found.' });
             return;
@@ -158,13 +172,15 @@ async function deletePlaylist(req : ReqType, res : ResType) {
 
     try {
         // Query to delete the select query
-        const result = await Schema.getConnection().query(
-            `DELETE FROM PLAYLISTS WHERE PLAYLIST_ID = :playlistId`,
-            { bind: [playlistId] }
-        );
+        const result = await Schema.getPlaylists().destroy({
+            where : {
+                PLAYLIST_ID : playlistId,
+            }
+        })
+
 
         // Check the deletion status
-        if (result[0].length === 0) {
+        if (result === 0) {
             console.log('Playlist not found');
             res.status(404).json({ errorMessage: 'Playlist not found.' });
             return;

@@ -2,6 +2,7 @@
 import {Schema} from "../schema";
 import {ReqType, ResType} from "../app";
 import express from "express";
+import {Op} from "sequelize";
 
 
 const router = express.Router();
@@ -28,11 +29,15 @@ async function searchTracks(req: ReqType, res : ResType) {
 
     try {
 
-        const result = await Schema.getConnection().query("SELECT * FROM TRACKS WHERE NAME LIKE '%" + query + "%'");
+        const result = await Schema.getTracks().findAndCountAll({
+            where : {
+                NAME : {
+                    [Op.like] : `%${query}%`,
+                },
+            },
+        });
 
-        console.log(result[0]);
-
-        res.status(200).send(result[0]);
+        res.status(200).send(result.rows);
     } catch (err) {
         res.status(500).send({message: 'Internal server error'});
         console.log("Internal server error :", err);
@@ -57,12 +62,19 @@ async function searchArtist(req : ReqType, res : ResType) {
     }
 
     try {
-        const result = await Schema.getConnection().query("SELECT * FROM ARTISTS WHERE NAME LIKE '%" + query + "%'");
+        const result = await Schema.getArtists().findAndCountAll({
+            where : {
+                NAME : {
+                    [Op.like] : `%${query}%`,
+                },
+            },
+        });
 
-        res.status(200).send(result[0]);
+        res.status(200).send(result.rows);
     } catch (err) {
         res.status(500).send({message: 'Internal server error'});
         console.log("Internal server error :", err);
     }
 }
+
 export default router;

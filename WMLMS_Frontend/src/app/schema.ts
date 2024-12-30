@@ -12,7 +12,7 @@ export interface Artists {
   NAME: string;
   FOLLOWERS?: number;
   GENRES?: string;
-  IS_VERIFIED: string;
+  IS_VERIFIED: 'Y' | 'N';
   POPULARITY?: number;
   CREATED_AT?: Date;
   UPDATED_AT?: Date;

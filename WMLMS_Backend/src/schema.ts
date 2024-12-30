@@ -89,6 +89,10 @@ export class Schema {
             Schema.setPlaylists();
             Schema.setPlaylistsTracks()
 
+            // Create associations
+            Schema.Tracks.hasMany(Schema.PlaylistTracks, {foreignKey: 'TRACK_ID'})
+            Schema.PlaylistTracks.hasOne(Schema.Tracks, {foreignKey: 'TRACK_ID'})
+
             // Synchronise the schema with the database
             Schema.syncTables();
 
@@ -157,6 +161,7 @@ export class Schema {
                     type: DataTypes.STRING,
                     allowNull: false,
                 },
+                IS_VERIFIED : DataTypes.ENUM('Y', 'N'),
                 FOLLOWERS: DataTypes.INTEGER,
                 GENRES: DataTypes.STRING,
                 POPULARITY: DataTypes.INTEGER,

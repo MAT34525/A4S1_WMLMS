@@ -2,6 +2,8 @@ import express from 'express';
 import bcrypt from "bcrypt";
 import {ReqType, ResType} from "../app";
 import {Schema} from "../schema";
+import {Op} from "sequelize";
+import {Users} from "../tables";
 
 const router = express.Router();
 
@@ -29,25 +31,27 @@ async function login (req : ReqType, res : ResType) {
         console.log('Trying to connect with user:', username);
 
         // Searching for user in the database
-        const result = await Schema.getConnection().query(
-            `SELECT user_id, username, password FROM users WHERE username = :username`,
-            {
-                bind: [username]
+        const result = await Schema.getUsers().findAndCountAll({
+            attributes: ["USER_ID", "USERNAME", "PASSWORD"],
+            where : {
+                USERNAME : {
+                    [Op.like] : username,
+                }
             }
-        );
+        });
 
-        console.log('User search result:', result);
+        console.log('User search result:', result.rows);
 
         // Check if user exists
-        if (result[0].length === 0) {
+        if (result.rows.length === 0) {
             console.log('No user found');
             res.json({message: 'Invalid credentials.',  status:400 }).status(400)
             return;
         }
 
         // Get stored hashed password
-        const user = result[0][0];
-        const storedPassword = user.PASSWORD;
+        const user : Users[] = result.rows;
+        const storedPassword = user[0].PASSWORD;
 
         console.log('stored password:', storedPassword)
         console.log('verification:', await bcrypt.compare(password, storedPassword))
@@ -91,17 +95,13 @@ async function register(req : ReqType, res : ResType) {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Insert the user into the database
-        const insertResult = await Schema.getConnection().query(
-            `INSERT INTO users (username, password, email)
-             VALUES (:username, :password, :email)`,
+        const insertResult = await Schema.getUsers().create({
+            USERNAME : username,
+            PASSWORD : hashedPassword,
+            EMAIL : email,
+        });
 
-            {
-                bind : [ username, hashedPassword, email ]
-            }
-
-        );
-
-        console.log(insertResult);
+        console.log(insertResult.rows);
 
         // Redirect or send success message
         res.json({message: 'Successful user creation!',  status:200}).status(200);
@@ -118,7 +118,7 @@ function logout(req : ReqType, res : ResType) {
     req.session.destroy((err) => {
         if (err) {
             console.error('Error during logout :', err);
-            res.json({message: 'An error occurred, please try again.',  status:400})
+            res.json({message: 'An error occurred, please try again.', status: 400})
                 .status(400)
                 .redirect('/playlists'); // Redirect to the playlists page in case of error
             return;

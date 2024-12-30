@@ -1,8 +1,9 @@
 import express, {Router} from 'express';
 import {ReqType, ResType} from "../app";
 import {Schema} from "../schema";
-import {Sequelize} from "sequelize";
+import {ModelStatic, Sequelize} from "sequelize";
 import {DB_NAME, DB_PASSWORD, DB_USER, SEQUELIZE_DB_PARAMS} from "../config";
+import {Users} from "../tables";
 
 const router : Router = express.Router();
 
@@ -282,40 +283,6 @@ router.get('/s/admin/playlists', (req : ReqType, res : ResType) => getPlaylistLi
 
 /**
  * @openapi
- * /s/admin/forums-replies:
- *   get:
- *     description: Get all forum replies
- *     responses:
- *       200:
- *         description: All forums replies in the DB
- *         schema:
- *           $ref: '/components/schemas/ForumReplies'
- *       404:
- *         description: Table not found !
- *       400 :
- *         description : Bad request !
- */
-router.get('/s/admin/forums-replies', (req : ReqType, res : ResType) => getForumRepliesList(req, res));
-
-/**
- * @openapi
- * /s/admin/forums-posts:
- *   get:
- *     description: Get all forum posts
- *     responses:
- *       200:
- *         description: All forums posts in the DB
- *         schema:
- *           $ref: '/components/schemas/ForumPosts'
- *       404:
- *         description: Table not found !
- *       400 :
- *         description : Bad request !
- */
-router.get('/s/admin/forums-posts', (req : ReqType, res : ResType) => getForumPostsList(req, res));
-
-/**
- * @openapi
  * /s/admin/tracks:
  *   get:
  *     description: Get all tracks
@@ -415,7 +382,7 @@ async function adminLogin(req : ReqType, res : ResType) {
 }
 
 // Standard function to get the list of any tables
-async function getList(tableName : string, req: ReqType, res: ResType) {
+async function getList(tableName : string, model : ModelStatic<any> , req: ReqType, res: ResType) {
 
     // Display the command name
     console.log("Admin GET " + tableName + " List");
@@ -438,8 +405,9 @@ async function getList(tableName : string, req: ReqType, res: ResType) {
     try {
 
         // Execute the query and send result
-        const result = await Schema.getConnection().query(`SELECT * FROM ${tableName}`);
-        res.json(result[0]).status(200);
+        const result = await model.findAll();
+
+        res.json(result).status(200);
 
     } catch (error) {
 
@@ -455,13 +423,31 @@ async function getList(tableName : string, req: ReqType, res: ResType) {
 // Admin Get User List function
 async function getUserList(req : ReqType , res : ResType) {
 
-    await getList('Users', req, res);
+    await getList('Users', Schema.getUsers(), req, res);
 }
 
 // Admin Get Artist List function
 async function getArtistList(req : ReqType, res : ResType) {
 
-    await getList('Artists', req, res);
+    await getList('Artists', Schema.getArtists(), req, res);
+}
+
+// Admin Get Tracks List  function
+async function getTracksList(req : ReqType, res : ResType) {
+
+    await getList('Tracks', Schema.getTracks(), req, res);
+}
+
+// Admin Get Album List function
+async function getAlbumList(req : ReqType, res : ResType) {
+
+    await getList('Albums', Schema.getAlbums(), req, res);
+}
+
+// Admin Get Playlist List function
+async function getPlaylistList(req : ReqType, res : ResType) {
+
+    await getList('Playlists', Schema.getPlaylists(), req, res);
 }
 
 // Admin Get Artist Count function
@@ -476,8 +462,8 @@ async function getArtistCount(req : ReqType, res : ResType) {
     try {
 
         // Execute the query and send result
-        const result = await Schema.getConnection().query(`SELECT COUNT(ARTIST_ID) FROM ARTISTS;`);
-        res.json({ result : result[0][0]["COUNT(ARTIST_ID)"]}).status(200);
+        const result = await Schema.getArtists().count();
+        res.json({ result : result }).status(200);
 
     } catch (error) {
 
@@ -517,14 +503,14 @@ async function getArtistListDelayed(req : ReqType, res : ResType) {
 
         // Compute offset
         let offset : number = page * size;
-        let limit : number = size;
 
         // Execute the query and send result
-        const result = await Schema.getConnection().query(`SELECT * FROM ARTISTS OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY;`,
-            {
-                bind: [offset, limit],
-            });
-        res.json(result[0]).status(200);
+        const result = await Schema.getArtists().findAndCountAll({
+            offset : offset,
+            limit : size,
+        })
+
+        res.json(result.rows).status(200);
 
     } catch (error) {
 
@@ -533,36 +519,6 @@ async function getArtistListDelayed(req : ReqType, res : ResType) {
         res.json({message : "Table not found !"}).status(404);
 
     }
-}
-
-// Admin Get Tracks List  function
-async function getTracksList(req : ReqType, res : ResType) {
-
-    getList('Tracks', req, res);
-}
-
-// Admin Get Album List function
-async function getAlbumList(req : ReqType, res : ResType) {
-
-    getList('Albums', req, res);
-}
-
-// Admin Get Playlist List function
-async function getPlaylistList(req : ReqType, res : ResType) {
-
-    getList('Playlists', req, res);
-}
-
-// Admin Get Forums Replies List function
-async function getForumRepliesList(req : ReqType, res : ResType) {
-
-    getList('Forum_Replies', req, res);
-}
-
-// Admin Get Forum Posts List function
-async function getForumPostsList(req : ReqType, res : ResType) {
-
-    getList('Forum_Posts', req, res);
 }
 
 // GET BY ID ==================================================================================
@@ -580,17 +536,18 @@ async function getUser(req : ReqType, res : ResType) {
         return;
     }
 
-    const users = await Schema.getConnection().query('SELECT * FROM USERS WHERE user_id=:id',
-        {
-            bind : [id]
-        });
+    const users = await Schema.getUsers().findOne({
+        where : {
+            USER_ID : id
+        }
+    })
 
-    if (users[0].length == 0)
+    if (users === null)
     {
         res.json({message: 'Not found !'}).status(404);
     }
     else {
-        res.json(users[0][0]).status(200);
+        res.json(users).status(200);
     }
 }
 
@@ -607,17 +564,18 @@ async function getArtist(req : ReqType, res : ResType) {
         return;
     }
 
-    const artist = await Schema.getConnection().query('SELECT * FROM ARTISTS WHERE ARTIST_ID=:id',
-        {
-            bind : [id]
-        });
+    const artist = await Schema.getArtists().findOne({
+        where : {
+            ARTIST_ID : id
+        }
+    });
 
-    if (artist[0].length == 0)
+    if (artist === null)
     {
         res.json({message: 'Not found !'}).status(404);
     }
     else {
-        res.json(artist[0][0]).status(200);
+        res.json(artist).status(200);
     }
 }
 
@@ -629,8 +587,6 @@ async function deleteUser(req : ReqType, res : ResType) {
     // Display the command name
     console.log("Admin DELETE User By ID");
 
-    let item = req.body;
-
     // We check that the user exists
     const { id } = req.params;
 
@@ -640,22 +596,18 @@ async function deleteUser(req : ReqType, res : ResType) {
     }
 
     // We get look for the user id in the table
-    const userLookup = await Schema.getConnection().query('SELECT USER_ID FROM USERS WHERE user_id=:id',
-        {
-            bind : [id]
-        });
+    const userLookup = await Schema.getUsers().destroy({
+        where : {
+            USER_ID : id
+        }
+    });
 
-    if(userLookup[0].length === 0)
+    if(userLookup === 0)
     {
         console.log("[-] Not found !")
         res.json({ message : "User not found !"}).status(404);
         return;
     }
-
-    await Schema.getConnection().query('DELETE FROM USERS WHERE USER_ID=:id',
-        {
-            bind : [id]
-        });
 
     res.json({message : "User successfully deleted !"}).status(200);
 }
@@ -679,12 +631,13 @@ async function putUserLock(req : ReqType, res : ResType) {
     }
 
     // We get look for the user id in the table
-    const userLookup = await Schema.getConnection().query('SELECT USER_ID FROM USERS WHERE user_id=:id',
-        {
-            bind : [id]
-        });
+    const userLookup = await Schema.getUsers().findOne({
+        where: {
+            USER_ID: id
+        }
+    });
 
-    if(userLookup[0].length === 0)
+    if(userLookup === null)
     {
         console.log("[-] Not found !")
         res.json({message: "User not found !"}).status(404);
@@ -698,10 +651,14 @@ async function putUserLock(req : ReqType, res : ResType) {
 
         console.log("[+] Locked toggled from ", item["IS_LOCKED"], ' to ', newLock )
 
-        await Schema.getConnection().query('UPDATE USERS SET IS_LOCKED=:newLock WHERE USER_ID=:id',
+        await Schema.getUsers().update(
+            { IS_LOCKED : newLock },
             {
-                bind : [newLock, id]
-            });
+                where: {
+                    USER_ID: id
+                }
+            }
+        );
     }
 
     res.json({message : "User successfully updated !"}).status(200);
@@ -724,12 +681,13 @@ async function putArtistVerification(req : ReqType, res : ResType) {
     }
 
     // We get look for the artist id in the table
-    const artistLookup = await Schema.getConnection().query('SELECT ARTIST_ID FROM ARTISTS WHERE artist_id=:id',
-        {
-            bind : [id]
-        });
+    const artistLookup = await Schema.getArtists().findOne({
+        where : {
+            ARTIST_ID : id
+        }
+    });
 
-    if(artistLookup[0].length === 0)
+    if(artistLookup === null)
     {
         console.log("[-] Not found !")
         res.json({message: "Artist not found !"}).status(404);
@@ -737,16 +695,21 @@ async function putArtistVerification(req : ReqType, res : ResType) {
     }
 
     // We modify the user depending on the existance of the given parameters
-    if(item["IS_VERIFIED"] !== undefined && (item["IS_VERIFIED"].length === 1))
-    {
+    if(item["IS_VERIFIED"] !== undefined && (item["IS_VERIFIED"].length === 1)) {
         let newLock = (item["IS_VERIFIED"] === 'N') ? 'Y' : 'N';
 
-        console.log("[+] Verification toggled from ", item["IS_VERIFIED"], ' to ', newLock )
+        console.log("[+] Verification toggled from ", item["IS_VERIFIED"], ' to ', newLock)
 
-        await Schema.getConnection().query('UPDATE ARTISTS SET IS_VERIFIED=:newLock WHERE ARTIST_ID=:id',
+        await Schema.getArtists().update(
             {
-                bind : [newLock, id]
-            });
+                IS_VERIFIED: newLock
+            },
+            {
+                where: {
+                    ARTIST_ID: id
+                }
+            }
+        );
     }
 
     res.json({message : "Artist successfully updated !"}).status(200);
@@ -769,12 +732,13 @@ async function putUser(req : ReqType, res : ResType) {
     }
 
     // We get look for the user id in the table
-    const userLookup = await Schema.getConnection().query('SELECT USER_ID FROM USERS WHERE user_id=:id',
-        {
-            bind : [id]
-        });
+    const userLookup = await Schema.getUsers().findOne({
+        where : {
+            USER_ID : id
+        }
+    });
 
-    if(userLookup[0].length === 0)
+    if(userLookup === null)
     {
         console.log("[-] Not found !")
         res.json({message: "User not found !"}).status(404);
@@ -787,10 +751,16 @@ async function putUser(req : ReqType, res : ResType) {
         console.log("[+] USERNAME Modified !")
 
         let username = item["USERNAME"]
-        await Schema.getConnection().query('UPDATE USERS SET USERNAME=:username WHERE USER_ID=:id',
+        await Schema.getUsers().update(
             {
-                bind : [username, id]
-            });
+                USERNAME : username
+            },
+            {
+                where : {
+                    USER_ID : id
+                }
+            }
+        )
     }
 
     if(item["EMAIL"] !== undefined && item["EMAIL"] !== '')
@@ -798,10 +768,16 @@ async function putUser(req : ReqType, res : ResType) {
         console.log("[+] EMAIL Modified !")
 
         let email = item["EMAIL"]
-        await Schema.getConnection().query('UPDATE USERS SET EMAIL=:email WHERE USER_ID=:id',
+        await Schema.getUsers().update(
             {
-                bind : [email, id]
-            });
+                EMAIL : email
+            },
+            {
+                where : {
+                    USER_ID : id
+                }
+            }
+        )
     }
 
     if(item["FULL_NAME"] !== undefined && item["FULL_NAME"] !== '')
@@ -809,10 +785,16 @@ async function putUser(req : ReqType, res : ResType) {
         console.log("[+] FULL_NAME Modified !")
 
         let fullName = item["FULL_NAME"]
-        await Schema.getConnection().query('UPDATE USERS SET FULL_NAME=:fullName WHERE USER_ID=:id',
+        await Schema.getUsers().update(
             {
-                bind : [fullName, id]
-            });
+                FULL_NAME : fullName
+            },
+            {
+                where : {
+                    USER_ID : id
+                }
+            }
+        )
     }
 
     res.json({message : "User successfully updated !"}).status(200);
