@@ -32,7 +32,6 @@ export class PlaylistsComponent implements OnInit {
       next: (data) => {
         this.loaded = false;
         this.playlists = data;
-        console.log("Playlist data : ", data);
         this.loaded = true;
       },
       error: (err) => {

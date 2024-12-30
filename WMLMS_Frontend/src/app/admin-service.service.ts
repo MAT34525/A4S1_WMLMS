@@ -56,18 +56,6 @@ export class AdminService {
     return this.httpClient.get<Playlists[]>(`/s/admin/playlists`);
   }
 
-  getForumsReplies() : Observable<ForumReplies[]>
-  {
-    console.log("Admin Service Get : Forums Replies List");
-    return this.httpClient.get<ForumReplies[]>(`/s/admin/forums-replies`);
-  }
-
-  getForumsPosts() : Observable<ForumPosts[]>
-  {
-    console.log("Admin Service Get : Forums Posts  List");
-    return this.httpClient.get<ForumPosts[]>(`/s/admin/forums-posts`);
-  }
-
   getTracks() : Observable<Tracks[]>
   {
     console.log("Admin Service Get : Tracks List");

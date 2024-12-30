@@ -20,11 +20,10 @@
 </table>
 
 <h2 *ngIf="selectedPlaylistName">Tracks for: {{ selectedPlaylistName }}</h2>
-<table *ngIf="selectedPlaylistTracks.length > 0">
+<table *ngIf="selectedPlaylistName">
   <thead>
   <tr>
     <th>Name</th>
-    <th>Artists</th>
     <th>Duration (ms)</th>
     <th>Explicit</th>
     <th>Release Date</th>
@@ -33,8 +32,9 @@
   <tbody>
   <tr *ngFor="let track of selectedPlaylistTracks">
     <td>{{ track.NAME }}</td> <!-- track name -->
-    <td>{{ track.ARTISTS}}</td> <!-- artists -->
     <td>{{ track.DURATION_MS}}</td> <!-- duration -->
+    <td>{{ track.EXPLICIT}}</td> <!-- artists -->
+    <td>{{ track.RELEASE_DATE}}</td> <!-- duration -->
   </tr>
   </tbody>
 </table>

@@ -1,5 +1,5 @@
 // Angular
-import {Component, inject} from '@angular/core';
+import {booleanAttribute, Component, inject} from '@angular/core';
 import {MatButton} from '@angular/material/button';
 import {NgIf} from '@angular/common';
 import {firstValueFrom} from 'rxjs';
@@ -10,6 +10,9 @@ import {HighchartsChartModule} from 'highcharts-angular';
 
 // Project
 import {AdminService} from '../admin-service.service';
+
+// Pie chart tutorial : https://www.highcharts.com/demo/highcharts/pie-chart
+// Column chart tutorial : https://www.highcharts.com/demo/highcharts/column-basic
 
 @Component({
   selector: 'app-admin-statistics-page',

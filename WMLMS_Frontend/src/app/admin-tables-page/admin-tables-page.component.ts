@@ -120,16 +120,6 @@ export class AdminTablesPageComponent {
   }
 
   // Function to load the forums replies into the data grid
-  onLoadForumsRepliesClick() {
-    this.loadTable("Forum Replies", this.adminService.getForumsReplies(), DUMMY_FORUM_REPLY);
-  }
-
-  // Function to load the forums posts into the data grid
-  onLoadForumsPostsClick() {
-    this.loadTable("Forum Posts", this.adminService.getForumsPosts(), DUMMY_FORUM_POST);
-  }
-
-  // Function to load the forums replies into the data grid
   onLoadTracksClick() {
     this.loadTable("Tracks", this.adminService.getTracks(), DUMMY_TRACK);
   }

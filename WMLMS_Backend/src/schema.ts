@@ -147,6 +147,11 @@ export class Schema {
         Schema.setPlaylists();
         Schema.setPlaylistsTracks()
 
+        // Create associations
+        Schema.Tracks.hasMany(Schema.PlaylistTracks, {foreignKey: 'TRACK_ID'})
+        Schema.PlaylistTracks.hasOne(Schema.Tracks, {foreignKey: 'TRACK_ID'})
+
+
         // Synchronise the schema with the database
         await Schema.syncTables();
 
@@ -432,7 +437,7 @@ export class Schema {
 
         let t : Transaction = await Schema.connection.transaction();
 
-        // Load each rows in the ./data folder into the datbase
+        // Load each rows in the ./data folder into the database
         await Schema.Artists.bulkCreate(ARTISTS_DATA, { ignoreDuplicates: true });
         await Schema.Tracks.bulkCreate(TRACKS_DATA, { ignoreDuplicates: true });
         await Schema.Users.bulkCreate(USERS_DATA, { ignoreDuplicates: true });

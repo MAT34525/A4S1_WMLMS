@@ -9,7 +9,7 @@ import {
   NgbNavLinkButton,
   NgbNavPane
 } from '@ng-bootstrap/ng-bootstrap';
-import {MatButton, MatIconButton} from '@angular/material/button';
+import {MatAnchor, MatButton, MatIconButton} from '@angular/material/button';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {MatIcon} from '@angular/material/icon';
 import {RouterLink} from '@angular/router';
@@ -35,7 +35,8 @@ import {RouterLink} from '@angular/router';
         NgbNav,
         RouterLink,
         NgbDropdownMenu,
-        NgbAccordionDirective
+        NgbAccordionDirective,
+        MatAnchor
     ],
     templateUrl: './main-page-navbar.component.html',
     standalone: true,

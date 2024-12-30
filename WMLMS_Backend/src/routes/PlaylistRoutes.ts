@@ -26,7 +26,7 @@ async function getPlaylists(req : ReqType, res : ResType) {
             attributes : ["PLAYLIST_ID", "NAME", "DESCRIPTION", "IS_PUBLIC", "CREATED_AT", "UPDATED_AT"],
         });
 
-        console.log('Retrieved playlists :', result);
+        console.log('Playlists successfully gathered');
 
         // Send the retrieved playlists list
         res.status(200).json(result);
@@ -62,6 +62,7 @@ async function getTracksForPlaylist(req : ReqType, res : ResType) {
             raw : true
         });
 
+        console.log('Playlist tracks successfully deleted');
 
         if (result.length === 0) {
             // No tracks found for the playlist
@@ -70,7 +71,7 @@ async function getTracksForPlaylist(req : ReqType, res : ResType) {
         }
 
         // Send the list of tracks as a response
-        res.status(200).json(result[0]);
+        res.status(200).json(result);
 
     } catch (error) {
         console.error('Error fetching tracks for playlist:', error);
