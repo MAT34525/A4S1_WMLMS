@@ -12,6 +12,8 @@ const router : Router = express.Router();
  * /u/admin-login:
  *   post:
  *     description: Log in the database as an administrator
+ *     tags :
+ *      - login
  *     requestBody:
  *       required: true
  *       content:
@@ -43,7 +45,7 @@ router.post('/u/admin-login', (req : ReqType ,res : ResType) => adminLogin(req, 
  *       200:
  *         description: The user matching the UUID
  *         schema:
- *             $ref: '/components/schemas/Users'
+ *             $ref: '#/components/schemas/Users'
  *       404:
  *         description: User not found
  */
@@ -58,7 +60,7 @@ router.get('/s/admin/users/:id', (req : ReqType, res : ResType) => getUser(req, 
  *       200:
  *         description: All users in the DB
  *         schema:
- *           $ref: '/components/schemas/Users'
+ *           $ref: '#/components/schemas/Users'
  *       404:
  *         description: Table not found !
  *       400 :
@@ -83,7 +85,7 @@ router.get('/s/admin/users', (req : ReqType, res : ResType) => getUserList(req, 
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '/components/schemas/Users'
+ *             $ref: '#/components/schemas/Users'
  *     responses:
  *       200:
  *         description: Success response
@@ -109,7 +111,7 @@ router.put('/s/admin/users/:id', (req : ReqType, res : ResType) => putUser(req, 
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '/components/schemas/Users'
+ *             $ref: '#/components/schemas/Users'
  *     responses:
  *       200:
  *         description: Success response
@@ -135,12 +137,12 @@ router.put('/s/admin/users/lock/:id', (req : ReqType, res : ResType) => putUserL
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '/components/schemas/Users'
+ *             $ref: '#/components/schemas/Users'
  *     responses:
  *       200:
- *         description: Success reponse
+ *         description: Success response
  *       404:
- *         description: Not found reponse
+ *         description: Not found response
  */
 router.delete('/s/admin/users/:id', (req : ReqType, res : ResType) => deleteUser(req, res));
 
@@ -161,7 +163,7 @@ router.delete('/s/admin/users/:id', (req : ReqType, res : ResType) => deleteUser
  *       200:
  *         description: The user matching the UUID
  *         schema:
- *             $ref: '/components/schemas/Users'
+ *             $ref: '#/components/schemas/Users'
  *       404:
  *         description: User not found
  */
@@ -176,7 +178,7 @@ router.get('/s/admin/artists/:id', (req : ReqType, res : ResType) => getArtist(r
  *       200:
  *         description: All artists in the DB
  *         schema:
- *           $ref: '/components/schemas/Artists'
+ *           $ref: '#/components/schemas/Artists'
  *       404:
  *         description: Table not found !
  *       400 :
@@ -209,7 +211,7 @@ router.get('/s/admin/count/artists', (req : ReqType, res : ResType) => getArtist
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '/components/schemas/ArtistPage'
+ *             $ref: '#/components/schemas/ArtistPage'
  *     responses:
  *       200:
  *         description: List of artists of the selected page
@@ -237,7 +239,7 @@ router.post('/s/admin/artists/delayed', (req : ReqType, res : ResType) => getArt
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '/components/schemas/Artists'
+ *             $ref: '#/components/schemas/Artists'
  *     responses:
  *       200:
  *         description: Success response
@@ -256,7 +258,7 @@ router.put('/s/admin/artists/verification/:id', (req : ReqType, res : ResType) =
  *       200:
  *         description: All albums in the DB
  *         schema:
- *           $ref: '/components/schemas/Albums'
+ *           $ref: '#/components/schemas/Albums'
  *       404:
  *         description: Table not found !
  *       400 :
@@ -273,7 +275,7 @@ router.get('/s/admin/albums', (req : ReqType, res : ResType) => getAlbumList(req
  *       200:
  *         description: All playlists in the DB
  *         schema:
- *           $ref: '/components/schemas/Playlists'
+ *           $ref: '#/components/schemas/Playlists'
  *       404:
  *         description: Table not found !
  *       400 :
@@ -290,7 +292,7 @@ router.get('/s/admin/playlists', (req : ReqType, res : ResType) => getPlaylistLi
  *       200:
  *         description: All tracks in the DB
  *         schema:
- *           $ref: '/components/schemas/tracks'
+ *           $ref: '#/components/schemas/Tracks'
  *       404:
  *         description: Table not found !
  *       400 :
@@ -309,7 +311,7 @@ router.get('/s/admin/tracks', (req : ReqType, res : ResType) => getTracksList(re
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '/components/schemas/Query'
+ *             $ref: '#/components/schemas/Query'
  *     responses:
  *       200:
  *         description: Result of the operation or status of the reuqest
@@ -330,7 +332,7 @@ router.post('/s/admin/query', (req : ReqType, res : ResType) => customQuery(req,
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '/components/schemas/Query'
+ *             $ref: '#/components/schemas/Query'
  *     responses:
  *       200:
  *         description: Result of the operation or status of the request
