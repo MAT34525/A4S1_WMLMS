@@ -5,9 +5,9 @@ import {DB_DIALECT, DB_NAME, DB_PASSWORD, DB_USER, SEQUELIZE_DB_PARAMS} from "./
 
 export class Schema {
 
-    private static connection : Sequelize | undefined ;
+    private static connection : Sequelize | undefined = undefined;
 
-    private static connected : bool = false;
+    private static connected : boolean = false;
 
     private static Artists : ModelStatic<any>;
     private static Albums : ModelStatic<any>;
@@ -17,6 +17,10 @@ export class Schema {
     private static PlaylistTracks : ModelStatic<any>;
 
     // Getters ====================================================================================
+
+    public static getConnection() : Sequelize | undefined {
+        return this.connection;
+    }
 
     public static getArtists() : ModelStatic<any> | undefined {
         if (Schema.connected) {

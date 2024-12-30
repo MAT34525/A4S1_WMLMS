@@ -1,9 +1,7 @@
 import express from 'express';
-import oracledb from 'oracledb';
 import bcrypt from "bcrypt";
 import {ReqType, ResType} from "../app";
-import {resolve} from "node:dns";
-import {ORACLE_DB_PARAMS} from "../config";
+import {Schema} from "../schema";
 
 const router = express.Router();
 
@@ -13,6 +11,11 @@ router.get('/u/logout', (req : ReqType, res : ResType) => logout(req, res));
 
 // Verify and log an user using its credentials
 async function login (req : ReqType, res : ResType) {
+
+    if(Schema.getConnection() === undefined) {
+        res.status(503).send({message: 'No connection to the database !'});
+        return;
+    }
 
     const { username, password } = req.body;
 
@@ -25,30 +28,25 @@ async function login (req : ReqType, res : ResType) {
     try {
         console.log('Trying to connect with user:', username);
 
-        // Connect to the database
-        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
-
-        console.log('Successfully connected to the database.');
-
         // Searching for user in the database
-        const result = await connection.execute(
+        const result = await Schema.getConnection().query(
             `SELECT user_id, username, password FROM users WHERE username = :username`,
-            [username]
+            {
+                bind: [username]
+            }
         );
 
-        console.log('User search result:', result.rows);
+        console.log('User search result:', result);
 
         // Check if user exists
-        if (result.rows.length === 0) {
+        if (result[0].length === 0) {
             console.log('No user found');
-            await connection.close();
             res.json({message: 'Invalid credentials.',  status:400 }).status(400)
             return;
         }
 
-
         // Get stored hashed password
-        const user = result.rows[0];
+        const user = result[0][0];
         const storedPassword = user.PASSWORD;
 
         console.log('stored password:', storedPassword)
@@ -59,17 +57,15 @@ async function login (req : ReqType, res : ResType) {
 
         if (isPasswordValid) {
             console.log('Correct password. Managed to connect!');
-            await connection.close();
             res.json({message: 'Logged in!',  status:200}).status(200);
             return;
         } else {
             console.log('Incorrect password');
-            await connection.close();
             res.json({ message: 'Incorrect credentials.',  status:400 }).status(400);
             return;
         }
     } catch (error) {
-        console.error('Error during connection:', error); // Log detailed error
+        console.error('Error during getConnection():', error); // Log detailed error
         res.json({message: 'An error occurred, please try again.',  status:400 }).status(400);
     }
 }
@@ -78,6 +74,11 @@ async function login (req : ReqType, res : ResType) {
 async function register(req : ReqType, res : ResType) {
 
     const { username, password, email} = req.body;
+
+    if(Schema.getConnection() === undefined) {
+        res.status(503).send({message: 'No connection to the database !'});
+        return;
+    }
 
     // Check that all fields are filled
     if (!username || !password || !email) {
@@ -89,23 +90,18 @@ async function register(req : ReqType, res : ResType) {
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Connect to the database
-        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
-
         // Insert the user into the database
-        const insertResult = await connection.execute(
+        const insertResult = await Schema.getConnection().query(
             `INSERT INTO users (username, password, email)
              VALUES (:username, :password, :email)`,
+
             {
-                username: username,
-                password: hashedPassword,
-                email: email
-            },
-            { autoCommit: true }  // Ensure changes are committed to the database
+                bind : [ username, hashedPassword, email ]
+            }
+
         );
 
         console.log(insertResult);
-        await connection.close();
 
         // Redirect or send success message
         res.json({message: 'Successful user creation!',  status:200}).status(200);

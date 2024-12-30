@@ -1,7 +1,6 @@
 import express from 'express';
-import oracledb from 'oracledb';
 import {ReqType, ResType} from "../app";
-import {ORACLE_DB_PARAMS} from "../config";
+import {Schema} from "../schema";
 
 const router = express.Router();
 
@@ -14,22 +13,22 @@ router.get('/u/playlists-tracks/:id', (req : ReqType, res : ResType) => getTrack
 
 // Retrieve all playlists
 async function getPlaylists(req : ReqType, res : ResType) {
-    try {
-        // Connect to the Oracle database
-        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
 
+    if(Schema.getConnection() === undefined) {
+        res.status(503).send({message: 'No connection to the database !'});
+        return;
+    }
+
+    try {
         // Query to get all playlists
-        const result = await connection.execute(
+        const result = await Schema.getConnection().query(
             `SELECT PLAYLIST_ID, NAME, DESCRIPTION, IS_PUBLIC, CREATED_AT, UPDATED_AT FROM playlists`
         );
 
-        console.log('Retrieved playlists :', result.rows);
-
-        // Close database connection
-        await connection.close();
+        console.log('Retrieved playlists :', result[0]);
 
         // Send the retrieved playlists list
-        res.status(200).json(result.rows);
+        res.status(200).json(result[0]);
 
     } catch (error) {
 
@@ -41,31 +40,30 @@ async function getPlaylists(req : ReqType, res : ResType) {
 async function getTracksForPlaylist(req, res) {
     const { id } = req.params;
 
-    try {
-        // Connect to the Oracle database
-        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
+    if(Schema.getConnection() === undefined) {
+        res.status(503).send({message: 'No connection to the database !'});
+        return;
+    }
 
+    try {
         // Query to get tracks for a given playlist
-        const result = await connection.execute(
+        const result = await Schema.getConnection().query(
             `
             SELECT t.track_id, t.name, t.artists, t.duration_ms, t.explicit, t.release_date
             FROM tracks t
             JOIN playlist_tracks pt ON t.track_id = pt.track_id
             WHERE pt.playlist_id = :playlistId
             `,
-            { playlistId: id }
+            { bind : [id]}
         );
 
-        // Close the database connection
-        await connection.close();
-
-        if (result.rows.length === 0) {
+        if (result[0].length === 0) {
             // No tracks found for the playlist
             return res.status(404).json({ message: 'No tracks found for this playlist.' });
         }
 
         // Send the list of tracks as a response
-        res.status(200).json(result.rows);
+        res.status(200).json(result[0]);
 
     } catch (error) {
         console.error('Error fetching tracks for playlist:', error);
@@ -78,6 +76,11 @@ async function createPlaylist(req : ReqType, res : ResType) {
 
     const { name, description, isPublic } = req.body;
 
+    if(Schema.getConnection() === undefined) {
+        res.status(503).send({message: 'No connection to the database !'});
+        return;
+    }
+
     // Check missing values
     if (!name || typeof isPublic === 'undefined') {
         res.status(400).json({ errorMessage: 'All fields are mandatory.' });
@@ -85,23 +88,14 @@ async function createPlaylist(req : ReqType, res : ResType) {
     }
 
     try {
-        // Connect to the Oracle database
-        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
-
         // Query to get all songs from an artists
-        await connection.execute(
+        await Schema.getConnection().query(
             `INSERT INTO playlists (NAME, DESCRIPTION, IS_PUBLIC, CREATED_AT, UPDATED_AT)
              VALUES (:name, :description, :isPublic, SYSDATE, SYSDATE)`,
-            { name, description, isPublic }
+            { bind: [name, description, isPublic] }
         );
 
         console.log('Playlist successfully created');
-
-        // Commit changes
-        await connection.commit();
-
-        // Close the database connection
-        await connection.close();
 
         // Send the creation status
         res.status(201).json({ message: 'Playlist successfully created.' });
@@ -118,6 +112,11 @@ async function updatePlaylist(req : ReqType, res : ResType) {
     const playlistId = req.params.id;
     const { name, description, isPublic } = req.body;
 
+    if(Schema.getConnection() === undefined) {
+        res.status(503).send({message: 'No connection to the database !'});
+        return;
+    }
+
     // Check for missing fields
     if (!name || typeof isPublic === 'undefined') {
         res.status(400).json({ errorMessage: 'All fields are mandatory.' });
@@ -126,31 +125,22 @@ async function updatePlaylist(req : ReqType, res : ResType) {
 
     try {
 
-        // Connect to the database
-        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
-
         // Query to update the playlist description
-        const result = await connection.execute(
+        const result = await Schema.getConnection().query(
             `UPDATE playlists
              SET NAME = :name, DESCRIPTION = :description, IS_PUBLIC = :isPublic, UPDATED_AT = SYSDATE
              WHERE PLAYLIST_ID = :playlistId`,
-            { name, description, isPublic, playlistId }
+            { bind : [name, description, isPublic, playlistId] }
         );
 
         // Check the playlist update status
-        if (result.rowsAffected === 0) {
+        if (result[0].length === 0) {
             console.log('Playlist not found');
             res.status(404).json({ errorMessage: 'Playlist not found.' });
             return;
         }
 
         console.log('Playlist successfully updated');
-
-        // Commit changes
-        await connection.commit();
-
-        // Close database connection
-        await connection.close();
 
         // Send the update status
         res.status(200).json({ message: 'Playlist successfully updated.' });
@@ -167,29 +157,20 @@ async function deletePlaylist(req : ReqType, res : ResType) {
     const playlistId = req.params.id;
 
     try {
-        // Connect to the database
-        const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
-
         // Query to delete the select query
-        const result = await connection.execute(
+        const result = await Schema.getConnection().query(
             `DELETE FROM PLAYLISTS WHERE PLAYLIST_ID = :playlistId`,
-            { playlistId }
+            { bind: [playlistId] }
         );
 
         // Check the deletion status
-        if (result.rowsAffected === 0) {
+        if (result[0].length === 0) {
             console.log('Playlist not found');
             res.status(404).json({ errorMessage: 'Playlist not found.' });
             return;
         }
 
         console.log('Playlist successfully deleted');
-
-        // Commit changes
-        await connection.commit();
-
-        // Close database connection
-        await connection.close();
 
         // Send the deletion status
         res.status(200).json({ message: 'Playlist successfully deleted.' });

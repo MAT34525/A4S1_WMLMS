@@ -7,7 +7,7 @@ import session from 'express-session';
 import adminRoutes from './routes/AdminRoutes';
 import userRoutes from './routes/UserRoutes';
 import playlistRoutes from './routes/PlaylistRoutes';
-import MusicRoutes from "./routes/MusicRoutes";
+import searchRoutes from './routes/SearchRoutes';
 
 // Swagger
 import swaggerJsdoc, {SwaggerDefinition} from 'swagger-jsdoc';
@@ -257,68 +257,7 @@ app.use(express.json());
 
 let schema : Schema = new Schema(new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, SEQUELIZE_DB_PARAMS));
 
-
-/*
-// Search tracks endpoint
-app.post('/u/queries/tracks', (req : ReqType, res : ResType ) => searchTracks(req, res));
-
-async function searchTracks(req: ReqType, res : ResType) {
-
-  console.log("User POST Search for tracks");
-
-  const query = req.body.query.toString().toLowerCase();
-
-  if (!query || query.trim().length === 0) {
-    res.status(400).send({message: 'Query parameter is required'});
-    return;
-  }
-
-  try {
-    const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
-
-    const sql : string = "SELECT * FROM TRACKS WHERE NAME LIKE '%" + query + "%'";
-
-    const result = await connection.execute(sql);
-
-    res.status(200).send(result.rows);
-  } catch (err) {
-    res.status(500).send({message: 'Internal server error'});
-    console.log("Internal server error :", err);
-  }
-}
-
-// Search artists endpoint
-app.post('/u/queries/artists', (req : ReqType, res : ResType) => searchArtist(req, res));
-
-async function searchArtist(req : ReqType, res : ResType) {
-
-  console.log("User POST Search for artists");
-
-  const query = req.body.query.toString().toLowerCase();
-
-  if (!query || query.trim().length === 0) {
-    res.status(400).send({message: 'Query parameter is required'});
-    return;
-  }
-
-  try {
-    const connection = await oracledb.getConnection(ORACLE_DB_PARAMS);
-
-    const sql : string = "SELECT * FROM ARTISTS WHERE NAME LIKE '%" + query + "%'";
-    console.log(sql);
-
-    const result = await connection.execute(sql);
-    res.status(200).send(result.rows);
-  } catch (err) {
-    res.status(500).send({message: 'Internal server error'});
-    console.log("Internal server error :", err);
-  }
-}
-*/
-
 // BDD connection
-// oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
-app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
@@ -326,7 +265,7 @@ app.use(express.static('public'));
 app.use(adminRoutes);
 app.use(userRoutes);
 app.use(playlistRoutes);
-app.use(MusicRoutes);
+app.use(searchRoutes);
 
 // API startup
 app.listen(3000, () => {
