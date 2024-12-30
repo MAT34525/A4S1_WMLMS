@@ -1,6 +1,5 @@
 import express, {Express} from 'express';
 import bodyParser from 'body-parser';
-import oracledb from 'oracledb';
 import session from 'express-session';
 
 // Import des routes
@@ -12,8 +11,7 @@ import searchRoutes from './routes/SearchRoutes';
 // Swagger
 import swaggerJsdoc, {SwaggerDefinition} from 'swagger-jsdoc';
 import swaggerUi, {SwaggerOptions} from 'swagger-ui-express';
-import * as sea from "node:sea";
-import {DB_NAME, DB_PASSWORD, DB_USER, ORACLE_DB_PARAMS, SEQUELIZE_DB_PARAMS} from "./config";
+import {DB_NAME, DB_PASSWORD, DB_USER, SEQUELIZE_DB_PARAMS} from "./config";
 import {Sequelize} from "sequelize";
 import {Schema} from "./schema";
 

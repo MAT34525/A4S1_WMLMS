@@ -1,0 +1,211 @@
+{
+    "playlists": [
+        {
+            "PLAYLIST_ID": "3ad858ab-4c21-4edc-929b-a1eb1a1d32cc",
+            "USER_ID": "f67f96fc-85fb-4be0-bdd8-3a3bc71ebb2c",
+            "NAME": "Chill",
+            "DESCRIPTION": "Relaxing chill music",
+            "IS_PUBLIC": "N",
+            "CREATED_AT": "2024-12-30T21:23:22.498559+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.498567+00:00"
+        },
+        {
+            "PLAYLIST_ID": "b5b489d3-ebf5-4044-a0d3-12a4cd25b35b",
+            "USER_ID": "83a08b13-aeac-48c4-8c60-f1f8c6daafed",
+            "NAME": "Workout",
+            "DESCRIPTION": "High energy workout tracks",
+            "IS_PUBLIC": "Y",
+            "CREATED_AT": "2024-12-30T21:23:22.498610+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.498616+00:00"
+        },
+        {
+            "PLAYLIST_ID": "df348fdb-aad3-4dea-9646-0e0a42d3f2cc",
+            "USER_ID": "f67f96fc-85fb-4be0-bdd8-3a3bc71ebb2c",
+            "NAME": "Focus",
+            "DESCRIPTION": "Music to help you focus",
+            "IS_PUBLIC": "Y",
+            "CREATED_AT": "2024-12-30T21:23:22.498652+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.498657+00:00"
+        },
+        {
+            "PLAYLIST_ID": "c526b079-a409-434a-b5e2-bbc88c8356c1",
+            "USER_ID": "f67f96fc-85fb-4be0-bdd8-3a3bc71ebb2c",
+            "NAME": "Party",
+            "DESCRIPTION": "Upbeat party anthems",
+            "IS_PUBLIC": "N",
+            "CREATED_AT": "2024-12-30T21:23:22.498691+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.498696+00:00"
+        },
+        {
+            "PLAYLIST_ID": "e293bc8b-8300-4c40-8424-eb29ffb751db",
+            "USER_ID": "4dca1750-0e3a-4cf3-aaa6-0d4a338df24e",
+            "NAME": "Jazz",
+            "DESCRIPTION": "Smooth jazz tunes",
+            "IS_PUBLIC": "Y",
+            "CREATED_AT": "2024-12-30T21:23:22.498729+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.498734+00:00"
+        },
+        {
+            "PLAYLIST_ID": "9cb511db-2ce8-4d12-9fe8-37696772e489",
+            "USER_ID": "f67f96fc-85fb-4be0-bdd8-3a3bc71ebb2c",
+            "NAME": "Classical",
+            "DESCRIPTION": "Timeless classical pieces",
+            "IS_PUBLIC": "Y",
+            "CREATED_AT": "2024-12-30T21:23:22.498766+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.498771+00:00"
+        },
+        {
+            "PLAYLIST_ID": "1c5a8a73-0e9d-4dac-a446-3ab434864ec6",
+            "USER_ID": "4dca1750-0e3a-4cf3-aaa6-0d4a338df24e",
+            "NAME": "Rock",
+            "DESCRIPTION": "Classic rock hits",
+            "IS_PUBLIC": "Y",
+            "CREATED_AT": "2024-12-30T21:23:22.498803+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.498808+00:00"
+        },
+        {
+            "PLAYLIST_ID": "582eed61-e1f2-4c38-9e39-db4000654887",
+            "USER_ID": "e2150b36-21af-4647-87ff-6410a5862ec7",
+            "NAME": "Pop",
+            "DESCRIPTION": "Popular pop songs",
+            "IS_PUBLIC": "Y",
+            "CREATED_AT": "2024-12-30T21:23:22.498839+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.498843+00:00"
+        },
+        {
+            "PLAYLIST_ID": "b0baa07e-8273-4214-9c20-483377f0cff8",
+            "USER_ID": "e2150b36-21af-4647-87ff-6410a5862ec7",
+            "NAME": "HipHop",
+            "DESCRIPTION": "Top hip hop tracks",
+            "IS_PUBLIC": "Y",
+            "CREATED_AT": "2024-12-30T21:23:22.498875+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.498879+00:00"
+        },
+        {
+            "PLAYLIST_ID": "e540a749-5bf2-4394-9464-e9d2fd455829",
+            "USER_ID": "e2150b36-21af-4647-87ff-6410a5862ec7",
+            "NAME": "Country",
+            "DESCRIPTION": "Best of country music",
+            "IS_PUBLIC": "Y",
+            "CREATED_AT": "2024-12-30T21:23:22.498905+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.498908+00:00"
+        },
+        {
+            "PLAYLIST_ID": "e07329d7-7e19-42f7-97c0-2da23071e11f",
+            "USER_ID": "4dca1750-0e3a-4cf3-aaa6-0d4a338df24e",
+            "NAME": "Reggae",
+            "DESCRIPTION": "Feel good reggae vibes",
+            "IS_PUBLIC": "N",
+            "CREATED_AT": "2024-12-30T21:23:22.498931+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.498934+00:00"
+        },
+        {
+            "PLAYLIST_ID": "2630960b-979b-4c48-a84d-14bc9981d8bc",
+            "USER_ID": "f67f96fc-85fb-4be0-bdd8-3a3bc71ebb2c",
+            "NAME": "Blues",
+            "DESCRIPTION": "Soulful blues music",
+            "IS_PUBLIC": "N",
+            "CREATED_AT": "2024-12-30T21:23:22.498959+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.498963+00:00"
+        },
+        {
+            "PLAYLIST_ID": "530bc12b-12e5-42d2-b070-35aad013f7e9",
+            "USER_ID": "e2150b36-21af-4647-87ff-6410a5862ec7",
+            "NAME": "Metal",
+            "DESCRIPTION": "Heavy metal hits",
+            "IS_PUBLIC": "N",
+            "CREATED_AT": "2024-12-30T21:23:22.498985+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.498989+00:00"
+        },
+        {
+            "PLAYLIST_ID": "e149dc2e-7164-435e-923f-8ea0c41bc2fb",
+            "USER_ID": "4dca1750-0e3a-4cf3-aaa6-0d4a338df24e",
+            "NAME": "Indie",
+            "DESCRIPTION": "Indie music gems",
+            "IS_PUBLIC": "N",
+            "CREATED_AT": "2024-12-30T21:23:22.499041+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.499046+00:00"
+        },
+        {
+            "PLAYLIST_ID": "c276dafd-c195-43dc-8779-011d693e22d3",
+            "USER_ID": "83a08b13-aeac-48c4-8c60-f1f8c6daafed",
+            "NAME": "Dance",
+            "DESCRIPTION": "Dance floor favorites",
+            "IS_PUBLIC": "Y",
+            "CREATED_AT": "2024-12-30T21:23:22.499075+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.499078+00:00"
+        },
+        {
+            "PLAYLIST_ID": "c5dc86fb-54b3-472c-9bed-d9292b61890b",
+            "USER_ID": "f67f96fc-85fb-4be0-bdd8-3a3bc71ebb2c",
+            "NAME": "Acoustic",
+            "DESCRIPTION": "Acoustic versions of popular songs",
+            "IS_PUBLIC": "Y",
+            "CREATED_AT": "2024-12-30T21:23:22.499102+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.499105+00:00"
+        },
+        {
+            "PLAYLIST_ID": "008f4842-007c-4887-8ffb-3d59ccda5cc9",
+            "USER_ID": "83a08b13-aeac-48c4-8c60-f1f8c6daafed",
+            "NAME": "Latin",
+            "DESCRIPTION": "Hot Latin tracks",
+            "IS_PUBLIC": "Y",
+            "CREATED_AT": "2024-12-30T21:23:22.499132+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.499135+00:00"
+        },
+        {
+            "PLAYLIST_ID": "bc75491e-4105-4484-a84a-5084bad77b49",
+            "USER_ID": "4dca1750-0e3a-4cf3-aaa6-0d4a338df24e",
+            "NAME": "R&B",
+            "DESCRIPTION": "Smooth R&B tunes",
+            "IS_PUBLIC": "Y",
+            "CREATED_AT": "2024-12-30T21:23:22.499160+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.499164+00:00"
+        },
+        {
+            "PLAYLIST_ID": "087718d9-1903-4b69-b261-e1ebd06806a1",
+            "USER_ID": "f67f96fc-85fb-4be0-bdd8-3a3bc71ebb2c",
+            "NAME": "Soul",
+            "DESCRIPTION": "Heartfelt soul music",
+            "IS_PUBLIC": "N",
+            "CREATED_AT": "2024-12-30T21:23:22.499189+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.499192+00:00"
+        },
+        {
+            "PLAYLIST_ID": "85338810-ae99-4a0a-90c8-cf59becdaa29",
+            "USER_ID": "4dca1750-0e3a-4cf3-aaa6-0d4a338df24e",
+            "NAME": "EDM",
+            "DESCRIPTION": "Electronic dance music",
+            "IS_PUBLIC": "N",
+            "CREATED_AT": "2024-12-30T21:23:22.499216+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.499219+00:00"
+        },
+        {
+            "PLAYLIST_ID": "ec8a8760-b962-4cf7-91fb-3aa4c2e59e2c",
+            "USER_ID": "4dca1750-0e3a-4cf3-aaa6-0d4a338df24e",
+            "NAME": "Folk",
+            "DESCRIPTION": "Folk music classics",
+            "IS_PUBLIC": "Y",
+            "CREATED_AT": "2024-12-30T21:23:22.499242+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.499245+00:00"
+        },
+        {
+            "PLAYLIST_ID": "2631b976-b94d-47a5-bcac-eb0ebc798c3d",
+            "USER_ID": "e2150b36-21af-4647-87ff-6410a5862ec7",
+            "NAME": "Punk",
+            "DESCRIPTION": "Energetic punk rock songs",
+            "IS_PUBLIC": "Y",
+            "CREATED_AT": "2024-12-30T21:23:22.499269+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.499272+00:00"
+        },
+        {
+            "PLAYLIST_ID": "da89725c-9f6f-4cbe-9a15-96d1b2ac2177",
+            "USER_ID": "f67f96fc-85fb-4be0-bdd8-3a3bc71ebb2c",
+            "NAME": "Ambient",
+            "DESCRIPTION": "Calm ambient sounds",
+            "IS_PUBLIC": "N",
+            "CREATED_AT": "2024-12-30T21:23:22.499297+00:00",
+            "UPDATED_AT": "2024-12-30T21:23:22.499300+00:00"
+        }
+    ]
+}

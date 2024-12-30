@@ -1,7 +1,8 @@
 
 // Database schema (also created by an LLM using the SQL queries for the table creation)
-import {DataTypes, ModelStatic, Sequelize} from "sequelize";
+import {DataTypes, ModelStatic, Sequelize, Transaction} from "sequelize";
 import {DB_DIALECT, DB_NAME, DB_PASSWORD, DB_USER, SEQUELIZE_DB_PARAMS} from "./config";
+import {ARTISTS_DATA, PLAYLIST_TRACKS, PLAYLISTS_DATA, TRACKS_DATA, USERS_DATA} from "./data/data";
 
 export class Schema {
 
@@ -144,7 +145,7 @@ export class Schema {
         Schema.setPlaylistsTracks()
 
         // Synchronise the schema with the database
-        Schema.syncTables();
+        await Schema.syncTables();
 
         console.info("Schema successfully reloaded !");
     }
@@ -324,14 +325,14 @@ export class Schema {
     }
 
     // Synchronize or create table in the database
-    static syncTables() : boolean {
+    static async syncTables() : Promise<boolean> {
         if(Schema.connected) {
-            Schema.Artists.sync();
-            Schema.Albums.sync();
-            Schema.Tracks.sync();
-            Schema.Users.sync();
-            Schema.Playlists.sync();
-            Schema.PlaylistTracks.sync();
+            await Schema.Artists.sync();
+            await Schema.Albums.sync();
+            await Schema.Tracks.sync();
+            await Schema.Users.sync();
+            await Schema.Playlists.sync();
+            await Schema.PlaylistTracks.sync();
             return true;
         }
         console.warn("You should connect the schema to a Sequelize instance in order to synchronize models !");
@@ -381,9 +382,9 @@ export class Schema {
         // Connect to the Postgres server, not the database
         let tempConnection : Sequelize = new Sequelize('', DB_USER, DB_PASSWORD, SEQUELIZE_DB_PARAMS)
 
-        // Create the database
-        tempConnection
-            .query(`CREATE DATABASE "${DB_NAME}"
+        try {
+            await tempConnection
+                .query(`CREATE DATABASE "${DB_NAME}"
                 WITH
                 OWNER = ${DB_USER}
                 ENCODING = 'UTF8'
@@ -391,44 +392,43 @@ export class Schema {
                 CONNECTION LIMIT = -1
                 IS_TEMPLATE = False;`)
 
-            // Create the schema
-            .then(async _ => {
-                console.warn("New database created !");
-                console.warn("Creating schema ...");
+            console.warn("New database created !");
+            console.warn("Creating schema ...");
 
-                // Connect to the new database
-                let newDatabaseConnection : Sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, SEQUELIZE_DB_PARAMS);
+            // Connect to the new database
+            let newDatabaseConnection: Sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, SEQUELIZE_DB_PARAMS);
 
-                // Create the tables by creating the sequelize models in the Schema class
-                await Schema.reloadConnectionAndSchema(newDatabaseConnection);
+            // Create the tables by creating the sequelize models in the Schema class
+            await Schema.reloadConnectionAndSchema(newDatabaseConnection);
 
-                console.warn("Schema created !");
+            console.warn("Schema created !");
 
-                // Close the database connection
-                tempConnection.close()
-                    .then(_ => {
-                        console.warn("Temporary server connection closed properly !");
+            // Close the database connection
+            await tempConnection.close()
 
-                        Schema.populateSchema();
-                    })
-                    .catch(error => {
-                        console.error("Unexpected error encountered when closing and refreshing connections !");
-                        console.log(error.name);
-                        console.log(error.message);
-                    });
-            })
-            .catch(error => {
-                console.error("Unexpected error encountered when creating the database and the schema !");
-                console.log(error.name);
-                console.log(error.message);
-        });
+            console.warn("Temporary server connection closed properly !");
+
+            let finished: boolean = await Schema.syncTables();
+
+            await Schema.populateSchema();
+
+        } catch (error) {
+
+        }
     }
 
-    private static populateSchema()  {
+    public static async populateSchema()  {
         console.warn("Inserting data ...");
 
-        console.error("No data to be loaded yet !");
+        let t : Transaction = await Schema.connection.transaction();
 
+        await Schema.Artists.bulkCreate(ARTISTS_DATA, { ignoreDuplicates: true });
+        await Schema.Tracks.bulkCreate(TRACKS_DATA, { ignoreDuplicates: true });
+        await Schema.Users.bulkCreate(USERS_DATA, { ignoreDuplicates: true });
+        await Schema.Playlists.bulkCreate(PLAYLISTS_DATA, { ignoreDuplicates: true })
+        await Schema.PlaylistTracks.bulkCreate(PLAYLIST_TRACKS, { ignoreDuplicates: true })
+
+        await t.commit();
 
         console.warn("Data inserted !");
     }

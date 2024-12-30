@@ -12,7 +12,6 @@ export interface Artists {
     FOLLOWERS?: number;
     GENRES?: string;
     IS_VERIFIED: 'Y' | 'N';
-    POPULARITY?: number;
     CREATED_AT?: Date;
     UPDATED_AT?: Date;
 }

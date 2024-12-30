@@ -1,0 +1,224 @@
+{
+    "users" : [
+    {
+        "USER_ID": "e2150b36-21af-4647-87ff-6410a5862ec7",
+        "USERNAME": "vwalker",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "vwalker@example.com",
+        "FULL_NAME": "Vwalker",
+        "IS_LOCKED": "N",
+        "IS_ARTIST": "N",
+        "CREATED_AT": "2005-03-20 20:25:26.438426",
+        "UPDATED_AT": "2016-06-18 15:29:43.675467"
+    },
+    {
+        "USER_ID": "4dca1750-0e3a-4cf3-aaa6-0d4a338df24e",
+        "USERNAME": "laura10",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "laura10@example.com",
+        "FULL_NAME": "Laura10",
+        "IS_LOCKED": "N",
+        "IS_ARTIST": "Y",
+        "CREATED_AT": "2011-06-19 03:05:58.007699",
+        "UPDATED_AT": "1975-05-02 05:33:35.832735"
+    },
+    {
+        "USER_ID": "83a08b13-aeac-48c4-8c60-f1f8c6daafed",
+        "USERNAME": "romerocaleb",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "romerocaleb@example.com",
+        "FULL_NAME": "Romerocaleb",
+        "IS_LOCKED": "Y",
+        "IS_ARTIST": "Y",
+        "CREATED_AT": "2014-02-17 08:14:31.629030",
+        "UPDATED_AT": "2016-11-15 15:30:08.361315"
+    },
+    {
+        "USER_ID": "f67f96fc-85fb-4be0-bdd8-3a3bc71ebb2c",
+        "USERNAME": "cmiles",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "cmiles@example.com",
+        "FULL_NAME": "Cmiles",
+        "IS_LOCKED": "N",
+        "IS_ARTIST": "N",
+        "CREATED_AT": "2024-08-12 02:05:12.510972",
+        "UPDATED_AT": "2002-10-04 04:53:15.050506"
+    },
+    {
+        "USER_ID": "3e6d83e8-c193-43ac-9263-7db5f9773bc0",
+        "USERNAME": "jodyhunt",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "jodyhunt@example.com",
+        "FULL_NAME": "Jodyhunt",
+        "IS_LOCKED": "N",
+        "IS_ARTIST": "N",
+        "CREATED_AT": "2017-02-16 22:12:49.480701",
+        "UPDATED_AT": "2020-05-30 21:32:30.268894"
+    },
+    {
+        "USER_ID": "b4f5dd6d-4ae5-4fad-a08d-4db5475e7c48",
+        "USERNAME": "hernandezjonathan",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "hernandezjonathan@example.com",
+        "FULL_NAME": "Hernandezjonathan",
+        "IS_LOCKED": "N",
+        "IS_ARTIST": "N",
+        "CREATED_AT": "2021-01-19 13:49:21.711688",
+        "UPDATED_AT": "1998-08-24 06:26:37.617005"
+    },
+    {
+        "USER_ID": "c20183fb-f109-48dd-aba2-8956bcc520cf",
+        "USERNAME": "jon97",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "jon97@example.com",
+        "FULL_NAME": "Jon97",
+        "IS_LOCKED": "N",
+        "IS_ARTIST": "Y",
+        "CREATED_AT": "2009-08-26 18:50:26.356589",
+        "UPDATED_AT": "1987-05-28 18:06:01.794394"
+    },
+    {
+        "USER_ID": "45150ca0-3984-4f57-82a4-246e2bddd2b9",
+        "USERNAME": "hthomas",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "hthomas@example.com",
+        "FULL_NAME": "Hthomas",
+        "IS_LOCKED": "Y",
+        "IS_ARTIST": "Y",
+        "CREATED_AT": "2016-06-17 22:44:28.274932",
+        "UPDATED_AT": "1980-12-27 14:20:08.624838"
+    },
+    {
+        "USER_ID": "4c1b2544-7178-4875-b6cc-b2e1e1e4969e",
+        "USERNAME": "terri99",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "terri99@example.com",
+        "FULL_NAME": "Terri99",
+        "IS_LOCKED": "N",
+        "IS_ARTIST": "N",
+        "CREATED_AT": "1998-05-16 00:54:58.455150",
+        "UPDATED_AT": "1973-05-30 03:22:14.040578"
+    },
+    {
+        "USER_ID": "dba529b9-f44b-424b-a9fe-b9316957ad12",
+        "USERNAME": "barrettpeter",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "barrettpeter@example.com",
+        "FULL_NAME": "Barrettpeter",
+        "IS_LOCKED": "Y",
+        "IS_ARTIST": "Y",
+        "CREATED_AT": "2003-10-25 05:59:51.698892",
+        "UPDATED_AT": "2008-05-22 05:45:43.440106"
+    },
+    {
+        "USER_ID": "c5c0518b-9b7e-4506-ae59-3e64f4b8f5f1",
+        "USERNAME": "ianrandall",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "ianrandall@example.com",
+        "FULL_NAME": "Ianrandall",
+        "IS_LOCKED": "N",
+        "IS_ARTIST": "Y",
+        "CREATED_AT": "1981-01-03 17:25:48.343552",
+        "UPDATED_AT": "1973-11-21 00:35:55.899506"
+    },
+    {
+        "USER_ID": "8405bdac-1a24-448c-986d-24c9ee591a7d",
+        "USERNAME": "michael12",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "michael12@example.com",
+        "FULL_NAME": "Michael12",
+        "IS_LOCKED": "Y",
+        "IS_ARTIST": "Y",
+        "CREATED_AT": "2005-06-22 08:38:44.008651",
+        "UPDATED_AT": "2020-03-20 13:30:00.478931"
+    },
+    {
+        "USER_ID": "e14bd4ee-600d-49f9-aa07-d0a7b54bf5b2",
+        "USERNAME": "zachary59",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "zachary59@example.com",
+        "FULL_NAME": "Zachary59",
+        "IS_LOCKED": "Y",
+        "IS_ARTIST": "Y",
+        "CREATED_AT": "1971-08-10 13:16:41.862244",
+        "UPDATED_AT": "2013-12-20 07:16:37.560105"
+    },
+    {
+        "USER_ID": "e60d0ccc-6539-45a8-ab59-6b5edd342e43",
+        "USERNAME": "iobrien",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "iobrien@example.com",
+        "FULL_NAME": "Iobrien",
+        "IS_LOCKED": "N",
+        "IS_ARTIST": "N",
+        "CREATED_AT": "2018-11-08 12:24:02.635416",
+        "UPDATED_AT": "1996-10-04 19:31:23.639892"
+    },
+    {
+        "USER_ID": "b166ddf3-f992-424e-8ee8-ac203f7825f2",
+        "USERNAME": "kellyhumphrey",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "kellyhumphrey@example.com",
+        "FULL_NAME": "Kellyhumphrey",
+        "IS_LOCKED": "N",
+        "IS_ARTIST": "N",
+        "CREATED_AT": "2007-01-31 20:15:11.952817",
+        "UPDATED_AT": "1973-02-01 16:56:59.591511"
+    },
+    {
+        "USER_ID": "5fe2d4f0-a758-4553-b88e-9b43366e03da",
+        "USERNAME": "michael32",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "michael32@example.com",
+        "FULL_NAME": "Michael32",
+        "IS_LOCKED": "Y",
+        "IS_ARTIST": "Y",
+        "CREATED_AT": "1970-12-18 18:09:34.062128",
+        "UPDATED_AT": "1976-04-24 16:23:16.222031"
+    },
+    {
+        "USER_ID": "bd06c412-4673-4b46-8cbc-0e93279fade2",
+        "USERNAME": "garciabenjamin",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "garciabenjamin@example.com",
+        "FULL_NAME": "Garciabenjamin",
+        "IS_LOCKED": "N",
+        "IS_ARTIST": "Y",
+        "CREATED_AT": "1993-05-03 07:51:41.503579",
+        "UPDATED_AT": "2000-02-14 02:25:39.481159"
+    },
+    {
+        "USER_ID": "6e3e905c-15f9-4612-b8ba-3b769b9246de",
+        "USERNAME": "holly23",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "holly23@example.com",
+        "FULL_NAME": "Holly23",
+        "IS_LOCKED": "Y",
+        "IS_ARTIST": "N",
+        "CREATED_AT": "1972-11-26 10:48:22.877617",
+        "UPDATED_AT": "1996-12-24 22:40:01.182394"
+    },
+    {
+        "USER_ID": "6c682f0c-cf37-4e61-bbc6-2f156d0175c1",
+        "USERNAME": "wgreen",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "wgreen@example.com",
+        "FULL_NAME": "Wgreen",
+        "IS_LOCKED": "Y",
+        "IS_ARTIST": "Y",
+        "CREATED_AT": "2022-05-20 20:23:56.250622",
+        "UPDATED_AT": "2016-02-20 13:37:37.793602"
+    },
+    {
+        "USER_ID": "bd31401e-a993-4556-b6e5-77eec88ad6e1",
+        "USERNAME": "tscott",
+        "PASSWORD": "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO",
+        "EMAIL": "tscott@example.com",
+        "FULL_NAME": "Tscott",
+        "IS_LOCKED": "N",
+        "IS_ARTIST": "Y",
+        "CREATED_AT": "2007-07-05 19:26:07.159275",
+        "UPDATED_AT": "2006-11-25 10:56:23.539296"
+    }
+    ]
+}
