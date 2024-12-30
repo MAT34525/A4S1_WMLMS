@@ -4,6 +4,7 @@ import {ReqType, ResType} from "../app";
 import {Schema} from "../schema";
 import {Op} from "sequelize";
 import {Users} from "../tables";
+import { v4 as uuid } from 'uuid';
 
 const router = express.Router();
 
@@ -96,12 +97,13 @@ async function register(req : ReqType, res : ResType) {
 
         // Insert the user into the database
         const insertResult = await Schema.getUsers().create({
+            USER_ID : uuid(),
             USERNAME : username,
             PASSWORD : hashedPassword,
             EMAIL : email,
         });
 
-        console.log(insertResult.rows);
+        console.log(insertResult);
 
         // Redirect or send success message
         res.json({message: 'Successful user creation!',  status:200}).status(200);

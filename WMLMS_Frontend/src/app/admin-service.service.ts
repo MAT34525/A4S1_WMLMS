@@ -74,6 +74,18 @@ export class AdminService {
     return this.httpClient.get<Tracks[]>(`/s/admin/tracks`);
   }
 
+  getArtistsTopTen() : Observable<{NAME : string, FOLLOWERS : number}[]>
+  {
+    console.log("Admin Service Get : Artists Top Ten");
+    return this.httpClient.get<{NAME : string, FOLLOWERS : number}[]>(`/s/admin/statistics/artists`);
+  }
+
+  getTracksExplicitCount() : Observable<{EXPLICIT : number, COUNT : number}[]>
+  {
+    console.log("Admin Service Get : Tracks Explicit Count");
+    return this.httpClient.get<{EXPLICIT : number, COUNT : number}[]>(`/s/admin/statistics/explicit`);
+  }
+
   // PUT ==========================================================================================
 
   // Put request for a specific Users using ID and body
@@ -119,7 +131,7 @@ export class AdminService {
   {
     console.log("Admin Service POST : Custom Count");
     return this.httpClient.post<number>(`/s/admin/query-count`, {
-      query : query
+      table : query
     });
   }
 

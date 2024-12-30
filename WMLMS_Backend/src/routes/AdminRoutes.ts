@@ -341,6 +341,11 @@ router.post('/s/admin/query', (req : ReqType, res : ResType) => customQuery(req,
  */
 router.post('/s/admin/query-count', (req : ReqType, res : ResType) => customCount(req, res))
 
+// Statistics
+router.get('/s/admin/statistics/artists', (req : ReqType, res : ResType) => getArtistsTopTen(req, res));
+
+router.get('/s/admin/statistics/explicit', (req : ReqType, res : ResType) => getTracksExplicitRepartition(req, res));
+
 // Functions ======================================================================================
 
 async function adminLogin(req : ReqType, res : ResType) {
@@ -360,7 +365,7 @@ async function adminLogin(req : ReqType, res : ResType) {
         // Connection status
         console.log('Trying to connect administrator :', username);
 
-        let testSequelizeConnection : Sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, SEQUELIZE_DB_PARAMS);
+        let testSequelizeConnection : Sequelize = new Sequelize(DB_NAME, username, password, SEQUELIZE_DB_PARAMS);
 
        testSequelizeConnection.authenticate()
            .then(_ => {
@@ -474,7 +479,7 @@ async function getArtistCount(req : ReqType, res : ResType) {
     }
 }
 
-// Admin Get Artist List  function
+// Admin Get Artist List function
 async function getArtistListDelayed(req : ReqType, res : ResType) {
 
     // Display the command name
@@ -511,6 +516,74 @@ async function getArtistListDelayed(req : ReqType, res : ResType) {
         })
 
         res.json(result.rows).status(200);
+
+    } catch (error) {
+
+        // Send message and 404 result
+        console.log('Table doesn"t exists !');
+        res.json({message : "Table not found !"}).status(404);
+
+    }
+}
+
+// Admin GET top ten artists
+async function getArtistsTopTen(req: ReqType, res: ResType) {
+    // Display the command name
+    console.log("Admin GET Artists top ten");
+
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
+        res.status(503).send({message: 'No connection to the database !'});
+        return;
+    }
+
+    // Try to execute the query and handle the Table Not Found error.
+    try {
+
+        // Execute the query and send result
+        const result : {NAME : string, FOLLOWERS : number}[] = await Schema.getArtists().findAll({
+            attributes : [ 'NAME', 'FOLLOWERS'],
+            order : [[Sequelize.col('FOLLOWERS'), 'DESC NULLS LAST']],
+            limit : 10,
+            raw: true
+        })
+
+        console.log(result)
+        res.json(result).status(200);
+
+    } catch (error) {
+
+        // Send message and 404 result
+        console.log('Table doesn"t exists !');
+        res.json({message : "Table not found !"}).status(404);
+
+    }
+}
+
+// Admin GET Tracks explicit count
+async function getTracksExplicitRepartition(req: ReqType, res: ResType) {
+    // Display the command name
+    console.log("Admin GET Tracks explicit count");
+
+    if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
+        res.status(503).send({message: 'No connection to the database !'});
+        return;
+    }
+
+    // Try to execute the query and handle the Table Not Found error.
+    try {
+
+        // Execute the query and send result
+        const result : { EXPLICIT : string, COUNT : number}[] = await Schema.getTracks().findAll({
+            attributes : [
+                'EXPLICIT',
+                [Sequelize.fn('COUNT', Sequelize.col('EXPLICIT')), 'COUNT']
+            ],
+            group: ['EXPLICIT'],
+            raw: true
+        })
+
+        console.log(result)
+        res.json(result).status(200);
 
     } catch (error) {
 
@@ -809,41 +882,55 @@ async function customCount(req : ReqType, res : ResType) {
     console.log("Admin POST Custom count");
 
     // Get and check the query
-    let { query } = req.body;
+    let { table } = req.body;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
         return;
     }
 
-    if(query === undefined){
+    if(table === undefined){
+        console.log("Missing fields !")
         res.json({message: "Bad request !"}).status(400);
         return
     }
 
     // Standardize the query
-    query = String(query).toUpperCase();
+    table = String(table).toUpperCase();
+
+    let selectedModel : ModelStatic<any>;
+
+    switch (table) {
+        case 'USERS' :
+            selectedModel = Schema.getUsers();
+            break;
+        case 'ARTISTS' :
+            selectedModel = Schema.getArtists();
+            break;
+        case 'TRACKS' :
+            selectedModel = Schema.getTracks();
+            break;
+        case 'PLAYLISTS' :
+            selectedModel = Schema.getPlaylists();
+            break;
+        case 'PLAYLIST_TRACKS' :
+            selectedModel = Schema.getPlaylistsTracks();
+            break;
+        case 'ALBUMS' :
+            selectedModel = Schema.getAlbums();
+            break;
+        default :
+            selectedModel = undefined;
+            res.json({message: "Table not found !"}).status(404);
+            return;
+    }
 
     try {
         // We execute the query
-        const queryResult : {} = await Schema.getConnection().query(query);
-
-        // We will trim the second part of the response to only keep the output column name
-        queryResult[1] = queryResult[1].map(item => ({
-                field: item.name
-            })
-        )
-
-        // We check the content of the query and extract the count value
-        let result = 0;
-
-        for (let item in queryResult[0][0]) {
-            result = queryResult[0][0][item];
-            break;
-        }
+        const queryResult : number = await selectedModel.count();
 
         console.log("[+] Custom query Ok");
-        res.json(result).status(200);
+        res.json(queryResult).status(200);
     }
     catch (e) {
         console.log("[-] Invalid custom query !");
@@ -877,14 +964,18 @@ async function customQuery(req : ReqType, res : ResType) {
         // We execute the query
         const queryResult : {} = await Schema.getConnection().query(query);
 
+        console.log(queryResult)
+        console.log(queryResult[0][0]);
+
         // We will trim the second part of the response to only keep the output column name
-        queryResult[1] = queryResult[1].map(item => ({
-                field: item.name
-            })
-        )
+        let keysList : {}[] = [];
+
+        for (let key in queryResult[0][0]) {
+            keysList.push({field : key})
+        }
 
         console.log("[+] Custom query Ok");
-        res.json(queryResult).status(200);
+        res.json([queryResult[0], keysList]).status(200);
     }
     catch (e) {
         console.log("[-] Invalid custom query !");

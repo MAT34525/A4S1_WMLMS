@@ -10,12 +10,6 @@ export const DB_NAME : string = 'wmlmspdb';         // Oracle service name : wml
 export const DB_USER : string = 'admin';            // Oracle PDB : admin
 export const DB_PASSWORD : string = 'admin';        // Oracle PDB : admin
 
-export const ORACLE_DB_PARAMS = {
-    user: DB_USER,
-    password: DB_PASSWORD,
-    connectString: `${DB_HOST}:${DB_PORT}/${DB_NAME}`
-}
-
 export const SEQUELIZE_DB_PARAMS : Options = {
     host: DB_HOST,
     port: DB_PORT,
