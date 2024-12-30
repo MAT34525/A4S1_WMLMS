@@ -2,17 +2,17 @@
 
 import {Dialect, Options} from "sequelize";
 
-export const DB_HOST : string = "localhost";
-export const DB_PORT : number = 1521;
-export const DB_DIALECT : Dialect = 'oracle';
-export const DB_NAME : string = 'wmlmspdb';
+export const DB_HOST : string = "localhost";        // Don't change unless you have a distant server running the database
+export const DB_PORT : number = 1521;               // Oracle service : 1521
+export const DB_DIALECT : Dialect = 'oracle';     // oracle or postgres
+export const DB_NAME : string = 'wmlmspdb';         // Oracle service name : wmlmspdb
 
-const PASSWORD : string = 'admin';
-const USER : string = 'admin';
+export const DB_USER : string = 'admin';            // Oracle PDB : admin
+export const DB_PASSWORD : string = 'admin';        // Oracle PDB : admin
 
 export const ORACLE_DB_PARAMS = {
-    user: USER,
-    password: PASSWORD,
+    user: DB_USER,
+    password: DB_PASSWORD,
     connectString: `${DB_HOST}:${DB_PORT}/${DB_NAME}`
 }
 
@@ -21,3 +21,4 @@ export const SEQUELIZE_DB_PARAMS : Options = {
     port: DB_PORT,
     dialect: DB_DIALECT,
 }
+

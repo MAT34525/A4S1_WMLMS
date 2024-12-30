@@ -13,7 +13,9 @@ import MusicRoutes from "./routes/MusicRoutes";
 import swaggerJsdoc, {SwaggerDefinition} from 'swagger-jsdoc';
 import swaggerUi, {SwaggerOptions} from 'swagger-ui-express';
 import * as sea from "node:sea";
-import {ORACLE_DB_PARAMS} from "./config";
+import {DB_NAME, DB_PASSWORD, DB_USER, ORACLE_DB_PARAMS, SEQUELIZE_DB_PARAMS} from "./config";
+import {Sequelize} from "sequelize";
+import {Schema} from "./schema";
 
 // Default shorten types for express
 export type ReqType = express.Request;
@@ -253,6 +255,10 @@ app.use(session({
 
 app.use(express.json());
 
+let schema : Schema = new Schema(new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, SEQUELIZE_DB_PARAMS));
+
+
+/*
 // Search tracks endpoint
 app.post('/u/queries/tracks', (req : ReqType, res : ResType ) => searchTracks(req, res));
 
@@ -308,9 +314,10 @@ async function searchArtist(req : ReqType, res : ResType) {
     console.log("Internal server error :", err);
   }
 }
+*/
 
 // BDD connection
-oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
+// oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
