@@ -8,7 +8,7 @@ export const DB_DIALECT : Dialect = 'postgres';     // oracle or postgres
 export const DB_NAME : string = 'wmlms';         // Oracle service name : wmlmspdb
 
 export const DB_USER : string = 'postgres';            // Oracle PDB : admin
-export const DB_PASSWORD : string = 'password';        // Oracle PDB : admin
+export const DB_PASSWORD : string = 'passord';        // Oracle PDB : admin
 
 export const SEQUELIZE_DB_PARAMS : Options = {
     host: DB_HOST,

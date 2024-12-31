@@ -12,39 +12,6 @@ export const jsDocOptions : SwaggerOptions  = {
         },
         components: {
             schemas: {
-                ArtistPage : {
-                    type : 'object',
-                    properties : {
-                        page : {type : 'number'},
-                        size : {type : 'number'}
-                    },
-                    required : ['page', 'size']
-                },
-                UserLock : {
-                    type : 'object',
-                    properties : {
-                        lock : {type : 'string'},
-                    },
-                    required : ['lock']
-                },
-                Login : {
-                    type : 'object',
-                    properties : {
-                        username : {type : 'string'},
-                        password : {type : 'string'}
-                    },
-                    required : ['username', 'password']
-                },
-                Register : {
-                    type : 'object',
-                    properties : {
-                        USERNAME : {type : 'string'},
-                        PASSWORD : {type :'string'},
-                        EMAIL : {type : 'string'},
-                        FULL_NAME : {type :"string"}
-                    },
-                    required : ["USERNAME", "PASSWORD", "EMAIL", "FULL_NAME"]
-                },
                 Query: {
                     type: "object",
                     properties: {
@@ -130,7 +97,49 @@ export const jsDocOptions : SwaggerOptions  = {
                     required: ["PLAYLIST_ID", "TRACK_ID"]
                 },
             },
+            requestBodies : {
+                ArtistPage : {
+                    type : 'object',
+                    properties : {
+                        page : {type : 'number'},
+                        size : {type : 'number'}
+                    },
+                    required : ['page', 'size']
+                },
+                Login : {
+                    type : 'object',
+                    properties : {
+                        username : {type : 'string'},
+                        password : {type : 'string'}
+                    },
+                    example : {username : 'postgres', password : 'password'},
+                    required : ['username', 'password']
+                },
+                Register : {
+                    type : 'object',
+                    properties : {
+                        USERNAME : {type : 'string'},
+                        PASSWORD : {type :'string'},
+                        EMAIL : {type : 'string'},
+                        FULL_NAME : {type :"string"}
+                    },
+                    required : ["USERNAME", "PASSWORD", "EMAIL", "FULL_NAME"]
+                },
+
+            },
+            responses : {
+                Error : {
+                    type : 'object',
+                    properties : {
+                        message : {type : 'string'},
+                    },
+                    example : { message : "Error message"}
+                },
+
+            }
+
+
         },
     },
-    apis: ['.//src/routes/*.ts'],
+    apis: ['.//src/routes/*.ts', './/src/swagger/*.yaml'],
 };

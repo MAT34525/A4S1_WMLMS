@@ -11,7 +11,7 @@ import searchRoutes from './routes/SearchRoutes';
 // Swagger
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi, {SwaggerOptions} from 'swagger-ui-express';
-import {jsDocOptions} from './swagger'
+import {jsDocOptions} from './swagger/swagger'
 
 // Database
 import {DB_NAME, DB_PASSWORD, DB_USER, SEQUELIZE_DB_PARAMS} from "./config";

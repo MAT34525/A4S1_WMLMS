@@ -1,0 +1,289 @@
+paths:
+
+  # Login =========================================================================================
+
+  /u/admin-login:
+    post:
+      description : Logs an administrator directly to the database using Sequelize
+      tags :
+        - login
+      requestBody :
+        description : The request body requires the username and password of the administrator that tries to login.
+        required : true
+        content :
+          application/json :
+            schema :
+              $ref: '#/components/requestBodies/Login'
+      responses :
+        503:
+          description : No connection to the database
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/responses/Error'
+              example :
+                  message : No connection to the database !
+        404 :
+          description :
+
+  # Admin User CRUD ===============================================================================
+
+  /s/admin/users/ :
+    get :
+      description :
+      tags :
+        - admin
+      response :
+        503:
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  /s/admin/users/{id} :
+    get:
+      description:
+      tags:
+        - admin
+      response :
+        503:
+          description: No connection to the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+    delete :
+      description:
+      tags:
+        - admin
+      response :
+        503:
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+    put :
+      description:
+      tags:
+        - admin
+      response :
+        503:
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  /s/admin/users/lock/{id} :
+    put :
+      description :
+      tags :
+        - admin
+      response :
+        503:
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  # Admin Artist ==================================================================================
+
+  /s/admin/artists/{id} :
+    get :
+      description :
+      tags :
+        - admin
+      response :
+        503:
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  /s/admin/artists:
+    get:
+      description:
+      tags:
+        - admin
+      response :
+        503:
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  /s/admin/count/artists :
+    get :
+      description :
+      tags :
+        - admin
+      response :
+        503:
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  /s/admin/artists/delayed:
+    post:
+      description:
+      tags:
+        - admin
+      response :
+        503:
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  /s/admin/artists/verification/{id}:
+    put:
+      description:
+      tags:
+        - admin
+      response :
+        503:
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  # Admin Tables ==================================================================================
+
+  /s/admin/albums:
+    get:
+      description:
+      tags:
+        - admin
+      response :
+        503:
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  /s/admin/playlists:
+    get:
+      description:
+      tags:
+        - admin
+      response :
+        503:
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  /s/admin/tracks:
+    get:
+      description:
+      tags:
+        - admin
+      response :
+        503:
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  # Admin Query ===================================================================================
+
+  /s/admin/query :
+    post :
+      description :
+      tags :
+        - admin
+      response :
+        503:
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  # Admin Statistics ==============================================================================
+
+  /s/admin/query-count :
+    post :
+      description :
+      tags :
+        - admin
+      response :
+        503:
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  /s/admin/statistics/artists:
+    post:
+      description:
+      tags:
+        - admin
+      response :
+        503:
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  /s/admin/statistics/explicit:
+    post:
+      description:
+      tags:
+        - admin
+      response :
+        503:
+          description:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
