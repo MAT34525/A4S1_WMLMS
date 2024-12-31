@@ -4,7 +4,7 @@
 - Léandre BROSSIER
 - Mathys DECKER
 - Benoît HUA
-- Kylie WU (Kylie is not registered as a NodeJS & React student)
+- Kylie WU (Kylie isn't registered as a NodeJS & React student)
 
 ## Summary
 
@@ -29,16 +29,16 @@ The main requirements of all three courses are distributed as following :
 
 ```
 /
-├─ Database         : The sql and python scripts to setup and populate the database
-|
-├─ WMLMS_Frontend   : The front end (angular / typescript / css / html) code of the tool
-|                     This is used for the UI and connects to the back end
-|           
-├─ WMLMS_Backend    : The back end (node / typescript) code of the tool
-|                     This is used to link the database to the front end
-|
-├─ NodeJS_React     : Presentation video, installation video
-
+├─ Frontend     : The front end (angular / typescript / css / html) code 
+|                 of the tool
+|                 This is used for the UI and connects to the back end
+|                 
+├─ Backend      : The back end (node / typescript) code of the tool
+|                 This is used to link the database to the front end
+|                 It also contains database creation and population 
+|                 scripts and datasets
+|                   
+├─ NodeJS_React : Installation and presentation videos
 ```
 
 ## Installation guide
@@ -47,37 +47,35 @@ You have a video tutorial for the installation steps in the `NodeJS_React` folde
 
 ### Requirements
 
-- [ ] [Oracle Database XE 21.c (download link)](https://www.oracle.com/database/technologies/xe-downloads.html)
+- [ ] [PostgreSQL (download link)](https://www.postgresql.org/download/)
 - [ ] [Node.js (download link)](https://nodejs.org/en)
 
 ### Database installation and setup
 
-- [ ] Step 0 : Install Oracle Database XE 21.c
-- [ ] Step 1 : Pluggable database setup using DATABASE\WMLMS_Step_1_PDB_SETUP.sql
-  - [ ] Create a new pluggable database
-  - [ ] Create a new user
-  - [ ] Open the database and create a new service
-- [ ] Step 2 : Prepare and split the dataset using DATABASE\WMLMS_Step_2_Datasets
-  - [ ] Unzip the dataset files
-  - [ ] Use the python script WMLMS_Step_2_CSV_Separation.py 
-- [ ] Step 3 : Setup the database using  DATABASE\WMLMS_Step_3_Database_Setup.sql
-  - [ ] Run the installation scripts
+- [ ] Step 0 : Install PostgreSQL
+- [ ] Step 1 : Configure the connection in the `Backend>config.ts` file 
+  - [ ] Set the credentials of the root user to log in the database
+  - [ ] Provide a database name that will be used by the webapp
+  
+- [ ] Step 2 : Run the backend (see 'Back end installation and setup'). 
+
+If the credentials are correct and the database does not exist yet, it will automatically be created, the schema will be created as well and all the data in `Backend>data` will be loaded into the tables.
 
 ### Front end installation and setup
 
 Make sure you have installed Node.js and that it is in your PATH
 
-- [ ] Step 0 : Browse to the WMLMS_Frontend folder with a terminal
+- [ ] Step 0 : Browse to the `Frontend` folder with a terminal
 - [ ] Step 1 : Install packages with `npm install`
 
 ### Back end installation and setup
 
-- [ ] Step 0 : Browse to the WMLMS_Backend folder with a terminal
+- [ ] Step 0 : Browse to the `Backend` folder with a terminal
 - [ ] Step 1 : Install packages with `npm install`
 
 ### Build the project and run
 
-To bypass the following steps, you can open individually WMLMS_Backend or WMLMS_Frontend in IntelliJ and use predefined configurations :
+To bypass the following steps, you can open individually `Backend` and `Frontend` in IntelliJ and use predefined configurations :
 
 <p align="center">
  <img src="NodeJS_React/Readme_Resources/IntelliJ_Backend_Run.png" />
@@ -85,20 +83,20 @@ To bypass the following steps, you can open individually WMLMS_Backend or WMLMS_
 </p>
 
 
-- [ ] Step 0 : Browse to the WMLMS_Backend folder with a terminal
+- [ ] Step 0 : Browse to the `Backend` folder with a terminal
   - [ ] Run `npx ts-node src/app.ts`
   - [ ] Install additional tools if necessary
-- [ ] Step 1 : Browse to the WMLMS_Frontend folder with a terminal
+- [ ] Step 1 : Browse to the `Frontend` folder with a terminal
   - [ ] Run `ng serve`
 
 Once both front-end and back-end instances ar running, you can open your browser and navigate to : http://localhost:4200/
 
-The swagger ui is also available at http://localhost:300/swagger-ui/
+The swagger ui is also available at http://localhost:3000/swagger-ui/
 
 Hopefully, if you didn't managed to run or build the project, you have a presentation video in `NodeJS_React` as well !
 **This presentation only include a previous version of the administration panel with deprecated features**
 
-## User guide
+## User guide - Frontend
 
 ### User : **Home**
 
@@ -120,7 +118,7 @@ Once an user is registered, he can log into the app :
 
 ### User : **Song Search**
 
-The logged user is directly redirected to the song and artist searching page. On this page, he can search for music using the Track radio button, type his searched song (no SQLI protection here...) and search for it using the dedicated button. Once the list is loaded from the database, the user can click on a song and a small player will appear so he can listen to it (no XSS protection here also...).
+The logged user is directly redirected to the song and artist searching page. On this page, he can search for music using the Track radio button, type his searched song and search for it using the dedicated button. Once the list is loaded from the database, the user can click on a song and a small player will appear so he can listen to it.
 
 ![alt text](NodeJS_React/Readme_Resources/UG_User_Track_Search.png)
 
@@ -136,9 +134,13 @@ The last user panel is dedicated to the playlist browsing he will be able to loo
 
 ![alt text](NodeJS_React/Readme_Resources/UG_User_Playlist.png)
 
+If you click on one of the results, you will be able to scroll down and look at the tracks it contains :
+
+![alt text](NodeJS_React/Readme_Resources/UG_User_Playlist_Tracks.png)
+
 ### Admin : **Login**
 
-Once you click on the `Admin` button in the navbar, you will be redirected to the admin login page. The default credentials are admin/admin and depends on the database user (not the table)
+Once you click on the `Admin` button in the navbar, you will be redirected to the admin login page. The default credentials are your credentials to log into the database, they are similar to the one you provided into `Backend>config.ts`
 
 ![alt text](NodeJS_React/Readme_Resources/UG_Admin_Login.png)
 
@@ -183,6 +185,25 @@ The fifth and last page is the statistic page whe you can find some KPI on the n
 
 ![alt text](NodeJS_React/Readme_Resources/UG_Admin_Statistics.png)
 
+## User guide - Backend
+
+Once the backend is running, you will be able to access the swagger-ui page at http://localhost:3000/swagger-ui
+
+As you already know, the API we built is available here and you will be able to test it :
+
+### Overview : **All available commands**
+
+![alt text](NodeJS_React/Readme_Resources/SW_Page_1.png)
+![alt text](NodeJS_React/Readme_Resources/SW_Page_2.png)
+![alt text](NodeJS_React/Readme_Resources/SW_Page_3.png)
+
+### Overview : **Command example**
+
+As you can see, we have many commands we can handle with our backend, here is a quick overview of one of them.
+
+![alt text](NodeJS_React/Readme_Resources/SW_Command_1.png)
+![alt text](NodeJS_React/Readme_Resources/SW_Command_2.png)
+
 ## Tasks distribution 
 
 For more precision, don't hesitate to check the activity report on GitHub :wink:
@@ -198,7 +219,6 @@ For more precision, don't hesitate to check the activity report on GitHub :wink:
 - Login API : Léandre
 - User API (Tracks, Albums, Playlists) : Léandre
 - Admin API (Users, Artists, Tables, Queries, Statistics) : Mathys
-  
 
 ### Frontend :
 - Login and register pages (User, Admin, Home) : Benoit
@@ -206,12 +226,8 @@ For more precision, don't hesitate to check the activity report on GitHub :wink:
 - User pages (Song searches) : Benoit
 - Admin pages (Users, Artists, Playlists, Statistics, Queries) : Mathys
 
-## What could we have improved ?
-
-First of all, I am almost sure that you won't be able to test our this app live, on your side. In fact, the use of oracledb and the extensive configuration steps required to setup and load the data into the database are not user friendly at all and would have required a total refactoring using only Sequelize (not oracledb) and PostgreSQL. We are sorry for the inconvenience.
-
-Then, the project would have required a further cleanup for comments and user interface. We also could have further reduced the duplicated code as well, especially for the backend. 
-
-The swagger-ui components isn't complete, none of the user CRUD for login, music, artist and playlist are available and we have multiple Resolver Errors and some admin CRUD commands have mismatch between their errors name and the actual error message.
-
-Some types are still missing in the backend, we defined most of them but some are still vacant.
+### Other (Mathys) :
+- Code cleanup
+- Swagger-UI documentation
+- Integrating postgres as a possible database source
+- Auto-create database and insert values when using postges dialect
