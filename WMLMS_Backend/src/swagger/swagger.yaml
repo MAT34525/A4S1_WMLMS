@@ -15,6 +15,14 @@ paths:
             schema :
               $ref: '#/components/requestBodies/Login'
       responses :
+        200 :
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Info'
+              example:
+                message: "Admin successfully connected !"
         503:
           description : No connection to the database
           content :
@@ -23,32 +31,52 @@ paths:
                 $ref: '#/components/responses/Error'
               example :
                   message : No connection to the database !
-        404 :
-          description :
-
-  # Admin User CRUD ===============================================================================
-
-  /s/admin/users/ :
-    get :
-      description :
-      tags :
-        - admin
-      response :
-        503:
-          description:
+        400 :
+          description : An error occurred
           content:
             application/json:
               schema:
                 $ref: '#/components/responses/Error'
-              example:
-                message: No connection to the database !
+              examples:
+                Invalid Body :
+                  value :
+                    message: All fields are mandatory.
+                Invalid Credentials :
+                  value :
+                    message: Admin credentials are invalid !
+                Other :
+                  value :
+                    message: An error occurred, please try again.
 
-  /s/admin/users/{id} :
-    get:
-      description:
-      tags:
+  # ADMIN #########################################################################################
+  # Admin User CRUD ===============================================================================
+
+  /s/admin/users/ :
+    get :
+      description : Get a list of all users
+      tags :
         - admin
-      response :
+      responses :
+        200 :
+          description : All the tuples in the Users table
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/responses/UsersList'
+        400 :
+          description : Error when calling the function
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/responses/Error'
+              examples :
+                SQLI:
+                  description : SQLI detected when calling the function
+                  value:
+                    message : Bad Request !
+                Table Not Found :
+                  value :
+                    message: Table not found !
         503:
           description: No connection to the database
           content:
@@ -58,13 +86,69 @@ paths:
               example:
                 message: No connection to the database !
 
+  /s/admin/users/{id} :
+    get:
+      description: Get an user by its UUID
+      parameters :
+        - in: path
+          name : id
+          required: true
+          type: string
+          example : e2150b36-21af-4647-87ff-6410a5862ec7
+      tags:
+        - admin
+      responses :
+        200 :
+          description : Get the user associated to the UUID
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/schemas/Users'
+        404 :
+          description : User not found
+          content :
+            application/json:
+              schema :
+                $ref: '#/components/responses/Error'
+              example :
+                message : Not found !
+        503:
+          description: No connection to the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
     delete :
       description:
       tags:
         - admin
-      response :
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          example: e2150b36-21af-4647-87ff-6410a5862ec7
+      responses :
+        200 :
+          description: User deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Info'
+              example:
+                message: User successfully deleted !
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: Not found !
         503:
-          description:
+          description: No connection to the database
           content:
             application/json:
               schema:
@@ -75,9 +159,43 @@ paths:
       description:
       tags:
         - admin
-      response :
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          example: e2150b36-21af-4647-87ff-6410a5862ec7
+      requestBody :
+        description : The user object to be updated
+        required : true
+        content :
+          application/json :
+            schema :
+              $ref: '#/components/schemas/Users'
+      responses :
+        200 :
+          description : User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Info'
+              example :
+                message : "User successfully updated !"
+        400:
+          description : Invalid request
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/responses/Error'
+              examples :
+                Missing body :
+                  value :
+                    message: Missing body !
+                Missing ID :
+                  value :
+                      message: Missing id !
         503:
-          description:
+          description: No connection to the database
           content:
             application/json:
               schema:
@@ -87,12 +205,54 @@ paths:
 
   /s/admin/users/lock/{id} :
     put :
-      description :
-      tags :
+      description:
+      tags:
         - admin
-      response :
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          example: e2150b36-21af-4647-87ff-6410a5862ec7
+      requestBody:
+        description: The user where the lock must be toggled
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Users'
+      responses:
+        200:
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Info'
+              example:
+                message: "User successfully updated !"
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              examples:
+                Missing body:
+                  value:
+                    message: Missing body !
+                Missing ID:
+                  value:
+                    message: Missing id !
+        404:
+          description : User not found
+          content :
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                  message: User not found !
         503:
-          description:
+          description: No connection to the database
           content:
             application/json:
               schema:
@@ -104,12 +264,32 @@ paths:
 
   /s/admin/artists/{id} :
     get :
-      description :
-      tags :
+      description: Get an artist by its ID
+      parameters :
+        - in: path
+          name : id
+          required: true
+          type: string
+          example : 0E0eEzoo3nfBf5efmw6S1Q
+      tags:
         - admin
-      response :
+      responses :
+        200 :
+          description : Get the artist associated to the ID
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/schemas/Artists'
+        404 :
+          description : User not found
+          content :
+            application/json:
+              schema :
+                $ref: '#/components/responses/Error'
+              example :
+                message : Not found !
         503:
-          description:
+          description: No connection to the database
           content:
             application/json:
               schema:
@@ -119,12 +299,32 @@ paths:
 
   /s/admin/artists:
     get:
-      description:
-      tags:
+      description : Get a list of all artists
+      tags :
         - admin
-      response :
+      responses :
+        200 :
+          description : All the tuples in the Artists table
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/responses/ArtistsList'
+        400 :
+          description : Error when calling the function
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/responses/Error'
+              examples :
+                SQLI:
+                  description : SQLI detected when calling the function
+                  value:
+                    message : Bad Request !
+                Table Not Found :
+                  value :
+                    message: Table not found !
         503:
-          description:
+          description: No connection to the database
           content:
             application/json:
               schema:
@@ -134,12 +334,32 @@ paths:
 
   /s/admin/count/artists :
     get :
-      description :
+      description : Get the number of artists in the Artists table
       tags :
         - admin
-      response :
+      responses :
+        200 :
+          description : The number of tuples in the artist tables
+          content :
+            application/json:
+              schema:
+                type : object
+                properties :
+                  result :
+                    type : number
+                    example : 326
+
+        400 :
+          description: An unexpected error occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: An error occurred !
+
         503:
-          description:
+          description: No connection to the database
           content:
             application/json:
               schema:
@@ -149,12 +369,52 @@ paths:
 
   /s/admin/artists/delayed:
     post:
-      description:
-      tags:
+      description : Get a list of 'size' artists starting from the 'page'*'size' offset
+      requestBody:
+        description: The page number and page size of the requested artists
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: true
+              properties:
+                page:
+                  type: number
+                  required: true
+                  example: 3
+                size:
+                  type: number
+                  required: true
+                  example: 6
+      tags :
         - admin
-      response :
+      responses :
+        200 :
+          description : The selected tuples in the Artists table
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/responses/ArtistsList'
+        400 :
+          description : Error when calling the function
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/responses/Error'
+              examples :
+                Missing Body :
+                  description : Missing fields in the body
+                  value:
+                    message : Missing body fields !
+                Invalid Sizes :
+                  value :
+                    message: Invalid sizes !
+                Other :
+                  value:
+                      message: An error occurred !
         503:
-          description:
+          description: No connection to the database
           content:
             application/json:
               schema:
@@ -163,13 +423,55 @@ paths:
                 message: No connection to the database !
 
   /s/admin/artists/verification/{id}:
-    put:
+    put :
       description:
       tags:
         - admin
-      response :
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          example: 0DzfuBZVzDryD5ZqKla8EW
+      requestBody:
+        description: The artist where the verification must be toggled
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Artists'
+      responses:
+        200:
+          description: Artist updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Info'
+              example:
+                message: "Artist successfully updated !"
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              examples:
+                Missing body:
+                  value:
+                    message: Missing body !
+                Missing ID:
+                  value:
+                    message: Missing id !
+        404 :
+          description: Artist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: Artists not found !
         503:
-          description:
+          description: No connection to the database
           content:
             application/json:
               schema:
@@ -181,12 +483,32 @@ paths:
 
   /s/admin/albums:
     get:
-      description:
-      tags:
+      description : Get a list of all albums
+      tags :
         - admin
-      response :
+      responses :
+        200 :
+          description : All the tuples in the Albums table
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/responses/AlbumsList'
+        400 :
+          description : Error when calling the function
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/responses/Error'
+              examples :
+                SQLI:
+                  description : SQLI detected when calling the function
+                  value:
+                    message : Bad Request !
+                Table Not Found :
+                  value :
+                    message: Table not found !
         503:
-          description:
+          description: No connection to the database
           content:
             application/json:
               schema:
@@ -196,12 +518,32 @@ paths:
 
   /s/admin/playlists:
     get:
-      description:
-      tags:
+      description : Get a list of all playlists
+      tags :
         - admin
-      response :
+      responses :
+        200 :
+          description : All the tuples in the Playlists table
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/responses/PlaylistsList'
+        400 :
+          description : Error when calling the function
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/responses/Error'
+              examples :
+                SQLI:
+                  description : SQLI detected when calling the function
+                  value:
+                    message : Bad Request !
+                Table Not Found :
+                  value :
+                    message: Table not found !
         503:
-          description:
+          description: No connection to the database
           content:
             application/json:
               schema:
@@ -211,12 +553,32 @@ paths:
 
   /s/admin/tracks:
     get:
-      description:
-      tags:
+      description : Get a list of all tracks
+      tags :
         - admin
-      response :
+      responses :
+        200 :
+          description : All the tuples in the Tracks table
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/responses/TracksList'
+        400 :
+          description : Error when calling the function
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/responses/Error'
+              examples :
+                SQLI:
+                  description : SQLI detected when calling the function
+                  value:
+                    message : Bad Request !
+                Table Not Found :
+                  value :
+                    message: Table not found !
         503:
-          description:
+          description: No connection to the database
           content:
             application/json:
               schema:
@@ -228,12 +590,54 @@ paths:
 
   /s/admin/query :
     post :
-      description :
+      description : Run a custom query in the database and retrieve results <br/> **The query is dialect sensitive !**
+      requestBody :
+        content :
+          application/json :
+            schema :
+              type : object
+              required : true
+              properties :
+                query :
+                  type : string
+                  required : true
+                  example : Your custom query
+            examples :
+              Oracle :
+                value :
+                  query : "SELECT * FROM USERS"
+              Postgres :
+                value :
+                    query : SELECT * FROM public."USERS"
       tags :
         - admin
-      response :
+      responses :
+        200 :
+          description : The response of the query as an array of two elements. The first part is the list of object, the second part is a list of columns
+          content :
+            application/json :
+              schema :
+                type : array
+                items:
+                  type : object
+                minItems : 2
+                maxItems : 2
+        400 :
+          description : Invalid request
+          content :
+              application/json :
+                schema :
+                  $ref : '#/components/responses/Error'
+                examples :
+                    Missing Body :
+                      value :
+                        message : Bad request !
+                    Bad Request :
+                      value :
+                          message : Sequelize error depending on the dialect
+
         503:
-          description:
+          description: No connection to the database
           content:
             application/json:
               schema:
@@ -246,11 +650,49 @@ paths:
   /s/admin/query-count :
     post :
       description :
+      requestBody :
+        content :
+          application/json :
+            schema :
+              type : object
+              properties :
+                table :
+                  type : string
+                  example : "ARTISTS"
+                  enum: [USERS, ARTISTS, TRACKS, PLAYLISTS, PLAYLIST_TRACKS, ALBUMS]
+              required :
+              - table
       tags :
         - admin
-      response :
-        503:
-          description:
+      responses :
+        200 :
+          description : The number of rows in the selected table
+          content :
+            application/text :
+              type : number
+              example : 302
+        400 :
+          description : Invalid request
+          content :
+            application/json :
+              schema:
+                $ref: '#/components/responses/Error'
+              examples:
+                Missing Body :
+                  value :
+                    message: Bad request !
+                Other :
+                  value :
+                      message : Sequelize custom error message
+        404 :
+          Description : Table not found
+          application/json:
+            schema:
+              $ref: '#/components/responses/Error'
+            example:
+              message: Table not found !
+        503 :
+          description: No connection to the database
           content:
             application/json:
               schema:
@@ -259,13 +701,38 @@ paths:
                 message: No connection to the database !
 
   /s/admin/statistics/artists:
-    post:
-      description:
+    get:
+      description: Get the top 10 artists in terms of followers from the database
       tags:
         - admin
-      response :
+      responses :
+        200:
+          description : A list of the top 10 artist name with their followers count
+          content :
+            application/json :
+              schema :
+                type : array
+                items :
+                  type : object
+                  properties :
+                    NAME :
+                      type : string
+                      example : Ed Sheeran
+                    FOLLOWERS :
+                      type : number
+                      example : 3678202
+                maxItems : 10
+                minItems : 0
+        400:
+          description : An error occurred
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/responses/Error'
+              example :
+                message : An error occurred !
         503:
-          description:
+          description: No connection to the database
           content:
             application/json:
               schema:
@@ -274,16 +741,43 @@ paths:
                 message: No connection to the database !
 
   /s/admin/statistics/explicit:
-    post:
-      description:
+    get:
+      description: Get the repartition of explicit tracks from the database
       tags:
         - admin
-      response :
+      responses :
+        200:
+          description : The number of explicit tracks per category
+          content :
+            application/json :
+              schema :
+                type : array
+                items :
+                  type : object
+                  properties :
+                    EXPLICIT :
+                      type : number
+                      example : 0
+                    COUNT :
+                      type : string
+                      example : 3678202
+                maxItems : 2
+                minItems : 0
+        400:
+          description : An error occurred
+          content :
+            application/json :
+              schema :
+                $ref : '#/components/responses/Error'
+              example :
+                message : An error occurred !
         503:
-          description:
+          description: No connection to the database
           content:
             application/json:
               schema:
                 $ref: '#/components/responses/Error'
               example:
                 message: No connection to the database !
+
+  # USER ##########################################################################################

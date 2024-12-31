@@ -48,9 +48,11 @@ async function adminLogin(req : ReqType, res : ResType) {
     }
 
     // Check for missing fields
-    if (!username || !password) {
-        res.json({ errorMessage: 'All fields are mandatory.' }).status(400);
+    if (username === undefined || password === undefined) {
+        res.status(400).json({message: 'All fields are mandatory.' });
+        return;
     }
+
     try {
         // Connection status
         console.log('Trying to connect administrator :', username);
@@ -60,19 +62,19 @@ async function adminLogin(req : ReqType, res : ResType) {
        testSequelizeConnection.authenticate()
            .then(_ => {
                console.log("Admin successfully connected, admin panel available !");
-               res.json({message : "Admin successfully connected !",  status:200}).status(200);
+               res.status(200).json({message : "Admin successfully connected !"});
 
                testSequelizeConnection.close();
            })
            .catch(error => {
                console.log("Admin credentials are invalid : ", error);
-               res.json({message : "Admin credentials are invalid!",  status:400}).status(400);
+               res.status(400).json({message : "Admin credentials are invalid !"});
            })
 
     // Inform the user for any other issues
     } catch (error) {
         console.error('Error when connecting :', error);
-        res.json({ message: 'An error occurred, please try again.', status:400 }).status(400);
+        res.status(400).json({ message: 'An error occurred, please try again.'});
     }
 }
 
@@ -92,7 +94,7 @@ async function getList(tableName : string, model : ModelStatic<any> , req: ReqTy
 
     if(!/^[A-Za-z_]*$/.test(tableName)) {
         console.log("SQL Injection detected, query aborted !");
-        res.json({message: "Bad request !"}).status(400);
+        res.status(400).json({message: "Bad request !"});
         return;
     }
 
@@ -102,13 +104,13 @@ async function getList(tableName : string, model : ModelStatic<any> , req: ReqTy
         // Execute the query and send result
         const result : {}[]= await model.findAll();
 
-        res.json(result).status(200);
+        res.status(200).json(result);
 
     } catch (error) {
 
         // Send message and 404 result
-        console.log('Table doesn"t exists !');
-        res.json({message : "Table not found !"}).status(404);
+        console.log("Table doesn't exists !");
+        res.status(400).json({message : "Table not found !"});
 
     }
 }
@@ -158,13 +160,12 @@ async function getArtistCount(req : ReqType, res : ResType) {
 
         // Execute the query and send result
         const result = await Schema.getArtists().count();
-        res.json({ result : result }).status(200);
+        res.status(200).json({result : result });
 
     } catch (error) {
 
         // Send message and 404 result
-        console.log('Table doesn"t exists !');
-        res.json({message : "Table not found !"}).status(404);
+        res.status(400).json({message : "An error occurred !"});
 
     }
 }
@@ -184,12 +185,12 @@ async function getArtistListDelayed(req : ReqType, res : ResType) {
     }
 
     if(page === undefined || size === undefined) {
-        res.json({message : "Missing body fields !"}).status(400);
+        res.status(400).json({message : "Missing body fields !"});
         return
     }
 
     if(page < 0 || size <= 0) {
-        res.json({message : "Invalid sizes !"}).status(400);
+        res.status(400).json({message : "Invalid sizes !"});
         return
     }
 
@@ -206,13 +207,12 @@ async function getArtistListDelayed(req : ReqType, res : ResType) {
             raw : true
         })
 
-        res.json(result).status(200);
+        res.status(200).json(result);
 
     } catch (error) {
 
         // Send message and 404 result
-        console.log('Table doesn"t exists !');
-        res.json({message : "Table not found !"}).status(404);
+        res.status(400).json({message : "An error occured !"});
 
     }
 }
@@ -238,13 +238,13 @@ async function getArtistsTopTen(req: ReqType, res: ResType) {
             raw: true
         })
 
-        res.json(result).status(200);
+        res.status(200).json(result);
 
     } catch (error) {
 
-        // Send message and 404 result
-        console.log('Table doesn"t exists !');
-        res.json({message : "Table not found !"}).status(404);
+        // Send message and 400 result
+        console.log("An error occurred !");
+        res.status(400).json({message : "An error occurred !"});
 
     }
 }
@@ -272,13 +272,13 @@ async function getTracksExplicitRepartition(req: ReqType, res: ResType) {
             raw: true
         })
 
-        res.json(result).status(200);
+        res.status(200).json(result);
 
     } catch (error) {
 
-        // Send message and 404 result
-        console.log('Table doesn"t exists !');
-        res.json({message : "Table not found !"}).status(404);
+        // Send message and 400 result
+        console.log("An error occurred !");
+        res.status(400).json({message : "An error occurred !"});
     }
 }
 
@@ -293,7 +293,7 @@ async function getUser(req : ReqType, res : ResType) {
     const { id } : {id? :string} = req.params;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
-        res.status(503).send({message: 'No connection to the database !'});
+        res.status(503).json({message: 'No connection to the database !'});
         return;
     }
 
@@ -303,12 +303,14 @@ async function getUser(req : ReqType, res : ResType) {
         }
     })
 
+    console.log(users)
+
     if (users === null)
     {
-        res.json({message: 'Not found !'}).status(404);
+        res.status(404).json({message: 'Not found !'});
     }
     else {
-        res.json(users).status(200);
+        res.status(200).json(users);
     }
 }
 
@@ -321,7 +323,7 @@ async function getArtist(req : ReqType, res : ResType) {
     const { id } : {id? : string} = req.params;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
-        res.status(503).send({message: 'No connection to the database !'});
+        res.status(503).json({message: 'No connection to the database !'});
         return;
     }
 
@@ -333,10 +335,10 @@ async function getArtist(req : ReqType, res : ResType) {
 
     if (artist === null)
     {
-        res.json({message: 'Not found !'}).status(404);
+        res.status(404).json({message: 'Not found !'});
     }
     else {
-        res.json(artist).status(200);
+        res.status(200).json(artist);
     }
 }
 
@@ -365,12 +367,11 @@ async function deleteUser(req : ReqType, res : ResType) {
 
     if(userLookup === 0)
     {
-        console.log("[-] Not found !")
-        res.json({ message : "User not found !"}).status(404);
+        res.status(404).json({ message : "Not found !"});
         return;
     }
 
-    res.json({message : "User successfully deleted !"}).status(200);
+    res.status(200).json({message : "User successfully deleted !"});
 }
 
 // PUT BY ID ==================================================================================
@@ -381,13 +382,27 @@ async function putUserLock(req : ReqType, res : ResType) {
     // Display the command name
     console.log("Admin PUT User Lock By ID");
 
-    let {item} : {item? : Users} = req.body;
+    let item : Users = req.body;
 
     // We check that the user exists
     const { id } : {id? : string} = req.params;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
+        return;
+    }
+
+    // Check if item exists
+    if(!item)
+    {
+        res.status(400).json({message: "Missing body !"});
+        return;
+    }
+
+    // Check if id exists
+    if(!id)
+    {
+        res.status(400).json({message: "Missing id !"});
         return;
     }
 
@@ -401,7 +416,7 @@ async function putUserLock(req : ReqType, res : ResType) {
     if(userLookup === null)
     {
         console.log("[-] Not found !")
-        res.json({message: "User not found !"}).status(404);
+        res.status(404).json({message: "User not found !"});
         return;
     }
 
@@ -422,7 +437,7 @@ async function putUserLock(req : ReqType, res : ResType) {
         );
     }
 
-    res.json({message : "User successfully updated !"}).status(200);
+    res.status(200).json({message : "User successfully updated !"});
 }
 
 // Admin PUT ARTIST Verification By ID function
@@ -431,13 +446,27 @@ async function putArtistVerification(req : ReqType, res : ResType) {
     // Display the command name
     console.log("Admin PUT Artist Verification By ID");
 
-    let {item} : {item? : Artists} = req.body;
+    let item : Artists = req.body;
 
     // We check that the user exists
     const { id } : {id? : string} = req.params;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
+        return;
+    }
+
+    // Check if item exists
+    if(!item)
+    {
+        res.status(400).json({message: "Missing body !"});
+        return;
+    }
+
+    // Check if id exists
+    if(!id)
+    {
+        res.status(400).json({message: "Missing id !"});
         return;
     }
 
@@ -451,7 +480,7 @@ async function putArtistVerification(req : ReqType, res : ResType) {
     if(artistLookup === null)
     {
         console.log("[-] Not found !")
-        res.json({message: "Artist not found !"}).status(404);
+        res.status(404).json({message: "Artist not found !"});
         return;
     }
 
@@ -473,7 +502,7 @@ async function putArtistVerification(req : ReqType, res : ResType) {
         );
     }
 
-    res.json({message : "Artist successfully updated !"}).status(200);
+    res.status(200).json({message : "Artist successfully updated !"});
 }
 
 // Admin PUT USER By ID function
@@ -482,13 +511,27 @@ async function putUser(req : ReqType, res : ResType) {
     // Display the command name
     console.log("Admin PUT User By ID");
 
-    let {item} : {item? : Users} = req.body;
+    let item : Users | undefined = req.body;
 
     // We check that the user exists
     const { id } : {id? : string} = req.params;
 
     if(Schema.getConnection() === undefined || Schema.getConnectionStatus() === false) {
         res.status(503).send({message: 'No connection to the database !'});
+        return;
+    }
+
+    // Check if item exists
+    if(!item)
+    {
+        res.status(400).json({message: "Missing body !"});
+        return;
+    }
+
+    // Check if id exists
+    if(!id)
+    {
+        res.status(400).json({message: "Missing id !"});
         return;
     }
 
@@ -501,8 +544,7 @@ async function putUser(req : ReqType, res : ResType) {
 
     if(userLookup === null)
     {
-        console.log("[-] Not found !")
-        res.json({message: "User not found !"}).status(404);
+        res.status(404).json({message: "User not found !"});
         return;
     }
 
@@ -558,7 +600,7 @@ async function putUser(req : ReqType, res : ResType) {
         )
     }
 
-    res.json({message : "User successfully updated !"}).status(200);
+    res.status(200).json({message : "User successfully updated !"});
 }
 
 // OTHER ======================================================================================
@@ -579,7 +621,7 @@ async function customCount(req : ReqType, res : ResType) {
 
     if(table === undefined){
         console.log("Missing fields !")
-        res.json({message: "Bad request !"}).status(400);
+        res.status(400).json({message: "Bad request !"});
         return
     }
 
@@ -609,7 +651,7 @@ async function customCount(req : ReqType, res : ResType) {
             break;
         default :
             selectedModel = undefined;
-            res.json({message: "Table not found !"}).status(404);
+            res.status(404).json({message: "Table not found !"});
             return;
     }
 
@@ -618,11 +660,11 @@ async function customCount(req : ReqType, res : ResType) {
         const queryResult : number = await selectedModel.count();
 
         console.log("[+] Custom query Ok");
-        res.json(queryResult).status(200);
+        res.status(200).json(queryResult);
     }
     catch (e) {
         console.log("[-] Invalid custom query !");
-        res.json({message: e}).status(400);
+        res.status(400).json({message: e});
     }
 }
 
@@ -641,7 +683,7 @@ async function customQuery(req : ReqType, res : ResType) {
     }
 
     if(query === undefined){
-        res.json({message: "Bad request !"}).status(400);
+        res.status(400).json({message: "Bad request !"});
         return
     }
 
@@ -660,11 +702,11 @@ async function customQuery(req : ReqType, res : ResType) {
         }
 
         console.log("[+] Custom query Ok");
-        res.json([queryResult[0], keysList]).status(200);
+        res.status(200).json([queryResult[0], keysList]);
     }
     catch (e) {
         console.log("[-] Invalid custom query !");
-        res.json({message: e}).status(400);
+        res.status(400).json({message: e});
     }
 }
 

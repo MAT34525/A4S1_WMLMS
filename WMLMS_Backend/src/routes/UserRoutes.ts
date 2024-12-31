@@ -26,7 +26,7 @@ async function login (req : ReqType, res : ResType) {
 
     // Check for missing fields
     if (!username || !password) {
-        res.json({ message : 'All fields are mandatory.',  status:400 }).status(400);
+        res.status(400).json({ message : 'All fields are mandatory.',  status:400 });
         return;
     }
 
@@ -49,7 +49,7 @@ async function login (req : ReqType, res : ResType) {
         // Check if user exists
         if (result.length === 0) {
             console.log('No user found');
-            res.json({message: 'Invalid credentials.',  status:400 }).status(400)
+            res.status(400).json({message: 'Invalid credentials.',  status:400 })
             return;
         }
 
@@ -64,16 +64,16 @@ async function login (req : ReqType, res : ResType) {
 
         if (isPasswordValid) {
             console.log('Correct password. Managed to connect!');
-            res.json({message: 'Logged in!',  status:200}).status(200);
+            res.status(200).json({message: 'Logged in!',  status:200});
             return;
         } else {
             console.log('Incorrect password');
-            res.json({ message: 'Incorrect credentials.',  status:400 }).status(400);
+            res.status(400).json({ message: 'Incorrect credentials.',  status:400 });
             return;
         }
     } catch (error) {
         console.error('Error during getConnection():', error); // Log detailed error
-        res.json({message: 'An error occurred, please try again.',  status:400 }).status(400);
+        res.status(400).json({message: 'An error occurred, please try again.',  status:400 });
     }
 }
 
@@ -91,7 +91,7 @@ async function register(req : ReqType, res : ResType) {
 
     // Check that all fields are filled
     if (!username || !password || !email) {
-        res.json({message: 'All fields are required.',  status:400 }).status(400);
+        res.status(400).json({message: 'All fields are required.',  status:400 });
         return;
     }
 
@@ -108,11 +108,11 @@ async function register(req : ReqType, res : ResType) {
         }, {raw : true});
 
         // Redirect or send success message
-        res.json({message: 'Successful user creation!',  status:200}).status(200);
+        res.status(200).json({message: 'Successful user creation!',  status:200});
 
     } catch (error) {
         console.error('Error during registration:', error);
-        res.json({message: 'An error occurred, please try again.',  status:400}).status(400);
+        res.status(400).json({message: 'An error occurred, please try again.',  status:400});
     }
 }
 
@@ -125,8 +125,7 @@ function logout(req : ReqType, res : ResType) {
     req.session.destroy((err) => {
         if (err) {
             console.error('Error during logout :', err);
-            res.json({message: 'An error occurred, please try again.', status: 400})
-                .status(400)
+            res.status(400).json({message: 'An error occurred, please try again.', status: 400})
                 .redirect('/playlists'); // Redirect to the playlists page in case of error
             return;
         }

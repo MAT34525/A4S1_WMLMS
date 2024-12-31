@@ -12,24 +12,16 @@ export const jsDocOptions : SwaggerOptions  = {
         },
         components: {
             schemas: {
-                Query: {
-                    type: "object",
-                    properties: {
-                        query: {type: "string"},
-                    },
-                    required: ["query"]
-                },
                 Artists: {
                     type: "object",
                     properties: {
-                        ARTIST_ID: { type: "string" },
-                        NAME: { type: "string" },
-                        FOLLOWERS: { type: "integer", nullable: true },
-                        IS_VERIFIED: {type: "string",  enum: ["Y", "N"] },
-                        GENRES: { type: "string", nullable: true },
-                        POPULARITY: { type: "integer", nullable: true },
-                        CREATED_AT: { type: "string", format: "date-time", nullable: true },
-                        UPDATED_AT: { type: "string", format: "date-time", nullable: true }
+                        ARTIST_ID: { type: "string", example : "0E0eEzoo3nfBf5efmw6S1Q" },
+                        NAME: { type: "string", example : "Omar Ferreyra" },
+                        FOLLOWERS: { type: "integer", nullable: true, example: 1234 },
+                        IS_VERIFIED: {type: "string",  enum: ["Y", "N"], example : 'N' },
+                        GENRES: { type: "string", nullable: true, example : '[]' },
+                        CREATED_AT: { type: "string", format: "date-time", nullable: true, example : "2024-12-15T23:00:00.000Z" },
+                        UPDATED_AT: { type: "string", format: "date-time", nullable: true, example : "2024-12-15T23:00:00.000Z" }
                     },
                     required: ["ARTIST_ID", "NAME"]
                 },
@@ -63,15 +55,15 @@ export const jsDocOptions : SwaggerOptions  = {
                 Users: {
                     type: "object",
                     properties: {
-                        USER_ID: { type: "string" },
-                        USERNAME: { type: "string" },
-                        PASSWORD: { type: "string" },
-                        EMAIL: { type: "string", format: "email", nullable: true },
-                        FULL_NAME: { type: "string", nullable: true },
-                        IS_LOCKED: { type: "string", enum: ["Y", "N"] },
-                        IS_ARTIST: { type: "string", enum: ["Y", "N"]},
-                        CREATED_AT: { type: "string", format: "date-time", nullable: true },
-                        UPDATED_AT: { type: "string", format: "date-time", nullable: true }
+                        USER_ID: { type: "string", example : 'e2150b36-21af-4647-87ff-6410a5862ec7'},
+                        USERNAME: { type: "string", example : "vwalker" },
+                        PASSWORD: { type: "string", example : "$2b$10$5FcPT1EbV/8QKClKlp4iK.3S/lsz1XbbW8oKz4eydknGpv8eQa8kO" },
+                        EMAIL: { type: "string", format: "email", nullable: true, example : "vwalker@example.com" },
+                        FULL_NAME: { type: "string", nullable: true, example :  "Vwalker"},
+                        IS_LOCKED: { type: "string", enum: ["Y", "N"], example : 'N' },
+                        IS_ARTIST: { type: "string", enum: ["Y", "N"], example : 'Y'},
+                        CREATED_AT: { type: "string", format: "date-time", nullable: true, example : "2005-03-20T19:25:26.438Z" },
+                        UPDATED_AT: { type: "string", format: "date-time", nullable: true, example : "2016-06-18T13:29:43.675Z" }
                     },
                     required: ["USER_ID", "USERNAME", "PASSWORD"]
                 },
@@ -98,6 +90,13 @@ export const jsDocOptions : SwaggerOptions  = {
                 },
             },
             requestBodies : {
+                Query: {
+                    type: "object",
+                    properties: {
+                        query: {type: "string"},
+                    },
+                    required: ["query"]
+                },
                 ArtistPage : {
                     type : 'object',
                     properties : {
@@ -128,12 +127,49 @@ export const jsDocOptions : SwaggerOptions  = {
 
             },
             responses : {
+                UsersList : {
+                    type: 'array',
+                    items: {
+                        $ref: '#/components/schemas/Users',
+                    }
+                },
+                ArtistsList : {
+                    type: 'array',
+                    items: {
+                        $ref: '#/components/schemas/Artists',
+                    }
+                },
+                AlbumsList : {
+                    type: 'array',
+                    items: {
+                        $ref: '#/components/schemas/Albums',
+                    }
+                },
+                PlaylistsList : {
+                    type: 'array',
+                    items: {
+                        $ref: '#/components/schemas/Playlists',
+                    }
+                },
+                TracksList : {
+                    type: 'array',
+                    items: {
+                        $ref: '#/components/schemas/Tracks',
+                    }
+                },
                 Error : {
                     type : 'object',
                     properties : {
                         message : {type : 'string'},
                     },
                     example : { message : "Error message"}
+                },
+                Info : {
+                    type : 'object',
+                    properties : {
+                        message : {type : 'string'},
+                    },
+                    example : { message : "Action successful !"}
                 },
 
             }
