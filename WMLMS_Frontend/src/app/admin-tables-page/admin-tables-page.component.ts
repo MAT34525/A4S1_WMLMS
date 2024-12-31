@@ -21,11 +21,7 @@ import {
 
 // Project
 import {
-  Albums,
-  DUMMY_ALBUM, DUMMY_FORUM_POST,
-  DUMMY_FORUM_REPLY,
-  DUMMY_PLAYLIST, DUMMY_TRACK, ForumPosts, ForumReplies,
-  Playlists,
+  Albums, DUMMY_ALBUM,  DUMMY_PLAYLIST, DUMMY_TRACK,  Playlists,
   Tracks,
   Users
 } from '../schema';
@@ -70,7 +66,7 @@ export class AdminTablesPageComponent {
   // AG Grid
   protected readonly gridOptions = gridOptions;
   colDefs: ColDef[] = [];
-  rowData : Albums[] | Playlists[] | ForumReplies[] | ForumPosts[] | Tracks[] = [];
+  rowData : Albums[] | Playlists[] | Tracks[] = [];
 
   loaded :boolean = false;
 

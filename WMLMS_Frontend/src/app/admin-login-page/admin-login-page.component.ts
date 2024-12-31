@@ -30,15 +30,9 @@ export class AdminLoginPageComponent {
     this.authService.adminLogin(payload).subscribe({
       next: (response) => {
 
-        if(response.status === 200) {
-          console.log('Login successful:', response.message);
-          localStorage.setItem('token', response.token || '');
-          this.router.navigate(['/a']); // Redirect to admin homepage
-        }
-        else
-        {
-          console.log('Login failed :', response.message);
-        }
+        console.log('Login successful:', response.message);
+        localStorage.setItem('token', response.token || '');
+        this.router.navigate(['/a']); // Redirect to admin homepage
 
       },
       error: (err) => {

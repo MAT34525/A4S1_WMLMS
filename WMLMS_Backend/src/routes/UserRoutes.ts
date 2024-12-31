@@ -49,31 +49,31 @@ async function login (req : ReqType, res : ResType) {
         // Check if user exists
         if (result.length === 0) {
             console.log('No user found');
-            res.status(400).json({message: 'Invalid credentials.',  status:400 })
+            res.status(404).json({message: 'User not found.'})
             return;
         }
 
         // Get stored hashed password
         const storedPassword : string = result[0].PASSWORD;
 
-        console.log('stored password:', storedPassword)
-        console.log('verification:', await bcrypt.compare(password, storedPassword))
+        console.log('Stored password:', storedPassword)
+        console.log('Verification:', await bcrypt.compare(password, storedPassword))
 
         // Verify the password using bcrypt
         const isPasswordValid = await bcrypt.compare(password, storedPassword);
 
         if (isPasswordValid) {
             console.log('Correct password. Managed to connect!');
-            res.status(200).json({message: 'Logged in!',  status:200});
+            res.status(200).json({message: 'Logged in!'});
             return;
         } else {
             console.log('Incorrect password');
-            res.status(400).json({ message: 'Incorrect credentials.',  status:400 });
+            res.status(400).json({message: 'Incorrect credentials.'});
             return;
         }
     } catch (error) {
-        console.error('Error during getConnection():', error); // Log detailed error
-        res.status(400).json({message: 'An error occurred, please try again.',  status:400 });
+        console.error('Error during connection ', error); // Log detailed error
+        res.status(400).json({message: 'An error occurred, please try again.'});
     }
 }
 
@@ -91,7 +91,7 @@ async function register(req : ReqType, res : ResType) {
 
     // Check that all fields are filled
     if (!username || !password || !email) {
-        res.status(400).json({message: 'All fields are required.',  status:400 });
+        res.status(400).json({message: 'All fields are required.'});
         return;
     }
 
@@ -108,11 +108,11 @@ async function register(req : ReqType, res : ResType) {
         }, {raw : true});
 
         // Redirect or send success message
-        res.status(200).json({message: 'Successful user creation!',  status:200});
+        res.status(200).json({message: 'Successful user creation !'});
 
     } catch (error) {
         console.error('Error during registration:', error);
-        res.status(400).json({message: 'An error occurred, please try again.',  status:400});
+        res.status(400).json({message: 'An error occurred, please try again.'});
     }
 }
 
@@ -125,7 +125,7 @@ function logout(req : ReqType, res : ResType) {
     req.session.destroy((err) => {
         if (err) {
             console.error('Error during logout :', err);
-            res.status(400).json({message: 'An error occurred, please try again.', status: 400})
+            res.status(400).json({message: 'An error occurred, please try again.'})
                 .redirect('/playlists'); // Redirect to the playlists page in case of error
             return;
         }

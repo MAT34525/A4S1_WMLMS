@@ -26,21 +26,10 @@ export class LoginPageComponent {
 
     this.authService.login(payload).subscribe({
       next: (response) => {
-        if(response['message']) {
-          if(response.status === 200) {
-            console.log('Login successful:', response.message);
-            localStorage.setItem('token', response.token || '');
-            this.router.navigate(['/user/home']); // Redirect to homepage or dashboard
-            return;
-          } else {
-            console.log('Login failed :', response.message);
-            return;
-          }
-
-        } else {
-          console.error('Login failed:', response.message);
-          this.errorMessage = 'Invalid username or password';
-        }
+        console.log('Login successful:', response.message);
+        localStorage.setItem('token', response.token || '');
+        this.router.navigate(['/user/home']); // Redirect to homepage or dashboard
+        return;
 
       },
       error: (err) => {

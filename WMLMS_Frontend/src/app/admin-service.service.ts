@@ -4,7 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 // Project
-import {Albums, Artists, ForumPosts, ForumReplies, Playlists, Tracks, Users} from './schema';
+import {Albums, Artists, Playlists, Tracks, Users} from './schema';
 
 @Injectable({
   providedIn: 'root'

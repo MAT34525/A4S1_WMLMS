@@ -7,9 +7,6 @@ import {MatAnchor} from "@angular/material/button";
   selector: 'app-user-page-navbar',
     imports: [
         RouterLink,
-        NgbDropdown,
-        NgbDropdownToggle,
-        NgbDropdownMenu,
         MatAnchor
     ],
   templateUrl: './user-page-navbar.component.html',

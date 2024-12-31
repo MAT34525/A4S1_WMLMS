@@ -1,6 +1,101 @@
 paths:
 
-  # Login =========================================================================================
+  # Login #########################################################################################
+
+  /u/login:
+    post :
+      tags :
+        - login
+      description : Logs an user in using an username/password combination
+      requestBody :
+        content :
+          application/json :
+            schema :
+              $ref: '#/components/requestBodies/Login'
+      responses :
+        200:
+          description: User logged successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Info'
+              example:
+                message: Logged in!
+        404 :
+          description : User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: User not found.
+        400 :
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              examples:
+                Missing Body :
+                  value :
+                    message: All fields are mandatory.
+                Incorrect Password :
+                  value :
+                    message: Incorrect credentials.
+                Other :
+                  value :
+                    message : An error occurred, please try again.
+
+        503:
+          description: No connection to the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  /u/register :
+    post:
+      tags:
+        - login
+      description : Register a new user using an username, password and email
+      requestBody :
+        content :
+          application/json :
+            schema :
+              $ref: '#/components/schemas/Users'
+              required : [username, password, email]
+      responses :
+        200 :
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Info'
+              example :
+                message : Successful user creation !
+        400 :
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              examples:
+                Missing Body :
+                  value :
+                    message: All fields are mandatory.
+                Other :
+                  value :
+                    message : An error occurred, please try again.
+        503:
+          description: No connection to the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
 
   /u/admin-login:
     post:
@@ -47,6 +142,21 @@ paths:
                 Other :
                   value :
                     message: An error occurred, please try again.
+
+  /u/logout:
+    get :
+      tags:
+        - login
+      description : Logout an user
+      responses :
+        400:
+          description: An error occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: An error occurred, please try again.
 
   # ADMIN #########################################################################################
   # Admin User CRUD ===============================================================================

@@ -5,11 +5,7 @@ import {MatFormField} from '@angular/material/form-field';
 
 @Component({
   selector: 'app-user-page-songs',
-  imports: [
-    RouterOutlet,
-    UserPageNavbarComponent,
-    MatFormField
-  ],
+  imports: [],
   templateUrl: './user-page-songs.component.html',
   standalone: true,
   styleUrl: './user-page-songs.component.css'
