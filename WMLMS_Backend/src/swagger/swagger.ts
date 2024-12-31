@@ -70,13 +70,13 @@ export const jsDocOptions : SwaggerOptions  = {
                 Playlists: {
                     type: "object",
                     properties: {
-                        PLAYLIST_ID: { type: "string" },
+                        PLAYLIST_ID: { type: "string", example : "3ad858ab-4c21-4edc-929b-a1eb1a1d32cc" },
                         USER_ID: { type: "string", nullable: true },
-                        NAME: { type: "string" },
-                        DESCRIPTION: { type: "string", nullable: true },
-                        IS_PUBLIC: { type: "string", enum: ["Y", "N"], nullable: true },
-                        CREATED_AT: { type: "string", format: "date-time", nullable: true },
-                        UPDATED_AT: { type: "string", format: "date-time", nullable: true }
+                        NAME: { type: "string" , example : "Chill"},
+                        DESCRIPTION: { type: "string", nullable: true, example : "Relaxing chill music" },
+                        IS_PUBLIC: { type: "string", enum: ["Y", "N"], nullable: true, example : "N" },
+                        CREATED_AT: { type: "string", format: "date-time", nullable: true, example : "2024-12-30T21:23:22.498Z"  },
+                        UPDATED_AT: { type: "string", format: "date-time", nullable: true , example : "2024-12-30T21:23:22.498Z"}
                     },
                     required: ["PLAYLIST_ID", "NAME"]
                 },

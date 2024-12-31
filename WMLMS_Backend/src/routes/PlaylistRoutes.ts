@@ -2,6 +2,7 @@ import express from 'express';
 import {ReqType, ResType} from "../app";
 import {Schema} from "../schema";
 import {Playlists, Tracks} from "../tables";
+import { v4 as uuid } from 'uuid';
 
 const router = express.Router();
 
@@ -34,7 +35,7 @@ async function getPlaylists(req : ReqType, res : ResType) {
     } catch (error) {
 
         console.error('Error when retrieving playlists :', error);
-        res.status(500).json({ errorMessage: 'Error when retrieving artists.' });
+        res.status(500).json({ errorMessage: 'Error when retrieving playlists.' });
     }
 }
 
@@ -91,13 +92,14 @@ async function createPlaylist(req : ReqType, res : ResType) {
 
     // Check missing values
     if (!name || typeof isPublic === 'undefined') {
-        res.status(400).json({ errorMessage: 'All fields are mandatory.' });
+        res.status(400).json({ message: 'All fields are mandatory.' });
         return;
     }
 
     try {
         // Query to get all songs from an artists
         await Schema.getPlaylists().create({
+            PLAYLIST_ID : uuid(),
             NAME : name,
             DESCRIPTION : description,
             IS_PUBLIC : isPublic,
@@ -112,7 +114,7 @@ async function createPlaylist(req : ReqType, res : ResType) {
 
     } catch (error) {
         console.error('Error with playlist creation:', error);
-        res.status(500).json({ errorMessage: 'Error with playlist creation.' });
+        res.status(500).json({ message: 'Error with playlist creation.' });
     }
 }
 
@@ -129,7 +131,7 @@ async function updatePlaylist(req : ReqType, res : ResType) {
 
     // Check for missing fields
     if (!name || typeof isPublic === 'undefined') {
-        res.status(400).json({ errorMessage: 'All fields are mandatory.' });
+        res.status(400).json({message: 'All fields are mandatory.' });
         return;
     }
 
@@ -153,7 +155,7 @@ async function updatePlaylist(req : ReqType, res : ResType) {
         // Check the playlist update status
         if (result[0] === 0) {
             console.log('Playlist not found');
-            res.status(404).json({ errorMessage: 'Playlist not found.' });
+            res.status(404).json({ message: 'Playlist not found.' });
             return;
         }
 
@@ -164,7 +166,7 @@ async function updatePlaylist(req : ReqType, res : ResType) {
 
     } catch (error) {
         console.error('Error with playlist update:', error);
-        res.status(500).json({ errorMessage: 'Error with playlist update.' });
+        res.status(500).json({ message: 'Error with playlist update.' });
     }
 }
 
@@ -181,11 +183,10 @@ async function deletePlaylist(req : ReqType, res : ResType) {
             }
         })
 
-
         // Check the deletion status
         if (result === 0) {
             console.log('Playlist not found');
-            res.status(404).json({ errorMessage: 'Playlist not found.' });
+            res.status(404).json({ message: 'Playlist not found.' });
             return;
         }
 
@@ -196,7 +197,7 @@ async function deletePlaylist(req : ReqType, res : ResType) {
 
     } catch (error) {
         console.error('Error with playlist deletion:', error);
-        res.status(500).json({ errorMessage: 'Error with playlist deletion.' });
+        res.status(500).json({ message: 'Error with playlist deletion.' });
     }
 }
 

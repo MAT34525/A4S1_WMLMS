@@ -781,3 +781,224 @@ paths:
                 message: No connection to the database !
 
   # USER ##########################################################################################
+
+  # User Playlists ================================================================================
+  /u/playlists/{id} :
+    put :
+      tags:
+        - playlists
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          example: 3ad858ab-4c21-4edc-929b-a1eb1a1d32cc
+      description : Update a playlist using its UUID and object
+      requestBody :
+        content :
+          application/json :
+            schema :
+              $ref: '#/components/schemas/Playlists'
+      responses :
+        200:
+          description: Playlist updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Info'
+              example:
+                message: Playlist successfully updated.
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: All fields are mandatory.
+        404:
+          description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: Playlist not found.
+        500:
+          description: An error occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: Error with playlist update.
+        503:
+          description: No connection to the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+    delete :
+      tags:
+        - playlists
+      description: Delete a playlist using its UUID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          example: 3ad858ab-4c21-4edc-929b-a1eb1a1d32cc
+      responses:
+        200:
+          description: Playlist deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Info'
+              example:
+                message: Playlist successfully deleted.
+        404:
+          description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: Playlist not found.
+        500:
+          description: An error occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: Error with playlist deletion.
+        503:
+          description: No connection to the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  /u/playlists :
+    get :
+      tags:
+        - playlists
+      description: Get a list of all playlists in the database
+      responses:
+        200:
+          description : A list of all playlists
+          content :
+            application/json :
+              schema :
+                $ref: '#/components/responses/PlaylistsList'
+        500:
+          description : An error occurred
+          content:
+            application/json :
+              schema :
+                $ref: '#/components/responses/Error'
+              example:
+                  message: Error when retrieving playlists
+        503:
+          description: No connection to the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+    post:
+      tags:
+        - playlists
+      description: Create a new empty playlist
+      requestBody :
+        content :
+          application/json :
+            schema :
+              type : object
+              required: true
+              properties :
+                name :
+                  type : string
+                  example : My new playlist
+                description :
+                  type : string
+                  example : A temporary playlist
+                isPublic :
+                  type : string
+                  example : N
+      responses:
+        201:
+          description : Playlist created
+          content :
+            application/json :
+              schema:
+                $ref: '#/components/responses/Info'
+              example:
+                message: Playlist successfully created
+        400:
+          description : Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: All fields are mandatory.
+        500:
+          description: An error occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: Error with playlist creation.
+        503:
+          description: No connection to the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  /u/playlists-tracks/{id} :
+    get :
+      tags:
+        - playlists
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          example: 3ad858ab-4c21-4edc-929b-a1eb1a1d32cc
+      description : Get all tracks in a playlist using the playlist UUID
+      responses :
+        200:
+          description: List of tracks contained in the playlist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/TracksList'
+        404:
+          description: Not tracks in the playlist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No tracks found for this playlist.
+        500:
+          description: An error occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: Error fetching tracks for playlist.
+
+
