@@ -106,27 +106,24 @@ export class AdminQueriesPageComponent {
     }
 
     // Update table data with query result
-    this.adminService.customQuery(query).subscribe(ret => this.updateTable(ret));
+    this.adminService.customQuery(query).subscribe({
+        next: data => {
+          this.updateTable(data)
+        }, error:err=> {
+          this.isError = true;
+
+          // Clear table
+          this.colDefs = [];
+          this.rowData = [];
+
+          this.errorMessage = err.error.message.original.code;
+        }});
   }
 
   // Update the ag-grid when the result has been received
   updateTable(data: {message : string, code : number} | any) {
 
-    let { message } = data;
-
-    // Check if the response is valid
-    this.isError = (message !== undefined);
-
-    if(this.isError)
-    {
-      // Clear table
-      this.colDefs = [];
-      this.rowData = [];
-
-      this.errorMessage = message.original.code;
-
-      return;
-    }
+    this.isError = false;
 
     // Update ag-grid content
     this.colDefs = data[1];
