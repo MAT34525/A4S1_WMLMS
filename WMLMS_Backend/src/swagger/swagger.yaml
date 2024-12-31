@@ -1000,5 +1000,103 @@ paths:
                 $ref: '#/components/responses/Error'
               example:
                 message: Error fetching tracks for playlist.
+        503:
+          description: No connection to the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
 
+  # User Search ===================================================================================
 
+  /u/queries/tracks :
+    post :
+      tags :
+        - search
+      description : Research tracks in the database using a searching string
+      requestBody :
+        content :
+          application/json:
+            schema :
+              $ref: '#/components/requestBodies/Query'
+            example :
+              query : track name
+
+      responses :
+        200:
+          description: List of tracks containing the researched string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/TracksList'
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: Query parameter is required
+        500:
+          description : Server error when dealing with the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: Internal server error
+        503:
+          description: No connection to the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
+
+  /u/queries/artists:
+    post :
+      tags:
+        - search
+      description: Research artists in the database using a searching string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/Query'
+            example:
+              query: artist name
+
+      responses:
+        200:
+          description: List of artists containing the researched string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ArtistsList'
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: Query parameter is required
+        500:
+          description: Server error when dealing with the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: Internal server error
+        503:
+          description: No connection to the database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Error'
+              example:
+                message: No connection to the database !
