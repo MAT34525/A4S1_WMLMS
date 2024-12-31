@@ -1,7 +1,4 @@
-import { Component } from '@angular/core';
-import {RouterOutlet} from '@angular/router';
-import {UserPageNavbarComponent} from '../user-page-navbar/user-page-navbar.component';
-import {MatFormField} from '@angular/material/form-field';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-user-page-songs',

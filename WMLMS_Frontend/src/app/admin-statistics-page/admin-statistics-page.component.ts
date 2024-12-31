@@ -1,6 +1,5 @@
 // Angular
-import {booleanAttribute, Component, inject} from '@angular/core';
-import {MatButton} from '@angular/material/button';
+import {Component, inject} from '@angular/core';
 import {NgIf} from '@angular/common';
 import {firstValueFrom} from 'rxjs';
 
@@ -18,7 +17,6 @@ import {AdminService} from '../admin-service.service';
   selector: 'app-admin-statistics-page',
   imports: [
     HighchartsChartModule,
-    MatButton,
     NgIf,
   ],
   templateUrl: './admin-statistics-page.component.html',

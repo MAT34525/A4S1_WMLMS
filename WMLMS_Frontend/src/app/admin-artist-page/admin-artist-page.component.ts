@@ -1,12 +1,12 @@
 // Angular
-import {Component , inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {AdminService} from '../admin-service.service';
 import {MatButton} from '@angular/material/button';
 import {NgIf} from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
 
 // AG Grid
-import { AgGridAngular } from 'ag-grid-angular';
+import {AgGridAngular} from 'ag-grid-angular';
 import {
   ClientSideRowModelModule,
   ColDef,

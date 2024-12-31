@@ -20,11 +20,7 @@ import {
 } from 'ag-grid-community';
 
 // Project
-import {
-  Albums, DUMMY_ALBUM,  DUMMY_PLAYLIST, DUMMY_TRACK,  Playlists,
-  Tracks,
-  Users
-} from '../schema';
+import {Albums, DUMMY_ALBUM, DUMMY_PLAYLIST, DUMMY_TRACK, Playlists, Tracks} from '../schema';
 import {AdminService} from '../admin-service.service';
 
 // AG Grid module registration

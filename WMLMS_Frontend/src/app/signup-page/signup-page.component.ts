@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import {Component, inject} from '@angular/core';
+import {Router, RouterLink} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {AuthService} from '../auth.service';
 import {NgIf} from '@angular/common';
 
 @Component({

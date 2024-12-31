@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { PlaylistService } from '../playlist.service';
+import {Component, OnInit} from '@angular/core';
+import {PlaylistService} from '../playlist.service';
 import {NgForOf, NgIf} from '@angular/common';
 import {Playlists, Tracks} from '../schema';
 

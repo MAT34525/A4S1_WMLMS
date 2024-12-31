@@ -6,11 +6,10 @@ import {NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 
 // AG Grid
-import { AgGridAngular } from 'ag-grid-angular';
+import {AgGridAngular} from 'ag-grid-angular';
 import {
   ClientSideRowModelModule,
   ColDef,
-  GridApi,
   GridOptions,
   ModuleRegistry,
   NumberEditorModule,

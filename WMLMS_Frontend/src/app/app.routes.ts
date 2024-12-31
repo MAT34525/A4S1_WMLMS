@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
 import {LoginPageComponent} from './login-page/login-page.component';
 import {MainPageComponent} from './main-page/main-page.component';
 import {AdminPageComponent} from './admin-page/admin-page.component';
@@ -13,7 +13,6 @@ import {AdminArtistPageComponent} from './admin-artist-page/admin-artist-page.co
 import {SignupPageComponent} from './signup-page/signup-page.component';
 import {AdminLoginPageComponent} from './admin-login-page/admin-login-page.component';
 import {UserPageComponent} from './user-page/user-page.component';
-import {UserPageHomeComponent} from './user-page-home/user-page-home.component';
 import {UserPageArtistsComponent} from './user-page-artists/user-page-artists.component';
 import {PlaylistsComponent} from './user-page-playlists/user-page-playlists.component';
 import {UserPageSongsComponent} from './user-page-songs/user-page-songs.component';

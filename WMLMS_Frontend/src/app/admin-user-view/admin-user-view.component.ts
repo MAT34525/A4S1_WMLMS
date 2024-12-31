@@ -1,6 +1,6 @@
 // Angular
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {MatButton} from '@angular/material/button';
 import {NgIf} from '@angular/common';
 

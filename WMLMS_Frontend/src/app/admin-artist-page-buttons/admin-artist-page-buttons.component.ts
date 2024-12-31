@@ -1,11 +1,10 @@
 // Angular
 import {Component, inject} from '@angular/core';
-import {MatButton} from '@angular/material/button';
 import {MatSlideToggle} from '@angular/material/slide-toggle';
 
 // AG Grid
-import type { ICellRendererAngularComp } from 'ag-grid-angular';
-import type { ICellRendererParams } from 'ag-grid-community';
+import type {ICellRendererAngularComp} from 'ag-grid-angular';
+import type {ICellRendererParams} from 'ag-grid-community';
 
 // Project
 import {AdminService} from '../admin-service.service';
@@ -14,7 +13,6 @@ import {Artists} from '../schema';
 @Component({
   selector: 'app-admin-artist-page-buttons',
   imports: [
-    MatButton,
     MatSlideToggle
   ],
   standalone: true,

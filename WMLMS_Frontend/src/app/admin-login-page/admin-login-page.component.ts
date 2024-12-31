@@ -5,7 +5,7 @@ import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 
 // Project
-import { AuthService } from '../auth.service';
+import {AuthService} from '../auth.service';
 
 @Component({
   selector: 'app-admin-login-page',

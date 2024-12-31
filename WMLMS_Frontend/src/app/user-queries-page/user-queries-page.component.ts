@@ -1,10 +1,12 @@
 import {Component, Pipe, PipeTransform} from '@angular/core';
-import { TrackService} from '../track.service';  // Import TrackService
-import { FormsModule } from '@angular/forms';
-import { NgForOf, NgIf } from '@angular/common';
+import {TrackService} from '../track.service'; // Import TrackService
+import {FormsModule} from '@angular/forms';
+import {NgForOf, NgIf} from '@angular/common';
 import {Artists, Tracks} from '../schema';
-import { DomSanitizer} from '@angular/platform-browser';
+import {DomSanitizer} from '@angular/platform-browser';
 import {MatChip} from '@angular/material/chips';
+
+// Bypass XSS warnings : https://stackoverflow.com/questions/38037760/how-to-set-iframe-src-without-causing-unsafe-value-exception
 
 @Pipe({standalone: true, name: 'safe'})
 export class SafePipe implements PipeTransform {
@@ -13,7 +15,6 @@ export class SafePipe implements PipeTransform {
     return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }
-
 
 @Component({
   selector: 'app-user-queries-page',
