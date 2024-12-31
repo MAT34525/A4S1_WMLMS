@@ -1,4 +1,3 @@
-
 // Database schema (also created by an LLM using the SQL queries for the table creation)
 import {DataTypes, ModelStatic, Sequelize, Transaction} from "sequelize";
 import {DB_DIALECT, DB_NAME, DB_PASSWORD, DB_USER, SEQUELIZE_DB_PARAMS} from "./config";

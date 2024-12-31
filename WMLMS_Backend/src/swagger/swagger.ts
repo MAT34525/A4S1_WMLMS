@@ -1,4 +1,3 @@
-
 // Swagger configuration (initial tables created by an LLM using the SQL queries for table creation)
 import {SwaggerOptions} from "swagger-ui-express";
 
@@ -171,10 +170,7 @@ export const jsDocOptions : SwaggerOptions  = {
                     },
                     example : { message : "Action successful !"}
                 },
-
             }
-
-
         },
     },
     apis: ['.//src/routes/*.ts', './/src/swagger/*.yaml'],

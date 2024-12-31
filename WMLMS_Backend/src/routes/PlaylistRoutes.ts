@@ -2,7 +2,7 @@ import express from 'express';
 import {ReqType, ResType} from "../app";
 import {Schema} from "../schema";
 import {Playlists, Tracks} from "../tables";
-import { v4 as uuid } from 'uuid';
+import {v4 as uuid} from 'uuid';
 
 const router = express.Router();
 
